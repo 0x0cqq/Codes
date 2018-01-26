@@ -43,12 +43,14 @@ struct treap{
             else{
                 int tmp = valc > r->c;
                 __insert(r->son[tmp],valw,valc);
-                if(r->son[tmp]->p < r->p){
+                if(r->son[tmp]->p < r->p)
                     rotate(r,1-tmp);
-                }
             }
             update(r);
         }
+    }
+    void __erase(node *r,int op){//op == 0代表最小值，op == 1代表最大值
+        return;
     }
 };
 
