@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#define maxint 2147483647
 #define newnode (&(pool[treapcnt++]))
 using namespace std;
 
@@ -10,14 +11,14 @@ struct node{
 };
 
 struct treap{
-    int treapcnt;
+    int treapcnt,b,e;
     node pool[200000],*root,*null;
     node *id_to[200000];
     treap(){
-        treapcnt = 0;
+        treapcnt = 0;b = e = 0;
         null = newnode;
         null->id=null->size=null->val=0;
-        null->p = 0x3f3f3f3f;
+        null->p = maxint;
         null->son[0] = null->son[1] = null;
         root = null;
         srand(time(NULL));
@@ -52,11 +53,12 @@ struct treap{
             if(r->son[0]==null && r->son[1]==null){
                 id_to[r->id] = null;
                 r = null;
+                return;
             }
             else{
                 int tmp = r->son[0]->p > r->son[1]->p;
                 rotate(r,1-tmp);
-                __erase(r->son[1-tmp],v);
+                __erase(r,v);
             }
         }
         else{
@@ -73,11 +75,60 @@ struct treap{
             __print(r->son[1]);
         }
     }
+    int __ask_rank(node *r,int v){
+        if(r->val == v) return r->son[0]->size;
+        int tmp = v > r->val;
+        if(tmp == 0) return __ask_rank(r->son[0],v);
+        else return r->son[0]->size+__ask_rank(r->son[1],v)+1;
+    }
+    node *__find_rank(node *r,int rank){
+        if(rank <= r->son[0]->size)
+            return __find_rank(r->son[0],rank);
+        rank -= (r->son[0]->size+1);
+        if(rank == 0) return r;
+        else return __find_rank(r->son[1],rank);
+    }
+    node *find_minormax(node *r,int tmp){
+        while(r->son[tmp]!=null)
+            r = r->son[tmp];
+        return r;
+    }
+    node *loworup(int v,int t){//0代表前驱，1代表后继
+        node *last = null,*nown = root;
+        while(nown->val!=v){
+            int tmp = v > nown->val;
+            if(tmp!=t) last = nown;
+            nown = nown->son[tmp];
+        }
+        if(nown->son[t]!=null)
+            last = find_minormax(nown->son[t],1-t);
+        return last;
+    }
+    void insert_to_bottom(int id){
+        __insert(root,id,++e);
+    }
+    void insert_to_top(int id){
+        __insert(root,id,--b);
+    }
+    int ask_rank(int id){
+        return __ask_rank(root,id_to[id]->val);
+    }
+    int query_rank(int rank){
+        return __find_rank(root,rank)->id;
+    }
+    void change_pos(int id,int t){
+        if(t == 0) return;
+        else if(t == -1) t = 0;
+        node *nown = id_to[id];
+        node *dst = loworup(nown->val,t);
+        nown->id = dst->id;dst->id = id;
+        id_to[nown->id] = nown;id_to[dst->id] = dst; 
+    }
     void insert(int id,int v){
         __insert(root,id,v);
     }
-    void erase(int v){
-        __erase(root,v);
+    void erase(int id){
+        __erase(root,id_to[id]->val);
     }
     void print(){
         __print(root);
@@ -86,23 +137,42 @@ struct treap{
 
 treap x;
 
-int n;
+int n,m;
 
 int main(){
-    scanf("%d",&n);
-    for(int i = 0;i<n;i++){
-        int op;scanf("%d",&op);
-        if(op == 1){
-            int id,v;
-            scanf("%d %d",&id,&v);
-            x.insert(id,v);
+    scanf("%d %d",&n,&m);
+    for(int i = 1;i<=n;i++){
+        int t;
+        scanf("%d",&t);
+        x.insert_to_bottom(t);
+    }
+    for(int i = 0;i<m;i++){
+        char ch[10];int t,d;
+        scanf("%s",ch);
+        if(ch[0] == 'T'){
+            scanf("%d",&t);
+            x.erase(t);
+            x.insert_to_top(t);
         }
-        if(op == 2){
-            int v;
-            scanf("%d",&v);
-            x.erase(v);
+        else if(ch[0] == 'B'){
+            scanf("%d",&t);
+            x.erase(t);
+            x.insert_to_bottom(t);
         }
-        if(op == 0){
+        else if(ch[0] == 'A'){
+            scanf("%d",&t);
+            printf("%d\n",x.ask_rank(t));
+        }
+        else if(ch[0] == 'Q'){
+            scanf("%d",&t);
+            printf("%d\n",x.query_rank(t));
+        }
+        else if(ch[0] == 'I'){
+            int k;
+            scanf("%d %d",&t,&k);
+            x.change_pos(t,k);
+        }
+        else if(ch[0] == 'P'){
             x.print();
         }
     }
