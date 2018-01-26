@@ -52,6 +52,7 @@
         "__string": "cpp",
         "iosfwd": "cpp",
         "utility": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "__tuple": "cpp"
     }
 }
