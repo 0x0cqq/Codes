@@ -50,6 +50,8 @@
         "cuchar": "cpp",
         "cwchar": "cpp",
         "__string": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "utility": "cpp",
+        "__locale": "cpp"
     }
 }
