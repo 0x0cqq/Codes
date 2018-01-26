@@ -30,20 +30,24 @@ struct treap{
         update(r);update(t);
         r = t;
     }
-    void insert(node *&r,int valw,int valc){
+    void __insert(node *&r,int valw,int valc){
         if(r == null){
             r = newnode;
             r->w = r->sumw = valw;r->c = r->sumc = valc;r->cnt = 1;
             r->son[0] = r->son[1] = null;
+            r->p = rand();
         }
         else{
             if(valc == r->c)
                 return;
             else{
                 int tmp = valc > r->c;
-                insert(r->son[tmp],valw,valc);
-                if(s)
+                __insert(r->son[tmp],valw,valc);
+                if(r->son[tmp]->p < r->p){
+                    rotate(r,1-tmp);
+                }
             }
+            update(r);
         }
     }
 };
