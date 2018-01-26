@@ -42,6 +42,7 @@ struct treap{
             else{
                 int tmp = valc > r->c;
                 insert(r->son[tmp],valw,valc);
+                if(s)
             }
         }
     }
