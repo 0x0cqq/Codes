@@ -5,12 +5,11 @@
 #define newnode (&(pool[treapcnt++]))
 using namespace std;
 
-struct node{
-    int id,val,p,size;
-    node *son[2];
-};
-
 struct treap{
+    struct node{
+        int id,val,p,size;
+        node *son[2];
+    };
     int treapcnt,b,e;
     node pool[200000],*root,*null;
     node *id_to[200000];
