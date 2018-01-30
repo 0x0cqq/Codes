@@ -1,8 +1,16 @@
 #include <cstdio>
 #include <algorithm>
-#define debug 1
 using namespace std;
 
+inline void qr(int &x){
+    bool f = 0;char ch = getchar();
+    while(ch<'0'||ch>'9')
+        f = (ch == '-'),ch = getchar();
+    x = 0;
+    while(ch>='0'&&ch<='9')
+        x = (x<<3)+(x<<1)+ch-48,ch = getchar();
+    if(f) x = -x;
+}
 
 template <typename T,size_t siz>
 struct splay_t{
@@ -23,17 +31,13 @@ struct splay_t{
             }
         }
         inline void rotate(){
-            printf("        start rotate\n");
             parent->push_down(),push_down();
             node_t* rp = parent;bool re = get_p();
-            //printf("re:%d,rp->re:%d\n",re,rp->get_p());
             link(rp->parent,rp->get_p());son[1-re]->link(rp,re);rp->link(this,1-re);
             rp->maintain(),maintain();
             if(parent == *null) *root = this; 
-            printf("        finish rotate\n");
         }
         void splay(node_t *target = NULL){
-            printf("    start splay\n");
             if(target == NULL) target = *null;
             while(parent!=target){
                 parent->push_down();
@@ -48,12 +52,10 @@ struct splay_t{
                         rotate(),rotate();
                 }
             }
-            printf("    finish splay\n");
         }
     };
     node_t *null, *root,*lb,*rb;
     int cnt;node_t pool[siz<<1];
-    
     inline node_t* newnode(){pool[cnt].parent = pool[cnt].son[0] = pool[cnt].son[1] = null;return &pool[cnt++];}
     splay_t(){
         cnt = 0,null = newnode();
@@ -76,9 +78,7 @@ struct splay_t{
     node_t* __build(T *a,int l,int r,int sl,int sr){
         if(l>r) return null;
         int mid = (l+r)>>1;
-        //printf("l:%d r:%d mid:%d\n",l,r,mid);
         node_t *now = newnode();
-        //printf("%d %d\n",l,r);
         now->init(&root,&null);
         now->val = a[mid];
         node_t *ltree = __build(a,l,mid-1,sl,sr),*rtree = __build(a,mid+1,r,sl,sr);
@@ -108,18 +108,6 @@ struct splay_t{
         node_t *range = select(b,e);
         range->rev^=1;
     }
-    void print(node_t *r = NULL,int depth = 0){
-        if(r == NULL) r = root;
-        //printf("%d %d\n",r->val,depth);
-        if(r == null) return;
-        else{
-            print(r->son[0],depth+1);
-            for(int i = 0;i<depth;i++)
-                putchar(' ');
-            printf("v:%d,size:%d,rev?:%d,son:%d %d,depth:%d\n",r->val,r->size,r->rev,r->son[0]!=null,r->son[1]!=null,depth);
-            print(r->son[1],depth+1);
-        }
-    }
     void output(T *a,node_t *r = NULL){
         if(r == NULL) r = root;
         if(r == null) return;
@@ -131,7 +119,6 @@ struct splay_t{
     void build(T *a,int l,int r){
         root = __build(a,l,r,l,r);
     }
-
 };
 
 splay_t<int,210000> s;
@@ -139,33 +126,18 @@ int a[210000],n,m,ans[210000];
 
 
 int main(){
-    scanf("%d %d",&n,&m);
+    qr(n);qr(m);
     for(int i = 1;i<=n;i++)
         a[i] = i;
-    printf("Finish reading.\n");
     s.build(a,1,n);
-    printf("Finish building.\n");
     for(int i = 0;i<m;i++){
         int x,y;
-        scanf("%d",&x);
-        if(x>0){
-            scanf("%d",&y);
-            s.reverse(x,y);
-        }
-        else if(x == 0){
-            s.print();
-        }
-        else if(x == -1){
-            s.find(y)->splay();
-        }
-        else if(x == -2){
-            s.output(ans);
-        }
-        printf("Finish operatings.\n");
+        qr(x);qr(y);
+        s.reverse(x,y);
     }
     s.output(ans);
-    for(int i = 1;i<=n;i++){
+    for(int i = 1;i<=n;i++)
         printf("%d ",ans[i]);
-    }
+    putchar('\n');
     return 0;
 }
