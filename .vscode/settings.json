@@ -54,6 +54,7 @@
         "utility": "cpp",
         "__locale": "cpp",
         "__tuple": "cpp",
-        "ctime": "cpp"
+        "ctime": "cpp",
+        "__functional_03": "cpp"
     }
 }
