@@ -33,7 +33,9 @@ struct splay_t{
         inline void rotate(){
             parent->push_down(),push_down();
             node_t* rp = parent;bool re = get_p();
-            link(rp->parent,rp->get_p());son[1-re]->link(rp,re);rp->link(this,1-re);
+            link(rp->parent,rp->get_p());
+            son[1-re]->link(rp,re);
+            rp->link(this,1-re);
             rp->maintain(),maintain();
             if(parent == *null) *root = this; 
         }
