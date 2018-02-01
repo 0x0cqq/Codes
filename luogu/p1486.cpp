@@ -19,18 +19,25 @@ struct splay_t{
     struct node_t{
         int val,size,cnt;
         node_t *son[2],*p;node_t **null,**root;
+        //与父亲关系
         inline bool get_p(){return p->son[1] == this;}
+        //双向连接
         inline void link(node_t *dst,bool re){p = dst;dst->son[re] = this;}
+        //更新size值
         inline void update(){size = son[0]->size + son[1]->size + cnt;}
+        //初始化**root和**null
         inline void init(node_t **null,node_t **root){this->null = null,this->root = root;}
+        //获取左右节点的大小
         inline int lsize(){return son[0]->size;}int rsize(){return son[1]->size;}
-        node_t *uporlow(int tmp){
+        //寻找节点前驱或者后继
+        node_t *uporlow(int tmp){//0前驱，1后继
             splay();
             node_t *t = son[tmp];
             while(t->son[1-tmp] != *null)
                 t = t->son[1-tmp]; 
             return t;
         }
+        //旋转
         void rotate(){
             bool re = get_p();node_t *rp = p;
             link(rp->p,rp->get_p());
@@ -39,6 +46,7 @@ struct splay_t{
             rp->update();update();
             if(p == *null) *root = this; 
         }
+        //splay操作
         node_t* splay(node_t *tar = NULL){
             if(this == *null) return this;
             if(tar == NULL) tar = *null;
@@ -54,13 +62,15 @@ struct splay_t{
     };
     int treecnt;
     node_t pool[300000];
-    node_t *null,*root,*lb,*rb;
+    node_t *null,*root,*lb,*rb;//lb是左边的虚拟节点，rb同理
+    //初始化
     splay_t(){
         treecnt = 0;
         newnode(null);root = null;
         null->size = 0,null->val = 0;
         lb = insert(-MAX);rb = insert(MAX);
     }
+    //新建节点
     void newnode(node_t *&r,int val = 0){
         r = &pool[treecnt++];
         r->val = val;
@@ -68,7 +78,8 @@ struct splay_t{
         r->cnt = r->size = 1;
         r->init(&null,&root);
     }
-    node_t* find(int rank){
+    //寻找给定rank的数字
+    node_t* find_Kth(int rank){
         node_t *t = root;
         while(t!=null){
             if(rank<t->lsize())
@@ -80,6 +91,7 @@ struct splay_t{
         }
         return null;
     }
+    //按值寻找
     node_t *find_by_val(int val){
         node_t *t = root;
         while(t!=null){
@@ -92,6 +104,7 @@ struct splay_t{
         }
         return null;
     }
+    //插入给定值的节点
     node_t* insert(int val){
         node_t **tar = &root,*parent = null;
         while(*tar!=null){
@@ -107,6 +120,7 @@ struct splay_t{
         (*tar)->link(parent,parent->val < val);
         return (*tar)->splay();
     }
+    //调试用打印树
     void print(node_t *r = NULL,int depth = 0){
         if(r == NULL) r = root;
         if(r == null) return;
@@ -121,30 +135,28 @@ struct splay_t{
 
 splay_t x;int n,minn,res = 0,nowadd = 0;
 
-inline void insert(int val){if(val>=minn) x.insert(val-nowadd);}
+//插入一个数
+inline void insert(int val){if(val>=minn) x.insert(val-nowadd);}//注意要减去nowadd 
+//统一加工资
 inline void add(int val){nowadd+=val;}
-
-void decrease(int val){
+//统一减公司顺便裁人
+inline void decrease(int val){
     nowadd-=val;
-    splay_t::node_t *r = x.find_by_val(minn-nowadd);
-    if(r!=x.null){
-        r->splay(); res+=(x.root->lsize()-1);
-    }
-    else{
-        x.insert(minn-nowadd-1)->uporlow(1)->splay(); res+=(x.root->lsize()-2);
-    }
+    splay_t::node_t *r = x.find_by_val(minn-nowadd);//注意要减去nowadd 
+    if(r!=x.null)
+        r->splay(),res+=(x.root->lsize()-1);
+    else
+        x.insert(minn-nowadd-1)->uporlow(1)->splay(),res+=(x.root->lsize()-2);
     x.lb->link(x.root,0);x.lb->son[1] = x.null;
     x.root->update();
 }
-
-int ask(int rank){
+//查找工资排名K位的员工的工资
+inline int ask(int rank){
     if(rank > x.root->size - 2) return -1;
-    return x.find(x.root->size-rank-1)->val + nowadd;
+    return x.find_Kth(x.root->size-rank-1)->val + nowadd;//注意要加上nowadd 
 }
 
 int main(){
-    //freopen("a.in","r",stdin);
-    //freopen("1.txt","w",stdout);
     n = qr();minn = qr();
     for(int i = 0;i<n;i++){
         char op[20];int k;
