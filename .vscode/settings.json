@@ -56,6 +56,7 @@
         "__tuple": "cpp",
         "ctime": "cpp",
         "__functional_03": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "complex": "cpp"
     }
 }
