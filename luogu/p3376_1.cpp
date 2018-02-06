@@ -64,7 +64,7 @@ void addedge(int u,int v,int c){
     next_e[newe] = first[u],first[u] = newe;
     newe = poolcnt++;
     from[newe] = v,to[newe] = u,cap[newe] = 0;
-    next_e[newe] = first[u],first[u] = newe;
+    next_e[newe] = first[v],first[v] = newe;
 }
 
 int dinic(){
@@ -75,7 +75,7 @@ int dinic(){
 }
 
 int main(){
-    freopen("1.in","r",stdin);
+    //freopen("1.in","r",stdin);
     qr(n),qr(m),qr(s),qr(t);
     for(int i = 0;i<m;i++){
         int a,b,c;
