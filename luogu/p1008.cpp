@@ -5,9 +5,9 @@ using namespace std;
 int a[9];
 
 int main(){
-    //for(int i = 0;i<9;i++){
-    //    a[i] = i+1;
-    //}
+    for(int i = 0;i<9;i++){
+        a[i] = i+1;
+    }
     do{
         int x = a[0]*100+a[1]*10+a[2];
         int y = a[3]*100+a[4]*10+a[5];
