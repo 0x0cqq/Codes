@@ -58,5 +58,6 @@
         "__functional_03": "cpp",
         "cstdlib": "cpp",
         "complex": "cpp"
-    }
+    },
+    "search.smartCase": true
 }
