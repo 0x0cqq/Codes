@@ -3,6 +3,7 @@
     2018-02-10 20:39:04
     136ms, 2070KB
 */
+
 #include <cstdio>
 #include <algorithm>
 #define MAXN 30010
