@@ -1,6 +1,7 @@
 *
 !*.*
 !*/
+!*/*.cpp
 .DS_Store
 *.dSYM
 *.out
