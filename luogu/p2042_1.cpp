@@ -1,10 +1,12 @@
+// luogu-judger-enable-o2
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <cctype>
 using namespace std;
 
-const int MAXN = 500000;
+const int MAXN = 510000;
 
 const int MAX = 2147483647;
 
@@ -69,7 +71,6 @@ struct fhqtreap{
     node_t *root,*null;
     int cnt,tot;
     void newnode(node_t *&r,int val = 0){
-        //printf("newnode!:%d\n",val);
         if(tot == 0)
             r = &pool[cnt++];
         else
@@ -84,9 +85,10 @@ struct fhqtreap{
     fhqtreap(){
         tot = 0;
         cnt = 0;srand(time(NULL));
-        newnode(null);
-        null->p = 2147483647;
+        newnode(null,-MAX);
+        null->p = MAX;
         root = null;
+        null -> sumn = 0;
         null -> size = 0;
     }
     void cycle(node_t *r){
@@ -108,17 +110,18 @@ struct fhqtreap{
         int top = 1;
         newnode(stack[0],-MAX);
         stack[0]->p = -MAX;
-        int nowp = top - 1;
         for(int i = 1;i<=n;i++){
-            node_t *r = tmp[i];
+            int nowp = top - 1;
+            node_t *r = tmp[i],*pre = null;
             while(stack[nowp]->p > r -> p){
-                stack[nowp--]->pushup();
+                stack[nowp]->pushup();
+                pre = stack[nowp];
+                stack[nowp] = null;
+                nowp--;
             }
-            if(nowp != top - 1){
-                stack[nowp]->son[0] = stack[nowp+1];
-            }
-            top = ++nowp;
-            stack[top++]->son[1] = r;
+            stack[nowp+1] = stack[nowp]->son[1] = r;
+            stack[nowp+1]->son[0] = pre;
+            top = nowp+2;
         }
         while(top) stack[--top]->pushup();
         return stack[0]->son[1];
@@ -138,13 +141,10 @@ struct fhqtreap{
             split(r->son[0],lsize,ls,rs->son[0]);
         }
         ls->pushup();rs->pushup();
-        //print(ls);print(rs);
-        //printf("---------------------\n");
     }
     node_t *merge(node_t *ls,node_t *rs){
         if(ls == null) return rs;
         if(rs == null) return ls;
-        //print(ls);print(rs);
         if(ls->p < rs->p){
             ls->pushdown();
             ls->son[1] = merge(ls->son[1],rs);
@@ -158,48 +158,51 @@ struct fhqtreap{
             return rs;
         }
     }
-    void insert(int val, int rank){
+    void insert(int rank,int n){
+        if(n == 0)
+            return;
         node_t *ls,*rs,*newn,*ret;
         split(root,rank,ls,rs);
-        newnode(newn,val);
+        newn = build(n);
         root = merge(merge(ls,newn),rs);
     }
     void split(int ls,int ms,node_t *&l,node_t *&m,node_t *&r){
         node_t *m1;
         split(root,ls,l,m1);
         split(m1,ms,m,r);
-        //print(m);
     }
     void erase(int lb,int ms){
+        if(ms == 0)
+            return;
         node_t *l,*m,*r,*ret;
         split(lb-1,ms,l,m,r);
         cycle(m);
         root = merge(l,r);
     }
     int get_sum(int lb,int ms){
+        if(ms == 0) return 0;
         node_t *l,*m,*r;
         split(lb-1,ms,l,m,r);
-        //m->pushdown();
         int ans = m->sumn;
         root = merge(l,merge(m,r));
         return ans;
     }
     int max_sum(){
-        //root->pushdown();
+        //root->pushup();
         return root->maxn;
     }
     void reverse(int lb,int ms){
+        if(ms == 0) return;
         node_t *l,*m,*r;
         split(lb-1,ms,l,m,r);
-        //m->pushdown();
         m->reverse();       
         root = merge(l,merge(m,r));
     }
     
     void make_same(int lb,int ms,int c){
+        if(ms == 0) return;
         node_t *l,*m,*r;
         split(lb-1,ms,l,m,r);
-        //m->pushdown();
         m->cover(c);
         root = merge(l,merge(m,r));
     }
@@ -208,14 +211,11 @@ struct fhqtreap{
         if(r == null) return;
         print(r->son[0],depth+1);
         
-        for(int i = 0;i<depth;i++)
-            putchar(' ');
+        for(int i = 0;i<depth;i++) putchar(' ');
         printf("val:%d p:%d size:%d son:%d %d\n",r->val,r->p,r->size,r->son[0] != null,r->son[1] != null);
-        for(int i = 0;i<depth;i++)
-            putchar(' ');
+        for(int i = 0;i<depth;i++) putchar(' ');
         printf("sum:%d maxn:%d lmax:%d rmax:%d\n",r->sumn,r->maxn,r->lmax,r->rmax);
-        for(int i = 0;i<depth;i++)
-            putchar(' ');
+        for(int i = 0;i<depth;i++) putchar(' ');
         printf("is_tag?:%d tag:%d rev?:%d\n",r->is_tag,r->tag,r->rev);        
         
         print(r->son[1],depth+1);
@@ -238,15 +238,12 @@ void p(){
 }
 
 
-int main(){
-    freopen("1.in","r",stdin);
-    //freopen("2.out","w",stdout);
+void init(){
     scanf("%d %d",&n,&k);
-    for(int i = 1;i<=n;i++){
-        int tmp;
-        scanf("%d",&tmp);
-        w.insert(tmp,i-1);
-    }
+    w.root = w.build(n);
+}
+
+void solve(){
     for(int i = 1;i<=k;i++){
         char op[50];int a,b,c;
         scanf("%s",op);
@@ -259,15 +256,10 @@ int main(){
         else{
             scanf("%d %d",&a,&b);
             if(op[0] == 'I'){
-                for(int i = 1;i<=b;i++){
-                    scanf("%d",&c);
-                    w.insert(c,a+i-1);
-                }
-                //w.print();
+                w.insert(a,b);
             }
             else if(op[0] == 'D'){
                 w.erase(a,b);
-                //p();
             }
             else if(op[0] == 'G'){
                 printf("%d\n",w.get_sum(a,b));
@@ -275,19 +267,21 @@ int main(){
             else if(op[0] == 'M'){
                 scanf("%d",&c);
                 w.make_same(a,b,c);
-                //p();
             }
             else if(op[0] == 'R'){
                 w.reverse(a,b);
-                //p();
             }
             else{
                 printf("oops.There is something wrong.\n");
             }
         }
-        //for(int i = 1;i<=w.root->size;i++){
-        //    w.get_sum(i,1);
-        //}
-        //w.print();
     }
+}
+
+int main(){
+    freopen("1.in","r",stdin);
+    freopen("4.out","w",stdout);
+    init();
+    solve();
+    return 0;
 }

@@ -58,7 +58,8 @@
         "__functional_03": "cpp",
         "cstdlib": "cpp",
         "complex": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "ostream": "cpp"
     },
     "search.smartCase": true
 }
