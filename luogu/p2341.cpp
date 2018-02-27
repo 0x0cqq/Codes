@@ -1,5 +1,27 @@
 #include <cstdio>
-#include <cctype>
+#include <vector>
+#include <cstring>
+#define min(a,b) ((a)<(b)?(a):(b))
+using namespace std;
+
+const int MAXN = 11000;
+
+int n,m,times[MAXN],dfn[MAXN],low[MAXN],instack[MAXN],t,num,c[MAXN],siz[MAXN];
+
+vector<int> edge[MAXN];
+
+struct www{
+    int s[MAXN],ttt = 0;
+    int top(){
+        return s[ttt-1];
+    }
+    void pop(){
+        ttt--;
+    }
+    void push(int w){
+        s[ttt++] = w;
+    }
+}z;
 
 namespace fast_io {
     inline char read();
@@ -80,10 +102,69 @@ namespace normal_io{
     }
 }//using namespace normal_io;
 
+void init(){
+    read(n),read(m);
+    int a,b;
+    for(int i = 1;i<=m;i++){
+        read(a),read(b);
+        edge[a].push_back(b);
+    }
+}
+
+void dfs(int nown){
+    dfn[nown] = low[nown] = ++t;
+    z.push(nown);instack[nown] = 1;
+    for(int i:edge[nown]){
+        if(dfn[i] == 0)
+            dfs(i),low[nown] = min(low[nown],low[i]);
+        else if(instack[i])
+            low[nown] = min(low[nown],dfn[i]);
+    }
+    if(dfn[nown] == low[nown]){
+        int j = -1;
+        do{
+            j = z.top(),z.pop();
+            instack[j] = 0;
+            siz[num]++;
+            c[j] = num;
+        }while(j!=nown);
+        num++;
+    }
+}
+
+inline void solve(){
+    t = 1, num = 0;
+    for(int i = 1;i<=n;i++){
+        if(dfn[i] == 0)
+            dfs(i);
+    }
+}
+
+inline void check(){
+    for(int i = 1;i<=n;i++){
+        for(int j = 0;j<edge[i].size();j++){
+            if(c[i] != c[edge[i][j]])
+                times[c[i]]++;
+        }
+    }
+    int tmp = 0;
+    for(int i = 0;i<num;i++){
+        if(times[i] == 0){
+            if(tmp){
+                tmp = 0;break;
+            }
+            else{
+                tmp = siz[i];
+            }
+        }
+    }
+    print(tmp);
+}
+
 int main(){
-    int x;
-    read(x);
-    print(x);
+    init();
+    solve();
+    check();
     flush();
     return 0;
 }
