@@ -23,7 +23,7 @@ namespace fast_io {
             if (c == -1) return;
         }
         for (x = 0; isdigit(c); c = read())
-            x = (x << 1) + (x << 3) + (c ^ '0');
+            	x = (x + (x << 2) << 1) + (c ^ '0');
         if (iosig) x = -x;
     }
     /*
