@@ -1,17 +1,20 @@
+// luogu-judger-enable-o2
 #include <cstdio>
 #include <cctype>
 using namespace std;
 
+const int MAXN = 200000;
+
 namespace fast_io {
     inline char read();
     inline void read(int&);
-    //  inline void read(char*);
+//  inline void read(char*);
     inline void print(char);
     inline void print(int);
-    //  inline void print(char*);
+//  inline void print(char*);
     inline void flush();
     inline char read() {
-    //	return getchar();
+//		return getchar();
         static const int IN_LEN = 1000000;
         static char buf[IN_LEN], *s, *t;
         return s==t?(((t=(s=buf)+fread(buf,1,IN_LEN,stdin))== s)?-1:*s++) : *s++;
@@ -24,18 +27,21 @@ namespace fast_io {
             if (c == -1) return;
         }
         for (x = 0; isdigit(c); c = read())
-            x = (x << 1) + (x << 3) + (c ^ '0');
+            	x = (x + (x << 2) << 1) + (c ^ '0');
         if (iosig) x = -x;
     }
-    /*
+    
     inline void read(char *a){
         static char c = read();
+        while(c != -1&&(c == ' '||c == '\n')){
+            c = read();
+        }
         while(c!= -1&&c!=' '&&c!='\n'){
             *a++ = c;
             c = read();
         }
         *a = 0;
-    }*/
+    }
     const int OUT_LEN = 1000000;
     char obuf[OUT_LEN], *ooh = obuf;
     inline void print(char c) {
@@ -81,8 +87,6 @@ namespace normal_io{
     }
 }//using namespace normal_io;
 
-const int MAXN = 1000000;
-
 int maxn[MAXN<<2],n,d,len,M;
 
 void init(){
@@ -114,15 +118,17 @@ inline void add(int num){
 }
 
 inline void solve(){
-    int op,a,b,last = 0;
+    char op[20];int a,b,last = 0;
     for(int i = 1;i<=n;i++){
-        read(op),read(a);//read();
-        if(op == 1){
+        read(op);
+        print(':'),print(op[0]),print('\n');
+        read(a);//read();
+        if(op[0] == 'A'){
             a+=last;a%=d;
             add(a);
         }
-        else if(op == 2){
-            if(a == 0||a>=len) last = 0;
+        else if(op[0] =='Q'){
+            if(a == 0) last = 0;
             else last = query(len-a,len-1);
             print(last),print('\n');
         }
@@ -130,8 +136,6 @@ inline void solve(){
 }
 
 int main(){
-    freopen("1.txt","r",stdin);
-    freopen("1.out","w",stdout);
     init();
     solve();
     flush();
