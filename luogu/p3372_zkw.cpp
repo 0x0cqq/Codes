@@ -3,7 +3,7 @@
 #define ll long long
 using namespace std;
 
-const int MAXN = 200000;
+const int MAXN = 700000;
 
 int n,q,M;
 
@@ -57,6 +57,7 @@ void solve(){
 }
 
 int main(){
+    //freopen("zkw1.in","r",stdin);
     init();
     solve();
     return 0;
