@@ -1,4 +1,3 @@
-// luogu-judger-enable-o2
 #include <cstdio>
 #include <algorithm>
 #include <cstdlib>
@@ -100,7 +99,7 @@ struct treap{
     treap(){
         treapcnt = 0;
         newnode(null);
-        srand(20020823);
+        srand(19260817);
         null->val = -0x3f3f3f3f;
         null->p = 2147483647;
         null->cnt = 0;
@@ -238,7 +237,7 @@ void solve(){
             if(a.find(y)) minn = 0;
             else{
                 int low = a.nei(y,0)->val,up = a.nei(y,1)->val;
-                minn = min(minn,min(y-low,up-y));
+                minn = min(minn,min(abs(y-low),abs(up-y)));
             }
             a.insert(y);
         }
