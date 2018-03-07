@@ -23,12 +23,15 @@ namespace fast_io {
             if (c == -1) return;
         }
         for (x = 0; isdigit(c); c = read())
-            	x = (x + (x << 2) << 1) + (c ^ '0');
+            	x = ((x+(x<<2))<<1) + (c ^ '0');
         if (iosig) x = -x;
     }
     /*
     inline void read(char *a){
         static char c = read();
+        while(c!= -1&&(c == ' '||c =='\n')){
+            c = read();
+        }
         while(c!= -1&&c!=' '&&c!='\n'){
             *a++ = c;
             c = read();
