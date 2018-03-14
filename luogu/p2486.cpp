@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <vector>
 #include <cctype>
-#include <unistd.h>
 #define lson (nown<<1)
 #define rson (nown<<1|1)
 #define mid ((l+r)>>1)
@@ -215,12 +214,10 @@ void solve(){
     char op[20];int a,b,c;
     for(int i = 1;i<=m;i++){
         read(op),read(a),read(b);
-        if(op[0] == 'C'){
+        if(op[0] == 'C')
             read(c),update_range(a,b,c);
-        }
-        else if(op[0] == 'Q'){
+        else if(op[0] == 'Q')
             print(query_range(a,b)),print('\n');
-        }
     }
 }
 
