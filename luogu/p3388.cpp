@@ -57,7 +57,7 @@ void solve(){
     print(ans),print('\n');
     for(int i = 1;i<=n;i++){
         if(cut[i] == 1)
-            print(i),print('\n');
+            print(i),print(' ');
     }
 }
 

@@ -1,7 +1,5 @@
 #include <cstdio>
 #include <cctype>
-#include <vector>
-using namespace std;
 
 namespace fast_io {
     inline char read() {static const int IN_LEN = 1000000;static char buf[IN_LEN], *s, *t;return s==t?(((t=(s=buf)+fread(buf,1,IN_LEN,stdin))==s)?-1:*s++) : *s++;}
@@ -14,56 +12,18 @@ namespace fast_io {
     inline void flush(){fwrite(obuf,1,ooh-obuf,stdout);}
 }using namespace fast_io;
 
-const int MAXN = 110000;
-
-vector<int> edge[MAXN];
-
-int n,m,low[MAXN],dfn[MAXN],vis[MAXN],cnt = 1,ans = 0;
-int cut[MAXN];
-
-void dfs(int nown,int fa){
-    vis[nown] = 1;
-    dfn[nown] = low[nown] = cnt++;
-    int child = 0;
-    for(int i = 0;i<edge[nown].size();i++){
-        int to = edge[nown][i];
-        if(to!=fa&&vis[to] == 1)
-            low[nown] = min(low[nown],dfn[to]);
-        if(vis[to] == 0){
-            dfs(to,nown),low[nown] = min(low[nown],low[to]);
-            child++;
-            if((fa==-1&&child>1)||(fa!=-1&&dfn[nown]<=low[to]))
-                if(!cut[nown])ans++,cut[nown] = 1;
-        }
-    }
-    vis[nown] = 2;
-}
-
-void init(){
-    read(n),read(m);
-    int a,b;
-    for(int i = 1;i<=m;i++){
-        read(a),read(b);
-        edge[a].push_back(b);
-        edge[b].push_back(a);
-    }
-}
-
-void solve(){
-    for(int i = 1;i<=n;i++){
-        if(vis[i] == 0)
-            dfs(i,-1);
-    }
-    print(ans),print('\n');
-    for(int i = 1;i<=n;i++){
-        if(cut[i] == 1)
-            print(i),print('\n');
-    }
-}
+namespace normal_io{
+    inline char read(){return getchar();}
+    inline void read(int &x){scanf("%d",&x);}
+    inline void print(int x){printf("%d",x);}
+    inline void print(char x){putchar(x);}
+    inline void flush(){return;}
+}//using namespace normal_io;
 
 int main(){
-    init();
-    solve();
+    int x;
+    read(x);
+    print(x);
     flush();
     return 0;
 }
