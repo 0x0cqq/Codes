@@ -60,7 +60,8 @@
         "complex": "cpp",
         "istream": "cpp",
         "ostream": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "future": "cpp"
     },
     "search.smartCase": true,
     "code-runner.executorMap": {
