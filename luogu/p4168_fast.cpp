@@ -1,4 +1,3 @@
-// luogu-judger-enable-o2
 #include <cstdio>
 #include <cstring>
 #include <cctype>
@@ -146,7 +145,6 @@ void solve(){
 }
 
 int main(){
-    freopen("1.txt","w",stdout);
     init();
     build();
     solve();
