@@ -6,22 +6,19 @@
 #include <cstdlib>
 using namespace std;
 
-const int n = 1000000,m = 19260817;
+const int n = 40000,m = 50000;
 
 default_random_engine g;
-uniform_int_distribution<int> u(1,100*n+1);  
+uniform_int_distribution<int> u(1,time(NULL)%100000);  
 
 int main(){
-    freopen("1.txt","w",stdout);
+    freopen("in.txt","w",stdout);
     printf("%d %d\n",n,m);
-    for(int i = 2;i<=n+2;i++){
-        int op = u(g)%2+1;
-        printf("%d ",op);
-        if(op == 1){
-            printf("%d\n",u(g));
-        }
-        else{
-            printf("%d\n",abs(u(g)%(i/2)));
-        }
+    for(int i = 1;i<=n;i++){
+        printf("%d ",u(g));
+    }
+    printf("\n");
+    for(int i = 1;i<=m;i++){
+        printf("%d %d\n",u(g)%n+1,u(g)%n+1);
     }
 }

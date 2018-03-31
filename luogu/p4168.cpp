@@ -120,6 +120,7 @@ void solve(){
 }
 
 int main(){
+    freopen("2.txt","w",stdout);
     init();
     build();
     solve();
