@@ -2,13 +2,13 @@
 #include <cctype>
 
 namespace fast_io {
-    inline char read() {
+    inline char read(){
 		//return getchar();
         static const int IN_LEN = 1000000;
         static char buf[IN_LEN], *s, *t;
         return s==t?(((t=(s=buf)+fread(buf,1,IN_LEN,stdin))== s)?-1:*s++) : *s++;
     }
-    inline void read(int &x) {
+    inline void read(int &x){
         static bool iosig;
         static char c;
         for (iosig = false, c = read(); !isdigit(c); c = read()) {
@@ -21,9 +21,9 @@ namespace fast_io {
     }
     inline void read(char *a){
         static char c = read();
-        while(c!= -1&&(c == ' '||c =='\n'))
+        while(c!= -1&&(c == ' '||c!='\r'||c =='\n'))
             c = read();
-        while(c!= -1&&c!=' '&&c!='\n')
+        while(c!= -1&&c!=' '&&c!='\r'&&c!='\n')
             *a++ = c,c = read();
         *a = 0;
     }
@@ -33,7 +33,7 @@ namespace fast_io {
         if (ooh == obuf + OUT_LEN) fwrite(obuf, 1, OUT_LEN, stdout), ooh = obuf;
         *ooh++ = c;
     }
-    inline void print(int x) {
+    inline void print(int x){
         static int buf[30], cnt;
         if (x == 0)
             print('0');
@@ -46,7 +46,7 @@ namespace fast_io {
     inline void print(char *a){
         while(*a) print(*a++);
     }
-    inline void flush() {
+    inline void flush(){
         fwrite(obuf, 1, ooh - obuf, stdout);
     }
 }using namespace fast_io;
