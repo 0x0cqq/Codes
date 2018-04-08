@@ -9,10 +9,18 @@ struct splay_t{
         int val;
         int size;bool rev;
         node_t *son[2],*parent,**root,**null;
-        inline void init(node_t **root,node_t **null) {this->root = root,this->null = null;}
-        inline bool get_p() {return parent->son[1] == this;}
-        inline void maintain() { size = son[0]->size + son[1]->size+1;}
-        inline void link(node_t *dst,bool s){parent = dst;dst->son[s] = this;}
+        inline void init(node_t **root,node_t **null) {
+            this->root = root,this->null = null;
+        }
+        inline bool get_p(){
+            return parent->son[1] == this;
+        }
+        inline void maintain(){
+            size = son[0]->size + son[1]->size+1;
+        }
+        inline void link(node_t *dst,bool s){
+            parent = dst;dst->son[s] = this;
+        }
         inline void push_down() {
             if(this == *null) return;
             if(rev){
@@ -48,7 +56,11 @@ struct splay_t{
     };
     node_t *null, *root,*lb,*rb;
     int cnt;node_t pool[siz<<1];
-    inline node_t* newnode(){pool[cnt].parent = pool[cnt].son[0] = pool[cnt].son[1] = null;return &pool[cnt++];}
+    inline node_t* newnode(){
+        node_t *r = &pool[cnt++];
+        r->parent = r->son[0] = r->son[1]=null;
+        return r;
+    }
     node_t* find(int rank){
         node_t *r = root;
         while(true){
@@ -68,7 +80,9 @@ struct splay_t{
         node_t *now = newnode();
         now->init(&root,&null);
         now->val = a[mid];
-        node_t *ltree = __build(a,l,mid-1,sl,sr),*rtree = __build(a,mid+1,r,sl,sr);
+        node_t 
+            *ltree = __build(a,l,mid-1,sl,sr),
+            *rtree = __build(a,mid+1,r,sl,sr);
         ltree->link(now,0),rtree->link(now,1);
         if(l == sl && now->son[0] == null){
             lb = newnode();

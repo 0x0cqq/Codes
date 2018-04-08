@@ -67,6 +67,7 @@
     "search.smartCase": true,
     "code-runner.executorMap": {
         "cpp": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -Wextra && $dir$fileNameWithoutExt",
+        "cpp_11": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -Wextra -std=c++11 && $dir$fileNameWithoutExt",
         "cpp_withfile": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -Wextra && ( $dir$fileNameWithoutExt < in.txt)",
         "python": "python",
         "python3": "python3",
