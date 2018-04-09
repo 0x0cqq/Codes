@@ -15,6 +15,7 @@ namespace fast_io {
 namespace normal_io{
     inline char read(){return getchar();}
     inline void read(int &x){scanf("%d",&x);}
+    inline void read(char *x){scanf("%s",x);}
     inline void print(int x){printf("%d",x);}
     inline void print(char x){putchar(x);}
     inline void flush(){return;}

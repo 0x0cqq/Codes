@@ -62,7 +62,12 @@
         "ostream": "cpp",
         "thread": "cpp",
         "future": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "cctype": "cpp",
+        "__mutex_base": "cpp",
+        "fstream": "cpp",
+        "shared_mutex": "cpp",
+        "streambuf": "cpp"
     },
     "search.smartCase": true,
     "code-runner.executorMap": {
