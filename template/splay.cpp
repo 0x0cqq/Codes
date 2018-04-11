@@ -48,7 +48,10 @@ struct splay_t{
     };
     node_t *null, *root,*lb,*rb;
     int cnt;node_t pool[siz<<1];
-    inline node_t* newnode(){pool[cnt].parent = pool[cnt].son[0] = pool[cnt].son[1] = null;return &pool[cnt++];}
+    inline node_t* newnode(){
+        pool[cnt].parent = pool[cnt].son[0] = pool[cnt].son[1] = null;
+        return &pool[cnt++];
+    }
     node_t* find(int rank){
         node_t *r = root;
         while(true){
