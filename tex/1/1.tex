@@ -1,5 +1,52 @@
-\documentclass[UTF8]{ctexart}
-\begin{document}
-你好，world!
-$x^2+y^2 = 1$
-\end{document}
+\documentclass[UTF-8]{beamer} %幻灯片宏包
+    \usepackage{ctex} %注意这个宏包 
+    \usepackage{listings}
+    %\usepackage{amsmath}
+    \setmainfont[BoldFont=STZhongsong, ItalicFont=STKaiti]{STSong}
+    %\setsansfont{mathit}
+    \usepackage{amsmath,amssymb,amsfonts}
+    \usepackage{bm}
+    \setsansfont{Cambria Math}
+    \setmonofont{Consolas}
+    %%主题样式
+    \usetheme{Boadilla}
+    %%定理编号
+    \setbeamertemplate{theorems}[numbered]
+    %\usebeamerfonttheme{professionalfonts} 
+    %%重定义下导航条
+    %\useoutertheme[footline=authortitle]{miniframes}
+     
+    \begin{document}
+    %%中文日期方式
+    \renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+    %%自动编号定理
+    \newtheorem{thm}{定理}[section]
+     
+    \title[\LaTeX~初探]{\LaTeX 初探}
+    \author{Chen Qiqian}
+    \date{\today}
+     
+    \frame{\titlepage}
+    \frame{\tableofcontents}
+     
+    \section{一个例子}
+
+    \begin{frame}[t]{测试标题中文}
+    \begin{thm}
+      假设 $f(x)\in C[a,b]$, 那么 $\int_a^{n^2} |f(x)| \mathrm{d}x<+\infty$.
+    \end{thm}
+    \pause
+    \begin{thm}
+        如果 $A \in \alpha, B \in \alpha$,且$C \in AB $, 那么 $C \in \alpha$.
+    \end{thm}
+    \begin{thm}
+        如果 $l \parallel m$,且$l \not\subset \alpha ,m\subset \alpha $, 那么 $l \parallel \alpha$.
+    \end{thm}
+    \textit{$ (a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc +2ca$}
+    \end{frame}
+     
+    \begin{frame}[fragile]{另一张slide}% 不加[t]看看效果
+        这是另一个内容.
+    \end{frame}
+
+    \end{document}
