@@ -67,13 +67,14 @@
         "__mutex_base": "cpp",
         "fstream": "cpp",
         "shared_mutex": "cpp",
-        "streambuf": "cpp"
+        "streambuf": "cpp",
+        "numeric": "cpp"
     },
     "search.smartCase": true,
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -Wextra && $dir$fileNameWithoutExt",
-        "cpp_11": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -Wextra -std=c++11 && $dir$fileNameWithoutExt",
-        "cpp_withfile": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -Wextra && ( $dir$fileNameWithoutExt < in.txt)",
+        "cpp": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall  && echo 'Finish building.' && time $dir$fileNameWithoutExt",
+        "cpp_11": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall -std=c++11 && echo 'Finish building.' && time $dir$fileNameWithoutExt",
+        "cpp_withfile": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall && echo 'Finish building.' && time ( $dir$fileNameWithoutExt < in.txt)",
         "python": "python",
         "python3": "python3",
     },
