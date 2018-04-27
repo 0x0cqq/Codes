@@ -1,9 +1,12 @@
 #!/bin/sh
 
 path="Documents/VSCode/Codes/luogu"
+gen="gen"
 name1="p1963"
 name2="p1963_1"
-gen="gen"
+input_file="in.txt"
+output_file1="out1.txt"
+output_file2="out2.txt"
 
 cd
 cd $path
@@ -15,13 +18,13 @@ echo "\\033[1;31mFinish building.\\033[0m"
 
 cnt=0
 
-while ((1))
+while true
 do
     ((cnt++))
-    ./$gen > in.txt
-    ./$name1 < in.txt > out1.txt
-    ./$name2 < in.txt > out2.txt
-    if diff out1.txt out2.txt &> /dev/null
+    ./$gen > $input_file
+    ./$name1 < $input_file > $output_file1
+    ./$name2 < $input_file > $output_file2
+    if diff $output_file1 $output_file2 > /dev/null 2>&1
     then
         echo "\\033[1;32mTask$cnt:Accepted.\\033[0m"
     else 
@@ -30,5 +33,3 @@ do
     fi
     sleep 0.5
 done
-
-
