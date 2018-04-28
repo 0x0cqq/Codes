@@ -2,24 +2,42 @@
 #include <cstdlib>
 #include <algorithm>
 #include <ctime>
+#include <cstring>
 using namespace std;
 
+const int n = 70,K = 1000;
+const int MAX = 10000;
+int vis[MAX];
 
 int main(){
-    int n = 10000;
-    int num[n];
     srand(time(NULL));
-    printf("%d\n",n);
-    for(int i = 0;i<n;i++){
-        num[i] = i;
+    printf("%d %d\n",n,K);
+    memset(vis,0,sizeof(vis));
+    for(int i = 1;i<=n;i++){
+        int tmp = rand()%MAX;
+        while(vis[tmp])
+            tmp = rand()%MAX;
+        printf("%d ",tmp);
+        vis[tmp] = 1;
     }
-    for(int i = 1;i<=10000;i++){
-        int a = rand()%n,b = rand()%n;
-        swap(num[a],num[b]);
+    putchar('\n');
+    memset(vis,0,sizeof(vis));
+    for(int i = 1;i<=n;i++){
+        int tmp = rand()%MAX;
+        while(vis[tmp])
+            tmp = rand()%MAX;
+        printf("%d ",tmp);
+        vis[tmp] = 1;
     }
-    for(int i = 0;i<n;i++){
-        printf("%d ",min(abs(num[i] - i),n-abs(num[i]-i)));
-    }
+    putchar('\n');
+    memset(vis,0,sizeof(vis));
+    for(int i = 1;i<=n;i++){
+        int tmp = rand()%MAX;
+        while(vis[tmp])
+            tmp = rand()%MAX;
+        printf("%d ",tmp);
+        vis[tmp] = 1;
+    }     
     putchar('\n');
     return 0;
 }
