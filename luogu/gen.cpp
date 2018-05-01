@@ -5,39 +5,16 @@
 #include <cstring>
 using namespace std;
 
-const int n = 70,K = 1000;
-const int MAX = 10000;
-int vis[MAX];
+const int n = 2000,m = 2000;
 
 int main(){
     srand(time(NULL));
-    printf("%d %d\n",n,K);
-    memset(vis,0,sizeof(vis));
     for(int i = 1;i<=n;i++){
-        int tmp = rand()%MAX;
-        while(vis[tmp])
-            tmp = rand()%MAX;
-        printf("%d ",tmp);
-        vis[tmp] = 1;
+        for(int j = 1;j<=m;j++){
+            printf("%d ",rand()&1);
+        }
+        printf("\n");
     }
-    putchar('\n');
-    memset(vis,0,sizeof(vis));
-    for(int i = 1;i<=n;i++){
-        int tmp = rand()%MAX;
-        while(vis[tmp])
-            tmp = rand()%MAX;
-        printf("%d ",tmp);
-        vis[tmp] = 1;
-    }
-    putchar('\n');
-    memset(vis,0,sizeof(vis));
-    for(int i = 1;i<=n;i++){
-        int tmp = rand()%MAX;
-        while(vis[tmp])
-            tmp = rand()%MAX;
-        printf("%d ",tmp);
-        vis[tmp] = 1;
-    }     
     putchar('\n');
     return 0;
 }

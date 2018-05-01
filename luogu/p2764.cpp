@@ -21,17 +21,17 @@ const int MAXN = 110000,MAXM = 200000;
 struct Edge{
     int from,to;
     int cap,flow;
-    int nex;
+    int nex,flag;
 }edge[MAXM];
 
 int n,m,s,t,ecnt = 2;
 
 int fir[MAXN],cur[MAXN];
 
-void addedge(int a,int b,int c){
-    edge[ecnt] = (Edge){a,b,c,0,fir[a]};
+void addedge(int a,int b,int c,int f = 0){
+    edge[ecnt] = (Edge){a,b,c,0,fir[a],f};
     fir[a] = ecnt++;
-    edge[ecnt] = (Edge){b,a,0,0,fir[b]};
+    edge[ecnt] = (Edge){b,a,0,0,fir[b],0};
     fir[b] = ecnt++;
 }
 
@@ -92,7 +92,7 @@ void init(){
     int a,b;s = 2*n+1,t = 2*n+2;
     for(int i = 1;i<=m;i++){
         read(a),read(b);
-        addedge(a,b+n,1);
+        addedge(a,b+n,1,1);
     }
     for(int i = 1;i<=n;i++){
         addedge(s,i,1);
@@ -101,13 +101,11 @@ void init(){
 }
 
 void d(int nown){
-    dis[nown] = 0x3f3f3f3f;
     print(nown),print(' ');
     for(int nowe = fir[nown];nowe;nowe = edge[nowe].nex){
         int v = edge[nowe].to;
-        if(edge[nowe].flow == 1 && dis[v-n] == 0){
+        if(edge[nowe].flow == 1 && v > n){
             d(v-n);
-            //dis[v-n] = 1;
         }
     }
 }
@@ -118,12 +116,15 @@ int find(int x){return f[x] == x?x:f[x] = find(f[x]);}
 void solve(){
     int t = dinic();
     memset(dis,0,sizeof(dis));
-    static int in[MAXN],out[MAXN];
+    for(int i = 1;i<=n;i++)
+        f[i] = i;
     for(int i = 2;i<=ecnt;i++){
-        if()
+        if(edge[i].flag && edge[i].flow == 1){
+            f[find(edge[i].to-n)]=find(edge[i].from);
+        }
     }
     for(int i = n;i>=1;--i){
-        if((in[i] == 1 && out[i] == 0) && dis[i] == 0)
+        if(find(i) == i)
             d(i),print('\n');
     }
     print(n-t),print('\n');
