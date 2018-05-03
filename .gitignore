@@ -6,3 +6,4 @@
 *.dSYM
 *.out
 *.in
+*.cc

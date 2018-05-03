@@ -5,15 +5,15 @@
 #include <cstring>
 using namespace std;
 
-const int n = 2000,m = 2000;
+const int n = 200,m = 20000,MAXN = 1000;
 
 int main(){
     srand(time(NULL));
-    for(int i = 1;i<=n;i++){
-        for(int j = 1;j<=m;j++){
-            printf("%d ",rand()&1);
-        }
-        printf("\n");
+    printf("%d %d\n",n,m);
+    for(int i = 1;i<=m;i++){
+        int a = rand()%n+1,b = rand()%n+1,c = rand()%MAXN+1;
+        while(a == b) b = rand()%n+1;
+        printf("%d %d %d\n",a,b,c);
     }
     putchar('\n');
     return 0;

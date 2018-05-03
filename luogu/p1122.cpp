@@ -21,7 +21,7 @@ void init(){
         edge[b].push_back(a);
     }
 }
-
+ 
 
 void dfs(int nown,int f){
     int sumn = 0;
@@ -36,7 +36,11 @@ void dfs(int nown,int f){
 
 void solve(){
     dfs(1,0);
-    printf("%d\n",dp[1]);
+    int ans = 0;
+    for(int i = 1;i<=n;i++){
+        ans = max(ans,dp[i]);
+    }
+    printf("%d\n",ans);
 }
 
 int main(){
