@@ -2,8 +2,8 @@
 
 path="Documents/VSCode/Codes/luogu"
 gen="gen"
-name1="p2153"
-name2="p2153_1"
+name1="p3459"
+name2="p3459_1"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
