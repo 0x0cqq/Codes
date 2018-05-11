@@ -14,21 +14,20 @@ namespace fast_io {
     inline void flush(){fwrite(obuf,1,ooh-obuf,stdout);}
 }using namespace fast_io;
 
-const int MAXN = 510000;
+const int MAXN = 20000;
 
 struct Link_Cat_Tree{
-    int v[MAXN],sum[MAXN];
     int f[MAXN],c[MAXN][2];
     bool rev[MAXN];
-    void push_up(int x){
-        sum[x] = sum[c[x][0]] ^ sum[c[x][1]] ^ v[x];
+    inline bool noroot(int x){
+        return (c[f[x]][0] == x) || (c[f[x]][1] == x);
     }
-    void reverse(int x){
-        if(!x) return;
+    inline void reverse(int x){
+        if(!x)  return;
         swap(c[x][0],c[x][1]);
         rev[x] ^= 1;
     }
-    void push_down(int x){
+    inline void push_down(int x){
         if(!x) return;
         if(rev[x]){
             reverse(c[x][0]),reverse(c[x][1]);
@@ -40,102 +39,75 @@ struct Link_Cat_Tree{
         if(noroot(x)) push_all(f[x]);
         push_down(x);
     }
-    bool noroot(int x){
-        return (c[f[x]][0] == x || c[f[x]][1] == x);
-    }
-    void rotate(int x){
-        int y = f[x],z = f[y],t = (c[y][1]==x),w = c[x][1-t];
-        if(noroot(y))c[z][c[z][1]==y] = x;
-        c[x][1-t] = y,c[y][t] = w;
+    inline void rotate(int x){
+        int y = f[x],z = f[y],t = (c[y][1] == x),w = c[x][1-t];
+        if(noroot(y)) c[z][c[z][1] == y] = x;
+        c[y][t] = w,c[x][1-t] = y;  
         if(w) f[w] = y;
-        f[y] = x;f[x] = z;
-        push_up(y),push_up(x);
+        f[y] = x,f[x] = z;
     }
-    void splay(int x){
+    inline void splay(int x){
         push_all(x);
-        //printf("!\n");
         while(noroot(x)){
             int y = f[x],z = f[y];
             if(noroot(y)){
-                if((c[y][1]==x)^(c[z][1]==y))
+                if((c[z][1] == y) ^ (c[y][1] == x))
                     rotate(x);
                 else rotate(y);
             }rotate(x);
         }
     }
-    void access(int x){
+    inline void access(int x){
         for(int y = 0;x;x = f[y=x]){
-            splay(x);c[x][1] = y;
-            push_up(x);
+            splay(x),c[x][1] = y;
         }
     }
-    void makeroot(int x){
-        access(x),splay(x),reverse(x);
+    inline void makeroot(int x){
+        access(x);splay(x);reverse(x);
     }
-    void split(int x,int y){
-        makeroot(x),access(y),splay(y);
-    }
-    int find(int x){
-        access(x);splay(x);
+    inline int find(int x){
+        access(x),splay(x);
         push_down(x);
         while(c[x][0])
             x = c[x][0],push_down(x);
         return x;
     }
-    void link(int x,int y){
+    inline void link(int x,int y){
         makeroot(x);
         if(find(y)!=x)
             f[x] = y;
     }
-    void cat(int x,int y){
-        makeroot(x);//find后y位于树根
-        if(find(y) == x && f[x] == y && !c[x][1])
-            f[x] = c[y][0] = 0,push_up(y);
-    }
-    void update(int x,int val){
+    inline void cat(int x,int y){
         makeroot(x);
-        //printf("!\n");
-        v[x] = val,push_up(x);
+        if(find(y) == x && f[x] == y && !c[x][1])
+            f[x] = c[y][0] = 0;
     }
-    int query(int x,int y){
-        return split(x,y),sum[y];
-    }
-    void print(int n){
-        for(int i = 1;i<=n;i++){
-            printf("%d: sum:%d v:%d f:%d c:%d %d r:%d\n",i,sum[i],v[i],f[i],c[i][0],c[i][1],int(rev[i]));
-        }
+    inline int query(int x,int y){
+        return int(find(x) == find(y));
     }
 };
 
-int n,m;
-Link_Cat_Tree w;
+Link_Cat_Tree S;
 
-void init(){
-    read(n),read(m);
-    int tmp;
-    for(int i = 1;i<=n;i++){
-        read(tmp);
-        w.update(i,tmp);
-    }
-}
+int n,m;
+
+char yes[6] = "Yes\n",no[5] = "No\n";
 
 void solve(){
-    int op,a,b;
+    read(n),read(m);
+    char op[20];int a,b;
     for(int i = 1;i<=m;i++){
-        read(op),read(a),read(b);
-        if(op == 0)
-            print(w.query(a,b)),print('\n');
-        else if(op == 1)
-            w.link(a,b);
-        else if(op == 2)
-            w.cat(a,b);
-        else if(op == 3)
-            w.update(a,b);
+        read(op);read(a),read(b);
+        if(op[0] == 'C')
+            S.link(a,b);
+        if(op[0] == 'D')
+            S.cat(a,b);
+        else if(op[0] == 'Q')
+            print(S.query(a,b) ? yes:no);
     }
 }
 
 int main(){
-    init();
     solve();
     flush();
     return 0;
