@@ -5,19 +5,16 @@
 #include <cstring>
 using namespace std;
 
-const int n = 10,m = 10,MAXN = 1000;
+const int n = 200000,l = 100,r = 200,MAXN = 2000;
 int from[MAXN],to[MAXN];
 int t[MAXN];
 
 int main(){
     srand(time(NULL));
-    printf("%d\n",n);
+    printf("%d %d %d\n",n,l,r);
+    printf("%d ",0);
     for(int i = 1;i<=n;i++){
-        printf("%d %d %d ",i,rand()%MAXN,i!=1);
-        if(i == 1){
-            printf("\n");continue;
-        }
-        printf("%d\n",rand()%(i-1)+1);
+        printf("%d ",rand()%MAXN-500);
     }
     return 0;
 }
