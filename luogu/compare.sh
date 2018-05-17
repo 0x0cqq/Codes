@@ -2,17 +2,17 @@
 
 path="Documents/VSCode/Codes/luogu"
 gen="gen"
-name1="p1725"
-name2="p1725_1"
+name1="p2195"
+name2="p2195_1"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
 
 cd 
 cd $path
-g++-6 $name1.cpp -o $name1 
-g++-6 $name2.cpp -o $name2 
-g++-6 $gen.cpp -o $gen 
+g++-6 $name1.cpp -o $name1 -O2
+g++-6 $name2.cpp -o $name2 -O2
+g++-6 $gen.cpp -o $gen -O2
 
 echo "\\033[1;33mFinish building.\\033[0m"
 

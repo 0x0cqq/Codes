@@ -68,7 +68,8 @@
         "fstream": "cpp",
         "shared_mutex": "cpp",
         "streambuf": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "scoped_allocator": "cpp"
     },
     "search.smartCase": true,
     "code-runner.executorMap": {
@@ -78,5 +79,6 @@
         "python3": "python3",
     },
     "code-runner.runInTerminal": true,
-    "code-runner.saveFileBeforeRun": true
+    "code-runner.saveFileBeforeRun": true,
+    "python.pythonPath": "/usr/local/bin/python3"
 }
