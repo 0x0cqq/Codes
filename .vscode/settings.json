@@ -69,7 +69,8 @@
         "shared_mutex": "cpp",
         "streambuf": "cpp",
         "numeric": "cpp",
-        "scoped_allocator": "cpp"
+        "scoped_allocator": "cpp",
+        "__functional_base_03": "cpp"
     },
     "search.smartCase": true,
     "code-runner.executorMap": {
