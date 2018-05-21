@@ -16,7 +16,7 @@ namespace fast_io {
     inline void flush(){fwrite(obuf,1,ooh-obuf,stdout);}
 }using namespace fast_io;
 
-const int MAXN = 81000,maxb = 18,logn = 500;
+const int MAXN = 81000,maxb = 20,logn = 500;
 
 namespace prSegTree{
     int sumn[MAXN*logn],ls[MAXN*logn],rs[MAXN*logn],cnt = 1;
@@ -36,7 +36,7 @@ namespace prSegTree{
             int sum = sumn[ls[x1]] + sumn[ls[x2]] - sumn[ls[y1]] - sumn[ls[y2]];
             //printf("node: %d %d\nsum:%d a:%d b:%d c:%d d:%d\n",l,r,sum,sumn[ls[x1]],sumn[ls[x2]],sumn[ls[y1]],sumn[ls[y2]]);
             if(k <= sum) return query(ls[x1],ls[x2],ls[y1],ls[y2],l,mid,k);
-            if(sum+1 <= k) return query(rs[x1],rs[x2],rs[y1],rs[y2],mid+1,r,k);
+            if(sum+1 <= k) return query(rs[x1],rs[x2],rs[y1],rs[y2],mid+1,r,k-sum);
         }
     }
     void build(int &nown,int l,int r){
@@ -81,7 +81,8 @@ namespace BCJ{
     }
 }
 
-void pre_lca(int nown,int fa,int depth){
+void pre_dfs(int nown,int fa,int depth){
+    prSegTree::insert(rt[nown],rt[fa],1,tot,S[num[nown]],1);
     dep[nown] = depth;
     f[nown][0] = fa;
     for(int j = 1;j<maxb;j++)
@@ -89,7 +90,7 @@ void pre_lca(int nown,int fa,int depth){
     for(int i = fir[nown];i;i=nex[i]){
         int v = to[i];
         if(v == fa) continue;
-        pre_lca(v,nown,depth+1);
+        pre_dfs(v,nown,depth+1);
     }
 }
 
@@ -103,15 +104,6 @@ int lca(int u,int v){
         if(f[u][j] != f[v][j])
             u = f[u][j],v = f[v][j];
     return f[u][0]; 
-}
-
-void pre_dfs(int nown,int fa){
-    prSegTree::insert(rt[nown],rt[fa],1,tot,S[num[nown]],1);
-    for(int i = fir[nown];i;i=nex[i]){
-        int v = to[i];
-        if(v == fa) continue;
-        pre_dfs(v,nown);
-    }
 }
 
 void init(){
@@ -136,18 +128,15 @@ void init(){
 
 void build(){
     for(int i = 1;i<=n;i++){
-        if(BCJ::find(i)==i){
-            pre_lca(i,0,1);
-            pre_dfs(i,0);
-        }
+        if(BCJ::find(i)==i)
+            pre_dfs(i,0,1);
     }
 }
 
 void link(int u,int v){
     addedge(u,v);
     if(BCJ::query(u) < BCJ::query(v)) swap(u,v);
-    pre_lca(v,u,dep[u]+1);
-    pre_dfs(v,u);
+    pre_dfs(v,u,dep[u]+1);
     BCJ::un(u,v);
 }
 
