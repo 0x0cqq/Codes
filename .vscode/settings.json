@@ -8,10 +8,8 @@
     },
     "code-runner.runInTerminal": true,
     "code-runner.saveFileBeforeRun": true,
-    "python.pythonPath": "/usr/local/bin/python3",
-    "C_Cpp.intelliSenseEngine": "Tag Parser",
     "editor.fontSize": 16,
     "files.associations": {
-        "algorithm": "cpp"
-    }
+        "cstdio": "cpp"
+    },
 }
