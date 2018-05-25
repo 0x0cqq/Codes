@@ -24,7 +24,8 @@
         "unordered_set": "cpp",
         "istream": "cpp",
         "functional": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "ostream": "cpp"
     },
     "clang.completion.enable": false,
 }
