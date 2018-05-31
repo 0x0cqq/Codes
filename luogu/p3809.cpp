@@ -21,6 +21,11 @@ int TT[MAXN];
 namespace suffix_array{
 #define L_type 1
 #define S_type 0
+    int pool[MAXN*16],cnt = 0;
+    int *ns(const size_t size){
+        int tmp = cnt;cnt += size;
+        return pool+tmp;
+    }
     bool is_LMS(int *t,int x){
         return x > 0&&!t[x]&&t[x-1];
     }
@@ -43,10 +48,10 @@ namespace suffix_array{
     }
     int* SAIS(int *S,int len,int SI){
         int n = len-1;
-        int *t = new int[n+1],*pos = new int[n+1];
-        int *name = new int[n+1],*SA = new int[n+1];
-        int *b = new int[SI+1];
-        int *lb = new int[SI+1],*sb = new int[SI+1];
+        int *t = ns(n+1),*pos = ns(n+1);
+        int *name = ns(n+1),*SA = ns(n+1);
+        int *b = ns(SI+1);
+        int *lb = ns(SI+1),*sb = ns(SI+1);
 
         memset(b,0,sizeof(int)*(SI+1));
         for(int i = 0;i<=n;i++)
@@ -105,7 +110,7 @@ namespace suffix_array{
         }
         name[n] = 0;
 
-        int *S1 = new int[cnt];
+        int *S1 = ns(cnt);
         int p = 0;
         for(int i = 0;i<=n;i++)
             if(name[i]>=0)
@@ -113,7 +118,7 @@ namespace suffix_array{
         
         int *SA1;
         if(!flag){
-            SA1 = new int[cnt+1];
+            SA1 = ns(cnt+1);
             for(int i = 0;i<cnt;i++)
                 SA1[S1[i]] = i;
         }else SA1 = SAIS(S1,cnt,namecnt);
