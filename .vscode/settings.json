@@ -41,7 +41,18 @@
         "list": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "__locale": "cpp",
+        "locale": "cpp",
+        "thread": "cpp",
+        "__split_buffer": "cpp",
+        "bitset": "cpp",
+        "deque": "cpp",
+        "iterator": "cpp",
+        "regex": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp",
+        "vector": "cpp"
     },
     "clang.completion.enable": false,
 }
