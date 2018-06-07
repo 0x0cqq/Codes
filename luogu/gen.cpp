@@ -5,27 +5,29 @@
 #include <cstring>
 using namespace std;
 
-const int n = 10,m = 10;
-
-
+const int n = 100000,m = 50000;
 
 int main(){
     srand(time(NULL));
-    printf("%d 0\n",n);
+    printf("%d %d\n",n,m);
+    int tmp[n+1];
     for(int i = 1;i<=n;i++){
-        printf("%d ",rand()%10000+1);
+        tmp[i] = i;
+    }
+    for(int i = 1;i<=1000000;i++){
+        int l = rand()%n+1,r = rand()%n+1;
+        swap(tmp[l],tmp[r]);
+    }
+    for(int i = 1;i<=n;i++){
+        printf("%d ",tmp[i]);
     }
     printf("\n");
-    printf("%d\n",m);
-    for(int i = 1;i<=m;i++){
+    for(int i = 1;i<=1000000;i++){
         int l = rand()%n+1,r = rand()%n+1;
-        if(l < r) swap(l,r);
-        int op = rand()%2;
-        if(op)
-            printf("B ");
-        else 
-            printf("Q ");
-        printf("%d %d\n",l,r);
-    }
+        swap(tmp[l],tmp[r]);
+    } 
+    for(int i = 1;i<=m;i++){
+        printf("%d\n",tmp[i]);
+    } 
     return 0;
 }

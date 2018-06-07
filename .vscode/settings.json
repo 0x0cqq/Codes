@@ -8,7 +8,7 @@
     },
     "code-runner.runInTerminal": true,
     "code-runner.saveFileBeforeRun": true,
-    "editor.fontSize": 16,
+    "editor.fontSize": 17,
     "files.associations": {
         "cstdio": "cpp",
         "__bit_reference": "cpp",
@@ -52,7 +52,8 @@
         "regex": "cpp",
         "utility": "cpp",
         "valarray": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "ratio": "cpp"
     },
     "clang.completion.enable": false,
 }

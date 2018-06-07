@@ -2,8 +2,8 @@
 
 path="Documents/VSCode/Codes/luogu"
 gen="gen"
-name1="p3224"
-name2="p3224_1"
+name1="p3157"
+name2="p3157_2"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
@@ -33,5 +33,5 @@ do
         echo "\\033[1;31mTask$cnt:Wrong Answer.\\033[0m"
         break
     fi
-    sleep 0.5
+    sleep 0.1
 done
