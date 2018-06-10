@@ -53,7 +53,8 @@
         "utility": "cpp",
         "valarray": "cpp",
         "vector": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "memory": "cpp"
     },
     "clang.completion.enable": false,
 }

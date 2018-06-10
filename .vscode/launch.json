@@ -18,7 +18,7 @@
             "request": "launch",
             "program": "${file}.out",
             "args": [],
-            "preLaunchTask": "g++",
+            "preLaunchTask": "g++-6",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
