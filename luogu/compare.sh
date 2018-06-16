@@ -2,8 +2,8 @@
 
 path="Documents/VSCode/Codes/luogu"
 gen="gen"
-name1="p3177_1"
-name2="p3177"
+name1="p2657_1"
+name2="p2657"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
@@ -28,7 +28,7 @@ do
     let time3=`gdate +%s%N`
     if diff -w $output_file1 $output_file2 > /dev/null 2>&1
     then
-        echo "\\033[1;32mTask$cnt:Accepted. time1:$(((time2-time1)/1000000))ms,time2:$(((time3-time2)/1000000))ms\\033[0m"
+        echo "\\033[1;32mTask$cnt:Accepted. $name1:$(((time2-time1)/1000000))ms,$name2:$(((time3-time2)/1000000))ms\\033[0m"
     else 
         echo "\\033[1;31mTask$cnt:Wrong Answer.\\033[0m"
         break

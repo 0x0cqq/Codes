@@ -54,7 +54,11 @@
         "valarray": "cpp",
         "vector": "cpp",
         "ratio": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "cstddef": "cpp",
+        "type_traits": "cpp",
+        "chrono": "cpp",
+        "cstdlib": "cpp"
     },
     "clang.completion.enable": false,
 }
