@@ -58,7 +58,9 @@
         "cstddef": "cpp",
         "type_traits": "cpp",
         "chrono": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "limits": "cpp"
     },
     "clang.completion.enable": false,
+    "clang.cxxflags": ["-std=c++11"],
 }
