@@ -1,84 +1,55 @@
 #include <cstdio>
-#include <vector>
 #include <algorithm>
-#define ll long long
+#include <cmath>
 using namespace std;
 
-const int MAXN = 400000;
+const int MAXN = 110;
+const double eps = 1e-7;
 
-vector<int> edge[MAXN];
- 
-void addedge(int a,int b){
-    edge[a].push_back(b);
-    edge[b].push_back(a);
-}
-
-struct q{
-    int id,p,k;
-    bool operator <(q w)const{
-        return k < w.k;
+bool gauss(double a[MAXN][MAXN],int n){
+    for(int i = 1;i<=n;i++){
+        int r = i;
+        for(int j = i+1;j<=n;j++)
+            if(fabs(a[r][i]) < fabs(a[j][i])) r = j;
+        if(r!=i)
+            for(int j = 1;j<=n+1;j++) 
+                swap(a[r][j],a[i][j]);
+        if(fabs(a[i][i]) < eps) return false;
+        for(int j = 1;j<=n;j++)if(j!=i){
+            double t = a[j][i]/a[i][i];
+            for(int k = i+1;k<=n+1;k++)
+                a[j][k] -= a[i][k] * t;
+        }
+        // for(int i = 1;i<=n;i++){
+        //     for(int j = 1;j<=n+1;j++){
+        //         printf("%lf ",a[i][j]);
+        //     }
+        //     printf("\n");
+        // }
+        // printf("\n");
     }
-};
-
-vector<q> qq[MAXN];
-
-int n,m;
-int siz[MAXN],dep[MAXN];
-ll sum[MAXN],ans[MAXN];
-int lowbit(int x){return x & (-x);}
-ll query(int x){
-    ll ans = 0;
-    while(x) ans += sum[x],x -= lowbit(x);
-    return ans;
+    for(int i = 1;i<=n;i++)
+        a[i][n+1]/=a[i][i];
+    return true;
 }
-void update(int x,ll d){
-    while(x<=n) sum[x] += d,x += lowbit(x);
-}
+int n;
+double num[MAXN][MAXN];
 
 void init(){
-    scanf("%d %d",&n,&m);
-    int a,b;
-    for(int i = 1;i<=n-1;i++){
-        scanf("%d %d",&a,&b);
-        addedge(a,b);
+    scanf("%d",&n);
+    for(int i = 1;i<=n;i++){
+        for(int j = 1;j<=n+1;j++){
+            scanf("%lf",&num[i][j]);
+        }
     }
-    for(int i = 1;i<=m;i++){
-        scanf("%d %d",&a,&b);
-        qq[a].push_back((q){i,a,b});
-    }
-}
-
-void dfs1(int x,int fa,int depth){
-    siz[x] = 1;dep[x] = depth;
-    for(int i = 0;i < edge[x].size();i++){
-        int v = edge[x][i];
-        if(v == fa) continue;
-        dfs1(v,x,depth+1);
-        siz[x] += siz[v];
-    }   
-}
-
-void dfs2(int x,int fa){
-    for(int i = 0;i < qq[x].size();i++){
-        ans[qq[x][i].id] -= (1ll * query(min(qq[x][i].k + dep[x],n)) - 1ll * query(dep[x]));
-    }
-    for(int i = 0;i < edge[x].size();i++){
-        int v = edge[x][i];
-        if(v == fa) continue;
-        dfs2(v,x);
-    } 
-    for(int i = 0;i < qq[x].size();i++){
-        ans[qq[x][i].id] += (1ll * query(min(qq[x][i].k + dep[x],n)) - 1ll * query(dep[x])) + 1ll * min(dep[x]-1,qq[x][i].k)*(siz[x]-1);
-    }
-    update(dep[x],siz[x]-1);
 }
 
 void solve(){
-    dfs1(1,0,1);
-    dfs2(1,0);
-    for(int i = 1;i<=m;i++){
-        printf("%lld\n",ans[i]);
-    }
+    if(gauss(num,n))
+        for(int i = 1;i<=n;i++)
+            printf("%.2lf\n",num[i][n+1]);
+    else
+        printf("No Solution\n");
 }
 
 int main(){
