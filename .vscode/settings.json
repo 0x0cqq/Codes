@@ -3,8 +3,7 @@
     "code-runner.executorMap": {
         "cpp": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall  && (echo -e \"\\033[1;31mFinish building.\\033[0m\") && time $dir$fileNameWithoutExt",
         "cpp_withfile": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall && (echo -e \"\\033[1;31m Finish building.\\033[0m \") && time ( $dir$fileNameWithoutExt < in.txt)",
-        "python": "python",
-        "python3": "python3",
+        "python": "python3",
     },
     "code-runner.runInTerminal": true,
     "code-runner.saveFileBeforeRun": true,
@@ -59,7 +58,8 @@
         "type_traits": "cpp",
         "chrono": "cpp",
         "cstdlib": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "sstream": "cpp"
     },
     "clang.completion.enable": false,
     "clang.cxxflags": ["-std=c++11"],
