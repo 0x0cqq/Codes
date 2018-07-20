@@ -59,7 +59,8 @@
         "chrono": "cpp",
         "cstdlib": "cpp",
         "limits": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "cfenv": "cpp"
     },
     "clang.completion.enable": false,
     "clang.cxxflags": ["-std=c++11"],
