@@ -60,7 +60,8 @@
         "cstdlib": "cpp",
         "limits": "cpp",
         "sstream": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "cctype": "cpp"
     },
     "clang.completion.enable": false,
     "clang.cxxflags": ["-std=c++11"],
