@@ -64,5 +64,8 @@
         "cctype": "cpp"
     },
     "clang.completion.enable": false,
-    "clang.cxxflags": ["-std=c++11"],
+    "clang.cxxflags": [
+        "-std=c++11"
+    ],
+    "clang.diagnostic.enable": false,
 }
