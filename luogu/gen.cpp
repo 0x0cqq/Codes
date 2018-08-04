@@ -9,11 +9,7 @@ using namespace std;
 
 int main(){
     srand(time(NULL));
-    int n = 7;
+    int n = rand()%10000000+1;
     printf("%d\n",n);
-    for(int i = 1;i<=n;i++){
-        printf("%d ",rand()%10+1);
-    }
-    printf("\n");
     return 0;
 }

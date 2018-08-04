@@ -1,9 +1,9 @@
 #!/bin/sh
 
-path="Documents/Codes/codeforces/t1015"
+path="Documents/Codes/luogu/"
 gen="gen"
-name1="d"
-name2="other"
+name1="p1962"
+name2="p1962_1"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
