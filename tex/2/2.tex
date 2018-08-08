@@ -1,0 +1,81 @@
+\documentclass[UTF-8]{beamer}
+
+    %使用ctex宏包支持中文
+    \usepackage{ctex}
+    %支持表格样式
+    \usepackage{booktabs}
+    
+    %设置中文字体
+    %\setCJKmainfont[ItalicFont={AR PL UKai CN}]{Droid Sans Fallback}
+    
+    %使用beamer默认主题
+    \usetheme{AnnArbor}
+    %使用颜色主题
+    \usecolortheme{beaver}
+    
+    \begin{document}
+    
+    %定义封面信息
+    \title{Test}
+    \author{Zhu Yi}
+    \date{\today}
+    
+    %封面页
+    \begin{frame}[plain]
+        \titlepage
+    \end{frame}
+    
+    %目录页
+    \begin{frame}[plain]{目录}
+        \tableofcontents
+    \end{frame}
+    
+    %开始ppt正文
+    \section{第一部分}
+        \begin{frame}{这是标题}{这是副标题}
+            % 列布局
+            \begin{columns}[onlytextwidth]
+                % 将ppt按列分为1:8:1 三个区域
+                 \column{.1\textwidth}
+                 \column{.8\textwidth}
+                % 有序列表
+                 \begin{enumerate}
+                     \item 有序列表项1
+                     \item 有序列表项2
+                     \item 有序列表项3
+                         % 无序列表
+                         \begin{itemize}
+                             \item 无序列表项1
+                             \item 无序列表项1
+                         \end{itemize}
+                 \end{enumerate}
+                 \column{.1\textwidth}
+             \end{columns}
+        \end{frame}
+    
+    \section{第二部分}  
+        \begin{frame}{一个美丽的公式}
+            $$\alpha = \sum_{i=1}^M$$
+        \end{frame}
+    
+        \begin{frame}{一个美丽的表格}
+        \begin{table}[htbp]
+            \caption{交叉验证结果}
+            \centering
+                \begin{tabular}{ccccc}
+                    \toprule
+                    OrgNF   &  PrecisionBefore  & Precision &   Recall & F-Measure \\  
+                    \midrule
+                    100 &  0.578 & 0.581 &   0.449   &  0.442 \\
+                    500 &  0.747 & 0.738 &   0.703   &  0.706 \\
+                    700 &  0.767 & 0.766 &   0.745   &  0.746 \\
+                    1000 & 0.774 & 0.795 &   0.767   &  0.770  \\
+                    2000 & 0.792 & 0.851 &   0.842   &  0.842 \\
+                    5000 & 0.808 & 0.873 &   0.869   &  0.868 \\
+                    \bottomrule
+                \end{tabular}
+        \end{table}
+    
+        \end{frame}
+    
+    \end{document}

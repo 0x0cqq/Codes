@@ -1,6 +1,6 @@
 \documentclass[UTF-8]{beamer} %幻灯片宏包
     \usepackage{ctex} %注意这个宏包 
-    \usepackage{listings}
+    \usepackage{listings,booktabs}
     %\usepackage{amsmath}
     \setmainfont[BoldFont=STZhongsong, ItalicFont=STKaiti]{STSong}
     %\setsansfont{mathit}
@@ -9,14 +9,16 @@
     \setsansfont{Cambria Math}
     \setmonofont{Consolas}
     %%主题样式
-    \usetheme{Boadilla}
+    \usetheme{AnnArbor}
+    %使用颜色主题
+    \usecolortheme{beaver}
     %%定理编号
-    \setbeamertemplate{theorems}[numbered]
+    %%\setbeamertemplate{theorems}[numbered]
     %\usebeamerfonttheme{professionalfonts} 
     %%重定义下导航条
     %\useoutertheme[footline=authortitle]{miniframes}
      
-    \begin{document}
+\begin{document}
     %%中文日期方式
     \renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
     %%自动编号定理
@@ -26,27 +28,23 @@
     \author{Chen Qiqian}
     \date{\today}
      
-    \frame{\titlepage}
-    \frame{\tableofcontents}
-     
+    %封面页
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    %目录页
+    \begin{frame}{目录}
+        \tableofcontents
+    \end{frame}
+
     \section{一个例子}
+        \begin{frame}{测试标题中文}{233}
+        \end{frame}
+    
+    \section{另一个例子}
+        \begin{frame}{另一张slide}% 不加[t]看看效果
+            这是另一个内容.
+        \end{frame}
 
-    \begin{frame}[t]{测试标题中文}
-    \begin{thm}
-      假设 $f(x)\in C[a,b]$, 那么 $\int_a^{n^2} |f(x)| \mathrm{d}x<+\infty$.
-    \end{thm}
-    \pause
-    \begin{thm}
-        如果 $A \in \alpha, B \in \alpha$,且$C \in AB $, 那么 $C \in \alpha$.
-    \end{thm}
-    \begin{thm}
-        如果 $l \parallel m$,且$l \not\subset \alpha ,m\subset \alpha $, 那么 $l \parallel \alpha$.
-    \end{thm}
-    \textit{$ (a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc +2ca$}
-    \end{frame}
-     
-    \begin{frame}[fragile]{另一张slide}% 不加[t]看看效果
-        这是另一个内容.
-    \end{frame}
-
-    \end{document}
+\end{document}

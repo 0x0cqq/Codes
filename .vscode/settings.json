@@ -61,11 +61,7 @@
         "limits": "cpp",
         "sstream": "cpp",
         "cfenv": "cpp",
-        "cctype": "cpp"
-    },
-    "clang.completion.enable": false,
-    "clang.cxxflags": [
-        "-std=c++11"
-    ],
-    "clang.diagnostic.enable": false,
+        "cctype": "cpp",
+        "__functional_base": "cpp"
+    }
 }
