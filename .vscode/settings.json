@@ -62,6 +62,7 @@
         "sstream": "cpp",
         "cfenv": "cpp",
         "cctype": "cpp",
-        "__functional_base": "cpp"
+        "__functional_base": "cpp",
+        "complex": "cpp"
     }
 }
