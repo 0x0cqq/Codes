@@ -63,6 +63,8 @@
         "cfenv": "cpp",
         "cctype": "cpp",
         "__functional_base": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "future": "cpp",
+        "scoped_allocator": "cpp"
     }
 }
