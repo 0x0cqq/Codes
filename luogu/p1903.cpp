@@ -16,7 +16,7 @@ namespace fast_io {
     inline void flush(){fwrite(obuf,1,ooh-obuf,stdout);}
 }using namespace fast_io;
 
-const int MAXN = 11000,MAX = 1100000;
+const int MAXN = 51000,MAX = 1100000;
 
 int n,m,Q;
 int col[MAXN],re_col[MAXN],re_pos[MAXN],cnum = 1;
@@ -42,7 +42,7 @@ bool cmp(Query a,Query b){
 vector<Query> query;
 
 void init(){
-    read(n),read(m);Q = sqrt(n*2);
+    read(n),read(m);Q = sqrt(n*100);
     for(int i = 1;i<=n;i++)
         read(col[i]);
     for(int i = 1;i<=m;i++){

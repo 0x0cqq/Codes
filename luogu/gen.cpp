@@ -9,17 +9,27 @@ using namespace std;
 
 int main(){
     srand(time(NULL));
-    int n = 10000,m = 10000,p = 1e9+7,MAXN = 10000;
-    n = m = 100000;MAXN = 1e9;
-
-    printf("%d %d %d\n",n,m,p);
-    for(int i = 0;i<=n;i++){
-        printf("%d ",rand()%MAXN+1);
+    int n = 50000,m = 50000,MAXN = 50000;
+    printf("%d %d\n",n,m);
+    for(int i = 1;i<=n;i++){
+        printf("%d ",rand()%MAXN + 1);
     }
     printf("\n");
-    for(int i = 0;i<=m;i++){
-        printf("%d ",rand()%MAXN+1);
+    for(int i = 0;i<m;i++){
+        int op = rand()%2;
+        int l,r,p;
+        if(op){
+            printf("Q ");
+            l = rand()%n+1,r = rand()%n+1;
+            if(l > r) swap(l,r);
+            printf("%d %d\n",l,r);
+        }
+        else{
+            printf("R ");
+            l = rand()%n+1;
+            r = rand()%MAXN +1;
+            printf("%d %d\n",l,r);
+        }
     }
-    printf("\n");
     return 0;
 }
