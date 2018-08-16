@@ -3,7 +3,6 @@
 #define ll long long
 using namespace std;
 
-
 const int MAXN = 210000;
 
 namespace SegTree{
@@ -44,7 +43,10 @@ void push_up(int nown){
     T[nown] = merge(T[lson],T[rson]);
 }
 void push_down(int nown){
-    
+    if(T[nown].rev){
+
+        T[nown].rev = 0;
+    }
 }
 #undef lson
 #undef rson
