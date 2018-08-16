@@ -2,17 +2,17 @@
 
 path="Documents/Codes/luogu/"
 gen="gen"
-name1="p1903"
-name2="p1903_1"
+name1="p4340"
+name2="p4340_1"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
 
 cd 
 cd $path
-g++-6 $name1.cpp -o $name1 -std=c++11 -O2
-g++-6 $name2.cpp -o $name2 -std=c++11 -O2
-g++-6 $gen.cpp -o $gen  -std=c++11 -O2
+g++-6 $name1.cpp -o $name1 -std=c++11 
+g++-6 $name2.cpp -o $name2 -std=c++11
+g++-6 $gen.cpp -o $gen  -std=c++11
 echo "\\033[1;33mFinish building.\\033[0m"
 
 cnt=0
