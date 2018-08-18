@@ -8,6 +8,7 @@
     "code-runner.runInTerminal": true,
     "code-runner.saveFileBeforeRun": true,
     "editor.fontSize": 17,
+    "terminal.integrated.fontSize": 18,
     "files.associations": {
         "cstdio": "cpp",
         "__bit_reference": "cpp",
@@ -70,7 +71,11 @@
         "__mutex_base": "cpp",
         "fstream": "cpp",
         "streambuf": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "__functional_base_03": "cpp",
+        "__tuple": "cpp",
+        "numeric": "cpp"
     },
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "editor.fontFamily": " 'YaHei Consolas Hybrid', Menlo, Monaco, 'Courier New', monospace"
 }
