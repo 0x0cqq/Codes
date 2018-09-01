@@ -11,7 +11,10 @@ using namespace std;
 int main(){
     srand(time(NULL));
     int T = 5;
-    int n = 100,l,p,MAXN = 500;
-    printf("%d %lld\n",rand()%100+401,1LL*rand()*rand()%(10000000000LL)+1);
+    int n = 10000000,m = 100000,p,MAXN = 500;
+    printf("%d %d\n",n,m);
+    for(int i = 1;i<=m;i++){
+        printf("%d\n",rand()%n+1);
+    }
     return 0;
 }
