@@ -100,5 +100,5 @@
         "ciso646": "cpp"
     },
     "editor.tabSize": 2,
-    "editor.fontFamily": "'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'"
+    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"
 }
