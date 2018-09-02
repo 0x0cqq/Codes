@@ -8,7 +8,17 @@
                 ],
                 "limitSymbolsToIncludedHeaders": true
             },
-            "includePath": [ "/usr/local/include", "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1", "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include", "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include", "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include",    "/usr/include", "/usr/include/machine", "${workspaceRoot}", "${workspaceRoot}/**/*.hpp"],
+            "includePath": [
+                "/usr/local/include",
+                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
+                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/9.0.0/include",
+                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include",
+                "/usr/include",
+                "/usr/include/machine",
+                "${workspaceRoot}",
+                "${workspaceRoot}/**/*.hpp"
+            ],
             "defines": [],
             "macFrameworkPath": [
                 "/System/Library/Frameworks",
@@ -16,8 +26,39 @@
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64"
+            "cppStandard": "c++11",
+            "intelliSenseMode": "gcc-x64"
+        },
+        {
+            "name": "Linux",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/usr/include/c++/7",
+                "/usr/include/c++/6",
+                "/usr/local/include",
+                "/usr/include/",
+                "/usr/include/machine/",
+                "/usr/include/linux/",
+                "${workspaceRoot}",
+                "${workspaceRoot}/**/*.hpp",
+                "/usr/lib/gcc/x86_64-linux-gnu/7/include/bits",
+                "/usr/lib/gcc/x86_64-linux-gnu/6/include/bits",
+                "/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/",
+                "/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/",
+                "/usr/lib/gcc/x86_64-linux-gnu/7/include",
+                "/usr/lib/gcc/x86_64-linux-gnu/6/include",
+                "/usr/include/c++/6/tr1",
+                "/usr/include/c++/7/tr1"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++11"
         }
     ],
     "version": 4

@@ -1,13 +1,10 @@
 #include <cstdio>
+#include <limits.h>
 using namespace std;
 
-void solve(){
+int main(){
     int a,b;
     scanf("%d %d",&a,&b);
     printf("%d\n",a+b);
-}
-
-int main(){
-    solve();
     return 0;
 }

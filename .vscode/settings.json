@@ -1,8 +1,8 @@
 {
     "search.smartCase": true,
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall  && (echo -e \"\\033[1;31mFinish building.\\033[0m\") && time $dir$fileNameWithoutExt",
-        "cpp_withfile": "cd $dir && g++-6 $fileName -o $fileNameWithoutExt -Wall && (echo -e \"\\033[1;31m Finish building.\\033[0m \") && time ( $dir$fileNameWithoutExt < in.txt)",
+        "cpp": "cd $dir && g++-7 $fileName -o $fileNameWithoutExt -Wall  && (echo -e \"\\033[1;31mFinish building.\\033[0m\") && time $dir$fileNameWithoutExt",
+        "cpp_withfile": "cd $dir && g++-7 $fileName -o $fileNameWithoutExt -Wall && (echo -e \"\\033[1;31m Finish building.\\033[0m \") && time ( $dir$fileNameWithoutExt < in.txt)",
         "python": "python3",
     },
     "code-runner.runInTerminal": true,
@@ -74,8 +74,31 @@
         "tuple": "cpp",
         "__functional_base_03": "cpp",
         "__tuple": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "climits": "cpp",
+        "ctgmath": "cpp",
+        "clocale": "cpp",
+        "cmath": "cpp",
+        "ctime": "cpp",
+        "atomic": "cpp",
+        "*.tcc": "cpp",
+        "cinttypes": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "csetjmp": "cpp",
+        "csignal": "cpp",
+        "cstdarg": "cpp",
+        "cstdint": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "iomanip": "cpp",
+        "iosfwd": "cpp",
+        "mutex": "cpp",
+        "shared_mutex": "cpp",
+        "system_error": "cpp",
+        "typeindex": "cpp",
+        "ciso646": "cpp"
     },
     "editor.tabSize": 2,
-    "editor.fontFamily": " 'YaHei Consolas Hybrid', Menlo, Monaco, 'Courier New', monospace"
+    "editor.fontFamily": "'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'"
 }
