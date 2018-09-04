@@ -97,8 +97,9 @@
         "shared_mutex": "cpp",
         "system_error": "cpp",
         "typeindex": "cpp",
-        "ciso646": "cpp"
+        "ciso646": "cpp",
+        "optional": "cpp"
     },
     "editor.tabSize": 2,
-    "editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"
+    //"editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"
 }
