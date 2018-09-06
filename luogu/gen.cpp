@@ -11,8 +11,8 @@ using namespace std;
 int main(){
     srand(time(NULL));
     int T = 5;
-    int n = 1000,m = 1000,p,MAXN = 500;
-    printf("%d %d\n",n,m);
+    int n = 1000,m = 1000,MAXN = 200;
+    printf("%d\n",m);
     for(int i = 1;i<=n;i++){
         printf("%d ",rand()%MAXN+1);
     }
