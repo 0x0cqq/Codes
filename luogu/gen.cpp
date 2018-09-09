@@ -11,22 +11,21 @@ using namespace std;
 int main(){
     srand(time(NULL));
     int T = 5;
-    int n = 1000,m = 1000,MAXN = 200;
-    printf("%d\n",m);
+    int n = 20,m = 20,L = 0?100:101,MAXN = 5;
+    printf("%d %d %d\n",n,m,L);
     for(int i = 1;i<=n;i++){
-        printf("%d ",rand()%MAXN+1);
+        int len = L<=100?rand()%4+2:rand()%2+1;
+        for(int i = 0;i<len;i++){
+            putchar(rand()%MAXN+'a');
+        }
+        putchar('\n');        
     }
-    printf("\n");
     for(int i = 1;i<=m;i++){
-        int op = rand()%2,l = rand()%n+1,r = rand()%n+1,c = rand()%MAXN+1;
-        if(l > r) swap(l,r);
-        if(op == 1){
-            printf("M %d %d %d\n",l,r,c);
+        int len = rand()%3+3;
+        for(int i = 0;i<len;i++){
+            putchar(rand()%MAXN+'a');
         }
-        else{
-            printf("A %d %d %d\n",l,r,c);
-        }
+        putchar('\n');
     }
-    printf("\n");
     return 0;
 }
