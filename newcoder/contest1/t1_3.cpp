@@ -14,42 +14,35 @@ struct Num{
 }num[MAXN];
 
 int root[MAXN],last[MAXN];
-namespace prSegTree{
-  #define mid ((l+r)>>1)
-  int val[MAXN*20],ls[MAXN*20],rs[MAXN*20];
-  int cnt = 0;
-  void maintain(int nown){
-    val[nown] = val[ls[nown]] + val[rs[nown]];
-  }
-  void insert(int &nown,int pre,int l,int r,int pos,int d){
-    nown = ++cnt;ls[nown] = ls[pre],rs[nown] = rs[pre];
-    val[nown] = val[pre];
-    if(l == r){
-      val[nown]+=d;
-    }
-    else{
-      val[nown] += d;
-      if(pos <= mid)
-        insert(ls[nown],ls[pre],l,mid,pos,d);
-      if(mid+1 <= pos)
-        insert(rs[nown],rs[pre],mid+1,r,pos,d);
-    }
-  }
-  int query(int nowl,int nowr,int l,int r,int k){
-    //指定区间内第k小的数 
-    if(l == r)
-      return l;
-    else{
-      if(val[ls[nowr]] - val[ls[nowl]] >= k)
-        return query(ls[nowl],ls[nowr],l,mid,k);
-      if(val[ls[nowr]] - val[ls[nowl]] < k)
-        return query(rs[nowl],rs[nowr],mid+1,r,k - val[ls[nowr]] + val[ls[nowl]]);
-    }
-  }
-}
 
 bool cmp(Num x,Num y){
   return x.id < y.id;
+}
+
+bool check(int k){
+  static int t[MAXN];
+  static int minn[MAXN],maxn[MAXN];
+  for(int i = 1;i<=n;i++) t[i] = num[i].a > k ? 1:-1;
+  for(int i = 1;i<=n;i++) t[i] += t[i-1];
+  // for(int i = 1;i<=n;i++){
+  //   printf("%d ",t[i]);
+  // }
+  // printf("\n");
+  for(int i = 1;i<=n;i++){
+    minn[i] = min(minn[i-1],t[i]);
+  }
+  maxn[n+1] = -0x3f3f3f3f;
+  for(int i = n;i>=1;--i){
+    maxn[i] = max(maxn[i+1],t[i]);
+  }
+  for(int i = 1;i+len-1<=n;i++){
+    //printf("  i:%d\n",i);
+    if(t[i-1] < maxn[i+len-1]){
+      return 1;
+    }
+      
+  }
+  return 0;
 }
 
 void init(){
@@ -67,19 +60,19 @@ void init(){
 }
 
 void solve(){
-  for(int i = 1;i<=n;i++){
-    //printf("%d\n",num[i].a);
-    prSegTree::insert(root[i],root[i-1],1,n,num[i].a,1);
-  }
-  int ans = -1;
-  for(int i = 1;i<=n;i++){
-    for(int l = len;i+l-1 <= n;l++){
-      int t = prSegTree::query(root[i-1],root[i+l-1],1,n,(l+1)/2);
-      //printf("%d %d %d\n",i,i+l-1,t);
-      ans = max(ans,last[t]);
+  int l = 0,r = n;
+  while(l!=r){
+    int mid = (l+r)>>1;
+    int t = check(mid);
+    //printf("L,R:%d %d mid:%d T:%d\n",l,r,mid,t);
+    if(t){
+      l = mid+1;
+    }
+    else{
+      r = mid;
     }
   }
-  printf("%d\n",ans);
+  printf("%d\n",last[l]);
 }
 
 

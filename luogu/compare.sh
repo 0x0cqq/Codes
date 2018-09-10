@@ -1,18 +1,18 @@
 #!/bin/sh
 
-path="Documents/Codes/newcoder/contest1"
+path="Documents/Codes/luogu/"
 gen="gen"
-name1="t2_1"
-name2="t2"
+name1="p1337"
+name2="p1337_1"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
 
 cd 
 cd $path
-g++-6 $name1.cpp -o $name1 -std=c++11 -O2
-g++-6 $name2.cpp -o $name2 -std=c++11 -O2
-g++-6 $gen.cpp -o $gen  -std=c++11 -O2
+g++-6 $name1.cpp -o $name1 -std=c++11 -O3
+g++-6 $name2.cpp -o $name2 -std=c++11 -O3
+g++-6 $gen.cpp -o $gen  -std=c++11 -O3
 echo "\\033[1;33mFinish building.\\033[0m"
 
 cnt=0
