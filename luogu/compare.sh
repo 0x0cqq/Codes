@@ -2,8 +2,8 @@
 
 path="Documents/Codes/luogu/"
 gen="gen"
-name1="p1337"
-name2="p1337_1"
+name1="p4396"
+name2="p4396_1"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
