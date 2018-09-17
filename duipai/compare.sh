@@ -1,9 +1,9 @@
 #!/bin/sh
 
-path="Documents/Codes/luogu/"
+path="Documents/Codes/duipai/"
 gen="gen"
-name1="p4867"
-name2="p4867_1"
+name1="a_1"
+name2="a"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"
@@ -26,7 +26,7 @@ do
     let time2=`gdate +%s%N`
     ./$name2 < $input_file > $output_file2
     let time3=`gdate +%s%N`
-    if diff $output_file1 $output_file2 -w > /dev/null 2>&1
+    if diff $output_file1 $output_file2 > /dev/null 2>&1
     then
         echo "\\033[1;32mTask$cnt:Accepted. $name1:$(((time2-time1)/1000000))ms,$name2:$(((time3-time2)/1000000))ms\\033[0m"
         # if [ $((cnt%100)) -eq 0 ]
