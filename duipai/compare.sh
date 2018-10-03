@@ -2,8 +2,8 @@
 
 path="Documents/Codes/duipai/"
 gen="gen"
-name1="a_1"
-name2="a"
+name1="std"
+name2="baoli"
 input_file="in.txt"
 output_file1="out1.txt"
 output_file2="out2.txt"

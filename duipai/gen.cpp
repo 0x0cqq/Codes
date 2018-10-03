@@ -11,14 +11,24 @@ using namespace std;
 
 int main(){
   srand(time(NULL));
-  int n = 10000,m = 2000,MAXN = 100000;
-  printf("%d %d\n",n,m);
+  int B = 12;
+  int n = 3,m = 4;
+  printf("%d\n",B);
+  printf("%d ",n);
   for(int i = 1;i<=n;i++){
-    printf("%d ",rand()%MAXN+1);
+    if(i == 1)
+      printf("%d ",rand()%(B-1)+1);
+    else
+      printf("%d ",rand()%B);
   }
   printf("\n");
+  printf("%d ",m);
   for(int i = 1;i<=m;i++){
-    printf("%d %d\n",rand()%n+1,rand()%MAXN+1);
+    if(i == 1)
+      printf("%d ",rand()%(B-1)+1);
+    else
+      printf("%d ",rand()%B);
   }
+  printf("\n");
   return 0;
 }
