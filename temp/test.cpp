@@ -1,57 +1,56 @@
-//It is coded by ning-mew on 10.5
-//Problem: hdu 5017
-#include<iostream>
-#include<cstdio>
-#include<cstdlib>
-#include<cstring>
-#include<cmath>
-#include<algorithm>
-#include<ctime>
-#define PI acos(-1.0)
+#include<bits/stdc++.h>
 using namespace std;
 
-const double eps=1e-8;
+const int maxn=1e5+7;
+const double eps=1e-4;
 
-int rnd(){
-	int t = rand()%3;
-	return t != 0?(t == 1?1:-1):0; 
-}
+int n,m,R,x[maxn],y[maxn],r[maxn];
+int p[maxn],q[maxn];
+double Temp,c=0.997,x_ans,y_ans;
+double xa[10]={0,0,1,-1,1,-1,1,-1};
+double ya[10]={1,-1,0,0,1,-1,-1,1};
 
-double a[10],x_ans[20],y_ans[20];
-double Temp,r=0.99,ans1,ans2;
-
-bool check(double xx,double yy){
-    double A=a[3],B=a[4]*yy+a[5]*xx,C=a[1]*xx*xx+a[2]*yy*yy+a[6]*xx*yy-1;
-    return (B*B-4.0*A*C>=0);
-}
-double f(double xx,double yy){
-    double A=a[3],B=a[4]*yy+a[5]*xx,C=a[1]*xx*xx+a[2]*yy*yy+a[6]*xx*yy-1;
-    double zz=(-1.0*B+sqrt(B*B-4.0*A*C))/(2.0*A),re=100000000;
-    //printf("%0.8f %0.6f %0.6f %0.6f %0.6f %0.6f %0.6f\n",Temp,A,B,C,xx,yy,zz);
-    re=min(re,sqrt(xx*xx+yy*yy+zz*zz));
-    zz=(-1.0*B-sqrt(B*B-4.0*A*C))/(2.0*A);
-    re=min(re,sqrt(xx*xx+yy*yy+zz*zz));
-    return re;
+int f(double xx,double yy){
+    //if(Temp>0.5*R)printf("%0.7f %0.7f\n",xx,yy);
+    int ans=0;double dis=0,rr=R;
+    for(int i=1;i<=n;i++){
+        dis=sqrt((xx-x[i])*(xx-x[i])+(yy-y[i])*(yy-y[i]));
+        rr=min(rr,dis-r[i]);
+    }
+    if(rr<eps)return -1e9;
+    for(int i=1;i<=m;i++){
+        dis=sqrt((xx-p[i])*(xx-p[i])+(yy-q[i])*(yy-q[i]));
+        if(dis+eps<rr)ans++;
+    }
+    return ans;
 }
 int main(){
-    srand(time(0));
-    while(scanf("%lf%lf%lf%lf%lf%lf",&a[1],&a[2],&a[3],&a[4],&a[5],&a[6])!=EOF){
-        Temp=1;
-	int now = 1;
-        memset(x_ans,0,sizeof(x_ans));memset(y_ans,0,sizeof(y_ans));
-        while(Temp>eps){
-			for(int i=1;i<=10;i++){
-				double xx=x_ans[now]+ rnd()*Temp,yy=y_ans[now]+rnd()*Temp;
-				printf("T:%lf %.10lf %.10lf %.6lf %.6lf\n",Temp,x_ans[now],y_ans[now],xx,yy);
-				double fnow = f(xx,yy),fnex = f(x_ans[now],y_ans[now]);
-				if(check(xx,yy) && (fnow < fnex))
-					x_ans[now]=xx,y_ans[now]=yy;
-			}
-			Temp*=r;
+    //srand(time(0));
+    scanf("%d%d%d",&n,&m,&R);
+    for(int i=1;i<=n;i++)
+        scanf("%d%d%d",&x[i],&y[i],&r[i]);
+    for(int i=1;i<=m;i++)
+        scanf("%d%d",&p[i],&q[i]);
+    for(int i=1;i<=m;i++)
+        x_ans+=p[i],y_ans+=q[i];
+    x_ans/=m; y_ans/=m;
+    
+    Temp=R*20;
+    double xx,yy;int del = 0,la = -1e9,nw = -1e9;
+    while(Temp>eps){
+        for(int k=0;k<8;k++){
+            double xxx=x_ans+xa[k]*Temp*(rand()*1.0/RAND_MAX);
+            double yyy=y_ans+ya[k]*Temp*(rand()*1.0/RAND_MAX);
+            int tmp = f(xxx,yyy);
+            if(tmp > nw) nw = tmp,xx = xxx,yy = yyy;
         }
-        ans1=0,ans2=0;
-        if(f(x_ans[now],y_ans[now])<f(ans1,ans2))ans1=x_ans[now],ans2=y_ans[now];
-        printf("%.10f\n",f(ans1,ans2));
-    }   
+        del=nw-la;
+        if(del>=0 || exp(double(del)/Temp*100)*RAND_MAX>rand())
+            x_ans=xx,y_ans=yy,la = nw;
+        Temp*=c;
+    }
+    int ans=-1;
+    ans=max(ans,f(x_ans,y_ans));
+    printf("%d\n",ans);
     return 0;
 }

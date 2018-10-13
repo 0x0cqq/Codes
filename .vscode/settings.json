@@ -98,7 +98,8 @@
         "system_error": "cpp",
         "typeindex": "cpp",
         "ciso646": "cpp",
-        "optional": "cpp"
+        "optional": "cpp",
+        "hash_map": "cpp"
     },
     "editor.tabSize": 2,
     //"editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"

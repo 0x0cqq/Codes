@@ -1,56 +1,162 @@
-//代码写的丑，不建议分析代码qwq。我自己看着都头疼qwq。
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-typedef long long LL;
-const int N = 100050;
-const int mod = 20130427;
-int n, m, B;
-int L[N], R[N];
-LL SB[N], S[N];
-LL a[N][2], s[N][2], ss[N][2], sl[N][2];
-int solve(int *p, int l) {
-  memset(a, 0, sizeof a);
-  memset(s, 0, sizeof s);
-  memset(ss, 0, sizeof ss);
-  memset(sl, 0, sizeof sl);
-  a[l][0] = 1;
-  for (int i = l - 1; ~i; --i) {
-    int c = (i == l - 1 ? 0 : B);
-    a[i][0] = a[i + 1][0];
-    a[i][1] = (c - 1 + a[i + 1][1] * B + a[i + 1][0] * p[i]) % mod;
-    sl[i][0] = sl[i + 1][0] + a[i + 1][0];
-    sl[i][1] = (c - 1 + sl[i][0] * p[i] +
-                (sl[i + 1][1] + a[i + 1][1]) * B) % mod;
-    ss[i][0] = (ss[i + 1][0] * B + p[i] * sl[i][0]) % mod;
-    ss[i][1] = (S[c] + ss[i + 1][0] * B * p[i] + S[p[i]] * sl[i][0] +
-                ss[i + 1][1] * B % mod * B +
-                S[B] * (sl[i + 1][1] + a[i + 1][1])) % mod;
-    s[i][0] = (s[i + 1][0] + ss[i][0]) % mod;
-    s[i][1] = (s[i + 1][0] * p[i] + s[i + 1][1] * B + ss[i][1]) % mod;
-  }
-  LL ans = (s[0][0] + s[0][1]) % mod;
-  //printf("%lld\n",ans);
-  return ans;
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ch_top 20000000
+char ch[ch_top],*now_r=ch;
+void read(int &x)
+{
+    while (*now_r<48) ++now_r;
+    for (x=*now_r-48;*++now_r>=48;)
+     x=(x<<1)+(x<<3)+*now_r-48;
 }
-int main() {
-  scanf("%d", &B);
-  SB[0] = 1;
-  for (int i = 0; i < N - 1; ++i) SB[i + 1] = (SB[i] * B + 1) % mod;
-  S[0] = 0;
-  for (int i = 0; i < B; ++i) S[i + 1] = (S[i] + i) % mod;
-  scanf("%d", &n);
-  for (int i = 0; i < n; ++i) scanf("%d", &L[n - i - 1]);
-  for (int i = 0; i < n; ++i) {
-    if (L[i] > 0) {
-      --L[i];
-      break;
+
+#define ll long long 
+ll min(ll &x,ll &y) 
+{
+ return x<y?x:y;
+}
+void chmin(int &x,int y)
+{
+    if (x>y) x=y;
+}
+#define N 250100
+int n,x,y,w;
+int t[N];
+struct edge
+{
+    int to,w,next;
+}l[N<<1];int e;
+void add_e(int x,int y,int w) 
+{
+  l[++e]={y,w,t[x]};t[x]=e;
+}
+void _add(int x,int y) 
+{
+ l[y].next=t[x];t[x]=y;
+}
+
+struct tree
+{
+    int f,deep,sz,top,c;
+    int dfn,w;//dfs序；到根的min边权 
+}T[N];
+
+void dfs(int x,int deep,int f,int w)
+{
+    T[x].sz=1;T[x].deep=deep;T[x].f=f;T[x].w=w;
+    ++deep;
+    int i,y,c=0;
+    for (i=t[x];i;i=l[i].next)
+    if ((y=l[i].to)!=f)
+    {
+        dfs(y,deep,x,min(w,l[i].w));
+        T[x].sz+=T[y].sz;
+        if (T[y].sz>T[c].sz) c=y;
     }
-    L[i] = B - 1;
-  }
-  if (!L[n - 1]) --n;
-  scanf("%d", &m);
-  for (int i = 0; i < m; ++i) scanf("%d", &R[m - i - 1]);
-  printf("%d\n", (solve(R, m) - solve(L, n) + mod) % mod);
-  return 0;
+    T[x].c=c;
+}
+
+int i,j,len;
+
+int tot;
+void dfs2(int x,int top)
+{
+    T[x].dfn=++tot;
+    T[x].top=top;
+    int c=T[x].c;
+    if (!c) return;
+    dfs2(c,top);
+
+    int i,y;
+    for (i=t[x];i;i=l[i].next)
+    if ((y=l[i].to)!=T[x].f&&y!=c)
+     dfs2(y,y);
+}
+
+int q[N],k;
+bool dfn_xiao(int x,int y)
+{
+    return T[x].dfn<T[y].dfn;
+}
+
+int fx,fy;
+int get_lca(int x,int y)
+{
+    fx=T[x].top;fy=T[y].top;
+    while (fx!=fy)
+    if (T[fx].deep>T[fy].deep) {x=T[fx].f;fx=T[x].top;}
+    else {y=T[fy].f;fy=T[y].top;}
+    return T[x].deep<T[y].deep?x:y;
+}
+
+int st[N],top,pre,lca;
+int have[N],num;
+void push(int now)
+{
+    pre=st[top];
+    if (pre==1) {st[++top]=now;return;}
+
+    lca=get_lca(now,pre);if (lca==pre) return ;//剪枝
+    while (lca!=pre)
+    {
+        fx=st[--top];
+        if (T[fx].dfn<T[lca].dfn) 
+        {
+         _add(lca,pre);
+         st[++top]=lca;
+         break;
+        }
+        _add(fx,pre);
+        pre=fx; 
+    }
+    st[++top]=now;
+} 
+
+ll dp(int x)
+{
+    if (!t[x]) return T[x].w;
+
+    ll ans=0;
+    for (int i=t[x];i;i=l[i].next) 
+     ans+=dp(i);
+    t[x]=0;
+
+    return min(ans,(ll)T[x].w);
+}
+
+int main()
+{
+    fread(ch,1,ch_top,stdin);
+    int n;
+    read(n);
+    for (i=1;i<n;++i)
+    {
+        read(x);read(y);read(w);
+        add_e(x,y,w); add_e(y,x,w);
+    }
+
+    dfs(1,0,0,1<<30);
+    dfs2(1,1);
+
+    for (i=1;i<=n;++i) t[i]=0;
+    int m;ll ans;
+    read(m);
+    while (m--)
+    {
+        read(k);
+        for (i=1;i<=k;++i) read(q[i]);
+        sort(q+1,q+k+1,dfn_xiao);
+
+        st[top=1]=1;
+        for (i=1;i<=k;++i) 
+         push(q[i]);
+
+        while (--top) _add(st[top],st[top+1]);
+
+        ans=0;
+        for (int i=t[1];i;i=l[i].next) 
+          ans+=dp(i);
+        t[1]=0;
+        printf("%lld\n",ans);
+    }
 }
