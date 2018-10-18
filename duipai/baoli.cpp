@@ -1,162 +1,91 @@
 #include<bits/stdc++.h>
+#include<ext/pb_ds/assoc_container.hpp>
+#define Rep(i,a,b) for(register int i=(a),i##end=(b);i<=i##end;++i)
+#define Repe(i,a,b) for(register int i=(a),i##end=(b);i>=i##end;--i)
+#define For(i,a,b) for(i=(a),i<=(b);++i)
+#define Forward(i,a,b) for(i=(a),i>=(b);--i)
+template<typename T>inline void read(T &x)
+{
+    T f=1;x=0;char c;
+    for(c=getchar();!isdigit(c);c=getchar())if(c=='-')f=-1;
+    for(;isdigit(c);c=getchar())x=x*10+(c^48);
+    x*=f;
+}
 using namespace std;
 
-#define ch_top 20000000
-char ch[ch_top],*now_r=ch;
-void read(int &x)
+const int MAXN=1e5+7;
+
+static int n,m;
+
+static struct juice
 {
-    while (*now_r<48) ++now_r;
-    for (x=*now_r-48;*++now_r>=48;)
-     x=(x<<1)+(x<<3)+*now_r-48;
+    int d;
+    long long p,l;
+}p[MAXN];
+
+inline bool cmp1(juice a,juice b){return a.d<b.d;}
+
+static struct boy
+{
+    long long g,l;
+    int id;
+}q[MAXN],ret[MAXN];
+
+inline bool cmp2(boy a,boy b){return a.g<b.g;}
+
+inline void init()
+{
+    read(n);read(m);
+    Rep(i,1,n)read(p[i].d),read(p[i].p),read(p[i].l);
+    p[n+1].d=-1;p[n+1].p=0;p[n+1].l=1e18;++n;
+    sort(p+1,p+n+1,cmp1);
+    Rep(i,1,m)read(q[i].g),read(q[i].l),q[i].id=i;
 }
 
-#define ll long long 
-ll min(ll &x,ll &y) 
-{
- return x<y?x:y;
-}
-void chmin(int &x,int y)
-{
-    if (x>y) x=y;
-}
-#define N 250100
-int n,x,y,w;
-int t[N];
-struct edge
-{
-    int to,w,next;
-}l[N<<1];int e;
-void add_e(int x,int y,int w) 
-{
-  l[++e]={y,w,t[x]};t[x]=e;
-}
-void _add(int x,int y) 
-{
- l[y].next=t[x];t[x]=y;
-}
+static int ans[MAXN],pos;
 
-struct tree
-{
-    int f,deep,sz,top,c;
-    int dfn,w;//dfs序；到根的min边权 
-}T[N];
+typedef pair<long long,int>Pr;
 
-void dfs(int x,int deep,int f,int w)
+static multiset<Pr>K;
+
+static multiset<Pr>::iterator it;
+
+void div(int l,int r,int x,int y)
 {
-    T[x].sz=1;T[x].deep=deep;T[x].f=f;T[x].w=w;
-    ++deep;
-    int i,y,c=0;
-    for (i=t[x];i;i=l[i].next)
-    if ((y=l[i].to)!=f)
+    if(x>y)return;
+    if(l==r){Rep(i,x,y)ans[q[i].id]=p[l].d;return;}
+    static int mid,lp,rp;mid=(l+r)>>1,lp=x,rp=y;
+    static long long sm,cost;sm=0,cost=0;
+    sort(q+x,q+y+1,cmp2);
+    while(pos>mid+1)--pos,K.insert(Pr(p[pos].p,p[pos].l));
+    while(pos<mid+1)K.erase(K.lower_bound(Pr(p[pos].p,p[pos].l)))
+        ,++pos;
+    it=K.begin();
+    Rep(i,x,y)
     {
-        dfs(y,deep,x,min(w,l[i].w));
-        T[x].sz+=T[y].sz;
-        if (T[y].sz>T[c].sz) c=y;
+        while(it!=K.end()&&cost+it->first*it->second<=q[i].g)
+            cost+=it->first*it->second,sm+=it->second,++it;
+        //cerr<<sm<<' '<<cost<<' '<<q[i].l<<' '<<q[i].g<<endl;
+        if(q[i].l<=sm||(it!=K.end()
+            &&sm+(q[i].g-cost)/it->first>=q[i].l))
+                ret[rp--]=q[i];
+        else ret[lp++]=q[i];
     }
-    T[x].c=c;
+    Rep(i,x,y)q[i]=ret[i];
+    div(mid+1,r,lp,y);
+    div(l,mid,x,lp-1);
 }
 
-int i,j,len;
-
-int tot;
-void dfs2(int x,int top)
+inline void solve()
 {
-    T[x].dfn=++tot;
-    T[x].top=top;
-    int c=T[x].c;
-    if (!c) return;
-    dfs2(c,top);
-
-    int i,y;
-    for (i=t[x];i;i=l[i].next)
-    if ((y=l[i].to)!=T[x].f&&y!=c)
-     dfs2(y,y);
-}
-
-int q[N],k;
-bool dfn_xiao(int x,int y)
-{
-    return T[x].dfn<T[y].dfn;
-}
-
-int fx,fy;
-int get_lca(int x,int y)
-{
-    fx=T[x].top;fy=T[y].top;
-    while (fx!=fy)
-    if (T[fx].deep>T[fy].deep) {x=T[fx].f;fx=T[x].top;}
-    else {y=T[fy].f;fy=T[y].top;}
-    return T[x].deep<T[y].deep?x:y;
-}
-
-int st[N],top,pre,lca;
-int have[N],num;
-void push(int now)
-{
-    pre=st[top];
-    if (pre==1) {st[++top]=now;return;}
-
-    lca=get_lca(now,pre);if (lca==pre) return ;//剪枝
-    while (lca!=pre)
-    {
-        fx=st[--top];
-        if (T[fx].dfn<T[lca].dfn) 
-        {
-         _add(lca,pre);
-         st[++top]=lca;
-         break;
-        }
-        _add(fx,pre);
-        pre=fx; 
-    }
-    st[++top]=now;
-} 
-
-ll dp(int x)
-{
-    if (!t[x]) return T[x].w;
-
-    ll ans=0;
-    for (int i=t[x];i;i=l[i].next) 
-     ans+=dp(i);
-    t[x]=0;
-
-    return min(ans,(ll)T[x].w);
+    pos=n+1;div(1,n,1,m);
+    Rep(i,1,m)printf("%d\n",ans[i]);
 }
 
 int main()
 {
-    fread(ch,1,ch_top,stdin);
-    int n;
-    read(n);
-    for (i=1;i<n;++i)
-    {
-        read(x);read(y);read(w);
-        add_e(x,y,w); add_e(y,x,w);
-    }
-
-    dfs(1,0,0,1<<30);
-    dfs2(1,1);
-
-    for (i=1;i<=n;++i) t[i]=0;
-    int m;ll ans;
-    read(m);
-    while (m--)
-    {
-        read(k);
-        for (i=1;i<=k;++i) read(q[i]);
-        sort(q+1,q+k+1,dfn_xiao);
-
-        st[top=1]=1;
-        for (i=1;i<=k;++i) 
-         push(q[i]);
-
-        while (--top) _add(st[top],st[top+1]);
-
-        ans=0;
-        for (int i=t[1];i;i=l[i].next) 
-          ans+=dp(i);
-        t[1]=0;
-        printf("%lld\n",ans);
-    }
+    init();
+    solve();
+    //cerr<<1.0*clock()/CLOCKS_PER_SEC<<endl;
+    return 0;
 }

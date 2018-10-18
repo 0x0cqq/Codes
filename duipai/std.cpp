@@ -1,167 +1,153 @@
-// Code By Chen Qiqian on 2018.10.13
-#include <cstdio>
-#include <algorithm>
-#include <vector>
-#include <unistd.h>
+// Code By Chen Qiqian on 2018.10.16
+#include <bits/stdc++.h>
+#define int long long
 #define ll long long
-#define inf 0x3f3f3f3f3f3f
 using namespace std;
 
-const int MAXN = 610000;
-
-
-struct Edge{
-  int to,len,nex;
-}edge[MAXN];int ecnt = 2,fir[MAXN];
-void addedge(int a,int b,int c){
-  edge[ecnt] = (Edge){b,c,fir[a]};
-  fir[a] = ecnt++;
-}
-
+const int MAXN = 210000;
 
 int n,m;
-ll w[MAXN];
-int dep[MAXN],siz[MAXN],son[MAXN],fa[MAXN],top[MAXN],dfn[MAXN],tot;
+
+struct Node{
+  ll d,p,l;
+  bool operator < (const Node &a)const{
+    if(d != a.d)
+      return d > a.d;
+    else
+      return p < a.p;
+  }
+}t[MAXN];
+
+
+bool cmp(const int &a,const int &b){
+  if(t[a].p != t[b].p)
+    return t[a].p < t[b].p;
+  else
+    return t[a].l < t[b].l;
+}
+
+struct Query{
+  ll g,l,id;
+}q[MAXN];
+
+
+int ans[MAXN];
 
 void init(){
-  scanf("%d",&n);
-  for(int i = 1;i<=n-1;i++){
-    int u,v,c;
-    scanf("%d %d %d",&u,&v,&c);
-    addedge(u,v,c),addedge(v,u,c);
+  scanf("%lld %lld",&n,&m);
+  for(int i = 1;i<=n;i++){
+    ll a,b,c;
+    scanf("%lld %lld %lld",&a,&b,&c);
+    t[i] = (Node){a,b,c};
+  }
+  sort(t+1,t+n+1);
+  for(int i = 1;i<=m;i++){
+    scanf("%lld %lld",&q[i].g,&q[i].l);
+    q[i].id = i;
   }
 }
 
-void dfs1(int nown,int f,int depth){
-  dep[nown] = depth,fa[nown] = f;
-  siz[nown] = 1,son[nown] = 0;
-  for(int nowe = fir[nown];nowe;nowe = edge[nowe].nex){
-    int v = edge[nowe].to,l = edge[nowe].len;
-    if(v == fa[nown]) continue;
-    w[v] = min(w[nown],(ll)l);
-    dfs1(v,nown,depth+1);
-    siz[nown] += siz[v];
-    if(siz[v] > siz[son[nown]]) son[nown] = v;
+ll a1[MAXN],a2[MAXN];
+
+struct T{
+  int p,l;
+  bool operator < (const T &w)const{
+    if(p != w.p)
+      return p < w.p;
+    else
+      return l < w.l;
   }
+};
+
+
+multiset<T> K;
+int pos = 0;//[1,pos]
+
+bool cmp2(const int a,const int b){
+  return q[a].g < q[b].g;
 }
 
-void dfs2(int nown,int topf){
-  dfn[nown] = ++tot;top[nown] = topf;
-  if(!son[nown]) return;
-  dfs2(son[nown],topf);
-  for(int nowe = fir[nown];nowe;nowe = edge[nowe].nex){
-    int v = edge[nowe].to;//l = edge[nowe].len;
-    if(v == fa[nown] || v == son[nown]) continue;
-    dfs2(v,v);
-  }
-}
-
-int lca(int x,int y){
-  if(x == 0 || y == 0) return 0;
-  while(top[x] != top[y]){
-    if(dep[top[x]] < dep[top[y]]) swap(x,y);
-    x = fa[top[x]];
-  }
-  if(dep[x] > dep[y]) swap(x,y);
-  return x;
-}
-
-void build(){
-  w[1] = inf;
-  dfs1(1,0,1);
-  dfs2(1,1);
-}
-
-int k,kp[MAXN],type[MAXN];
-
-bool cmp(int a,int b){
-  return dfn[a] < dfn[b];
-}
-
-Edge _edge[MAXN];int _ecnt = 2,_fir[MAXN];
-void _addedge(int a,int b,int c = 0){
-  //printf("addedge:%d->%d\n",a,b);
-  _edge[_ecnt] = (Edge){b,c,_fir[a]};
-  _fir[a] = _ecnt++;
-}
-
-ll _dfs(int nown){
-  ll tmp = 0;
-  //printf("_dfs:%d\n",nown);
-  if(type[nown])
-    return (ll)w[nown];
-  //usleep(100000);
-  for(int nowe = _fir[nown];nowe;nowe = _edge[nowe].nex){
-    int v = _edge[nowe].to;
-    //printf("  nowe:%d v:%d\n",nowe,v);
-    tmp += _dfs(v);
-  }
-  // _fir[nown] = 0;
-  // type[nown] = 0;
-  return min(tmp,(ll)w[nown]);
-}
+int a[MAXN];
 
 
-void solve_tree(){
-  sort(kp+1,kp+k+1,cmp);
-  _ecnt = 2;
-  static int stk[MAXN];int top = 0,cnt = k;//[0,top]
-  // printf("%d\n",k);
-  for(int i = 1;i<=k;i++){
-    // printf("now:%d\n",kp[i]);
-    type[kp[i]] = 1;
-    int L = lca(kp[i],stk[top]);
-    // printf("L:%d stk:%d\n",L,stk[top]);
-    if(L == stk[top])
-      stk[++top] = kp[i];
-    else{
-      while(top >= 1 && dep[stk[top-1]] >= dep[L]){
-        int nown = stk[top-1],v = stk[top];
-        _addedge(nown,v);
-        top--;
-      }
-      // printf("top2:%d siz:%d\n",stk[top],top);
-      if(stk[top] != L){
-        _addedge(L,stk[top]);
-        stk[top] = L;
-        kp[++cnt] = L;
-      }
-      stk[++top] = kp[i];
+void solve(int ql,int qr,int l,int r){// *a 存储询问编号 在 [l,r] 果汁内二分
+  // printf("ql,qr:%lld %lld L:%lld R:%lld mid:%lld pos:%lld\n",ql,qr,l,r,(l+r)>>1,pos);
+  if(ql > qr) return;
+  // printf("  a:");
+  // for(int i = ql;i<=qr;i++){
+  //   printf("%lld ",a[i]);
+  // }
+  // printf("\n");
+  if(l == r){
+    for(int i = ql;i<=qr;i++){
+      //printf("a:%lld id:%lld ans:%lld(%lld)\n",a[i],q[a[i]].id,t[l].d,l);
+      ans[q[a[i]].id] = t[l].d;
     }
+    return;
   }
-  while(top >= 1)
-    _addedge(stk[top-1],stk[top]),top--;
-  
-  type[1] = 0;
-  printf("%lld\n",_dfs(1));
-  for(int i = 1;i<=k;i++)
-    type[kp[i]] = 0;
-  for(int i = 1;i<=cnt;i++)
-    _fir[kp[i]] = 0;
+  // 寻找到最小的需要的 n
+  // d 按从大到小排序
+  int mid = (l+r)>>1;
+  //判断 1 -> mid 区间是否可以满足限制 (g_i,l_i)
+  //维护multiset使其可以包括 [1,mid] 所有果汁
+  while(pos < mid){
+    pos++;
+    //printf("i:%lld\n",pos);
+    K.insert((T){t[pos].p,t[pos].l});
+  }
+  while(pos > mid){
+    K.erase(K.lower_bound((T){t[pos].p,t[pos].l}));
+    //printf("e:%lld\n",pos);
+    pos--;
+  }
+  ll G = 0,L = 0,acnt = 0,bcnt = 0;
+  sort(a+ql,a+qr+1,cmp2);
+  multiset<T>::iterator it = K.begin();
+  #define xp it->p
+  #define xl it->l
+  ll cnt = 0;
+  for(int i = ql;i<=qr;i++){
+    while(it != K.end() && G + xp * xl <= q[a[i]].g){
+      G += xp * xl;
+      L += xl;
+      it++;
+      cnt++;
+    }
+    //printf("  %lld a[i]:%lld G:%lld L:%lld cnt:%lld | q: g:%lld l:%lld KK:%d ",i,a[i],G,L,cnt,q[a[i]].g,q[a[i]].l,(signed)(it!=K.end()));
+    if(L >= q[a[i]].l ||
+      (it != K.end() && (q[a[i]].l-L) * xp + G <= q[a[i]].g))
+      a1[acnt++] = a[i];//,printf(" GO:1\n");
+    else
+      a2[bcnt++] = a[i];//,printf(" GO:2\n");
+  }
+  // printf("  a1:");
+  // for(int i = 0;i<acnt;i++){
+  //   printf("%lld ",a1[i]);
+  // }
+  // printf("\n");
+  // printf("  a2:");
+  // for(int i = 0;i<bcnt;i++){
+  //   printf("%lld ",a2[i]);
+  // }
+  // printf("\n");  
+  memcpy(a + ql,a1,sizeof(int)*acnt),memcpy(a + qr-bcnt+1,a2,sizeof(int)*bcnt);
+  // printf("-------------------------\n");  
+  solve(ql,ql+acnt-1,l,mid),solve(qr-bcnt+1,qr,mid+1,r);
+  #undef p
+  #undef l
 }
-
-
 
 void solve(){
-  scanf("%d",&m);
-  for(int i = 1;i<=m;i++){
-    //printf("tree:%d----------------------\n",i);
-    scanf("%d",&k);
-    for(int j = 1;j<=k;j++)
-      scanf("%d",&kp[j]);
-    kp[++k] = 1;
-    solve_tree();
-    //printf("-----------------------------\n");
-    //fflush(stdout);
-  }
+  for(int i = 1;i<=m;i++)
+    a[i] = i;
+  t[n+1].d=-1;t[n+1].p=0;t[n+1].l=1e18;++n;
+  solve(1,m,1,n);
+  for(int i = 1;i<=m;i++)
+    printf("%lld\n",ans[i]);
 }
 
-
 signed main(){
-  // freopen("in.txt","r",stdin);
-  // freopen("out.txt","w",stdout);
   init();
-  build();
   solve();
   return 0;
 }
