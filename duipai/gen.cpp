@@ -10,14 +10,15 @@ using namespace std;
 
 const ll MAXN = 10;
 
-
 int main(){
   srand(time(NULL));
-  int n = 10,m = 10;
+  int n = 5,m = rand() % (2 * n - 1) + 1;
   printf("%d %d\n",n,m);
-  for(int i = 1;i<=n;i++)
-    printf("%lld %lld %lld\n",rand()%MAXN+1,rand()%MAXN+1,rand()%MAXN+1);
-  for(int i = 1;i<=m;i++)
-    printf("%lld %lld\n",rand()%(MAXN*MAXN)+1,rand()%(MAXN)+1);
+  for(int i = 1;i<=n;i++){
+    for(int j = 1;j<=n;j++){
+      printf("%c",rand()%26 + 'a');
+    }
+    printf("\n");
+  }
   return 0;
 }
