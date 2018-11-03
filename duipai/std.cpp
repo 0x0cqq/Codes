@@ -1,64 +1,69 @@
-#include<bits/stdc++.h>
+// luogu-judger-enable-o2
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <cstring>
+#include <algorithm>
+#include <climits>
+#include <ctime>
+#define ll long long
 using namespace std;
-const int MAXN = 2e3 + 5;
-typedef long long ll;
-typedef long double ld;
-typedef unsigned long long ull;
-template <typename T> void chkmax(T &x, T y) {x = max(x, y); }
-template <typename T> void chkmin(T &x, T y) {x = min(x, y); } 
-template <typename T> void read(T &x) {
-	x = 0; int f = 1;
-	char c = getchar();
-	for (; !isdigit(c); c = getchar()) if (c == '-') f = -f;
-	for (; isdigit(c); c = getchar()) x = x * 10 + c - '0';
-	x *= f;
-}
-template <typename T> void write(T x) {
-	if (x < 0) x = -x, putchar('-');
-	if (x > 9) write(x / 10);
-	putchar(x % 10 + '0');
-}
-template <typename T> void writeln(T x) {
-	write(x);
-	puts("");
-}
-int n, k, dp[MAXN][MAXN];
-char s[MAXN][MAXN], ans[MAXN * 2];
-int main() {
-	read(n), read(k);
-	for (int i = 1; i <= n; i++)
-		scanf("\n%s", s[i] + 1);
-	memset(dp, -1, sizeof(dp));
-	if (s[1][1] == 'a' || k >= 1) {
-		ans[1] = 'a';
-		dp[1][1] = k - (s[1][1] != 'a');
-	} else {
-		ans[1] = s[1][1];
-		dp[1][1] = 0;
-	}
-	for (int i = 2, now = 0, dest = 1; i <= 2 * n - 1; i++, swap(now, dest)) {
-		char opt = 'z';
-		for (int x = 1; x <= n; x++) {
-			int y = i - x;
-			if (y < 0 || y > n || dp[x][y] == -1) continue;
-			if (dp[x][y]) opt = 'a';
-			if (x + 1 <= n) chkmin(opt, s[x + 1][y]);
 
-			if (y + 1 <= n) chkmin(opt, s[x][y + 1]);
-		}
-		ans[i] = opt;
-		for (int x = 1; x <= n; x++) {
-			int y = i - x;
-			if (y < 0 || y > n || dp[x][y] == -1) continue;
-			if (dp[x][y]) {
-				if (x + 1 <= n) chkmax(dp[x + 1][y], dp[x][y] - (s[x + 1][y] != 'a'));
-				if (y + 1 <= n) chkmax(dp[x][y + 1], dp[x][y] - (s[x][y + 1] != 'a'));
-			} else {
-				if (x + 1 <= n && s[x + 1][y] == opt) chkmax(dp[x + 1][y], dp[x][y]);
-				if (y + 1 <= n && s[x][y + 1] == opt) chkmax(dp[x][y + 1], dp[x][y]);
-			}
-		}
-	}
-	printf("%s\n", ans + 1);
-	return 0;
+int T,n;
+ll num[500];
+
+int a[20],b[20];
+
+namespace SA{
+  double T = 1e4,D = 0.998,eps = 1e-5;
+  ll solve(int reset){
+    static int now[400],tmp[400];
+    if(reset) for(int i = 1;i<=n;i++) now[i] = i;
+    if(reset) random_shuffle(now+1,now+n+1);
+    ll nowe = 0;
+    int A = n/2;
+    for(int i = 1;i<=n;i++)
+      nowe += i <= A?-num[now[i]]:num[now[i]];
+    nowe = abs(nowe);
+    for(double t = T;t >= eps;t*=D){
+      memcpy(tmp,now,sizeof(int)*(n+1));
+      
+      int times = 3;
+      for(int i = 1;i<=times;i++)
+        swap(now[a[i] = (rand()%A+1)],now[b[i] = (A+rand()%(n-A)+1)]);
+      ll tmpe = 0;
+      for(int i = 1;i<=n;i++)
+        tmpe += i <= A?-num[now[i]]:num[now[i]];
+      tmpe = abs(tmpe);
+      if(tmpe <= nowe || exp((nowe-tmpe)/t) * RAND_MAX >= rand()){
+        //memcpy(now,tmp,sizeof(int) * (n+1));
+        nowe = tmpe;
+      }
+      else{
+        for(int i = 1;i<=times;i++)
+          swap(now[a[i]],now[b[i]]);  
+      }
+    }
+    return nowe;
+  }
+}
+
+void init(){
+  scanf("%d",&n);
+  for(int i = 1;i<=n;i++){
+    scanf("%lld",&num[i]);
+  }
+}
+
+signed main(){
+  srand(time(NULL));
+  scanf("%d",&T);
+  for(int i = 1;i<=T;i++){
+    init();
+    ll ans = 0x3f3f3f3f3f;
+    for(int i = 1;i<=50;i++)
+      ans = min(ans,SA::solve(i == 1));
+    printf("%lld\n",ans);
+  }
+  return 0;
 }
