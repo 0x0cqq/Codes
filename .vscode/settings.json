@@ -102,17 +102,17 @@
         "hash_map": "cpp"
     },
     "editor.tabSize": 2,
-    // for noip
-    "editor.autoClosingBrackets": "never",
-    "editor.autoClosingQuotes": "never",
-    "editor.quickSuggestions": {
-        "other": false,
-        "comments": false,
-        "strings": false
-    },
-    "C_Cpp.default.cppStandard": "c++98",
-    "C_Cpp.configurationWarnings": "Disabled",
-    "C_Cpp.intelliSenseEngineFallback": "Disabled",
-    "C_Cpp.errorSquiggles": "Disabled",
+    // // for noip
+    // "editor.autoClosingBrackets": "never",
+    // "editor.autoClosingQuotes": "never",
+    // "editor.quickSuggestions": {
+    //     "other": false,
+    //     "comments": false,
+    //     "strings": false
+    // },
+    // "C_Cpp.default.cppStandard": "c++98",
+    // "C_Cpp.configurationWarnings": "Disabled",
+    // "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    // "C_Cpp.errorSquiggles": "Disabled",
     //"editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"
 }
