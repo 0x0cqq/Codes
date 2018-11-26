@@ -102,6 +102,7 @@
         "hash_map": "cpp"
     },
     "editor.tabSize": 2,
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
     // // for noip
     // "editor.autoClosingBrackets": "never",
     // "editor.autoClosingQuotes": "never",
