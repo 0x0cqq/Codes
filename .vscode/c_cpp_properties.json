@@ -2,35 +2,25 @@
     "configurations": [
         {
             "name": "Mac",
+            "intelliSenseMode": "gcc-x64",
             "browse": {
-                "path": [
-                    "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0",
-                    "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include",
-                    "${workspaceFolder}"
-                ],
-                "limitSymbolsToIncludedHeaders": true
+
             },
             "includePath": [
-                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0",
-                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1",
+                "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include",
                 "/usr/local/include",
-                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include",
-                "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
-                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include",
+                "/usr/local/Cellar/gcc@7/7.3.0/include",
+                "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include-fixed",
                 "/usr/include",
-                "${workspaceRoot}",
-                "${workspaceRoot}/**/*.hpp"
-            ],
-            "defines": [],
-            "macFrameworkPath": [
-                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks",
                 "/System/Library/Frameworks",
                 "/Library/Frameworks"
             ],
-            "compilerPath": "/usr/bin/clang",
-            "cStandard": "c11",
+            "macFrameworkPath": [
+                "/System/Library/Frameworks",
+                "/Library/Frameworks"                
+            ],
             "cppStandard": "c++11",
-            "intelliSenseMode": "gcc-x64"
+            "cStandard": "${default}"
         },
         {
             "name": "Linux",
