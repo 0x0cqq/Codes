@@ -1,11 +1,10 @@
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
-
+#include <bits/stdc++.h>
 typedef long long LL;
 
 LL f[100];
 int t;
+
+
 
 void Work() {
   int n;

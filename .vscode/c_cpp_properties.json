@@ -3,21 +3,21 @@
         {
             "name": "Mac",
             "intelliSenseMode": "gcc-x64",
-            "browse": {
-
-            },
+            "browse": {},
             "includePath": [
                 "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include",
-                "/usr/local/include",
-                "/usr/local/Cellar/gcc@7/7.3.0/include",
                 "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include-fixed",
-                "/usr/include",
+                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0",
+                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0",
+                "/usr/local/Cellar/gcc@7/7.3.0/include",
                 "/System/Library/Frameworks",
-                "/Library/Frameworks"
+                "/Library/Frameworks",
+                "/usr/local/include",
+                "/usr/include"
             ],
             "macFrameworkPath": [
                 "/System/Library/Frameworks",
-                "/Library/Frameworks"                
+                "/Library/Frameworks"
             ],
             "cppStandard": "c++11",
             "cStandard": "${default}"
