@@ -12,8 +12,10 @@
     "editor.tabSize": 2,
     "files.associations": {
         "cstdio": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "utility": "cpp"
     },
+    "files.defaultLanguage": "c++",
     // // for noip
     // "editor.autoClosingBrackets": "never",
     // "editor.autoClosingQuotes": "never",
