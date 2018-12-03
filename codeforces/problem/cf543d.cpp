@@ -71,10 +71,10 @@ int main(){
   g[1] = 0;
   ans[1] = dp[1];
   dfs2(1);
-  for(int i = 1;i<=n;i++){
-    printf("%lld ",g[i]);
-  }
-  printf("\n");
+  // for(int i = 1;i<=n;i++){
+  //   printf("%lld ",g[i]);
+  // }
+  // printf("\n");
   for(int i = 1;i<=n;i++){
     printf("%lld ",ans[i]);
   }

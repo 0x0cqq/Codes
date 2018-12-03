@@ -12,19 +12,20 @@
     "editor.tabSize": 2,
     "files.associations": {
         "cstdio": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "utility": "cpp",
+        "__config": "cpp",
+        "__nullptr": "cpp",
+        "cstddef": "cpp",
+        "exception": "cpp",
+        "initializer_list": "cpp",
+        "new": "cpp",
+        "stdexcept": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp",
+        "cfenv": "cpp",
+        "*.tcc": "cpp",
+        "cuchar": "cpp"
     },
-    // // for noip
-    // "editor.autoClosingBrackets": "never",
-    // "editor.autoClosingQuotes": "never",
-    // "editor.quickSuggestions": {
-    //     "other": false,
-    //     "comments": false,
-    //     "strings": false
-    // },
-    // "C_Cpp.default.cppStandard": "c++98",
-    // "C_Cpp.configurationWarnings": "Disabled",
-    // "C_Cpp.intelliSenseEngineFallback": "Disabled",
-    // "C_Cpp.errorSquiggles": "Disabled",
-    //"editor.fontFamily": "Menlo, Monaco, 'Courier New', monospace"
+    "files.defaultLanguage": "c++",
 }

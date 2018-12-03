@@ -1,12 +1,9 @@
-#include <cstdio>
-#include <algorithm>
-#include <cmath>
+#include <bits/stdc++.h>
 #define ll long long
 using namespace std;
 
 ll n,k,w;
 ll f[1000],g[1000],h[1000];
-
 
 int main(){
 	int t;
