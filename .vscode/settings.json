@@ -25,7 +25,8 @@
         "typeinfo": "cpp",
         "cfenv": "cpp",
         "*.tcc": "cpp",
-        "cuchar": "cpp"
+        "cuchar": "cpp",
+        "climits": "cpp"
     },
     "files.defaultLanguage": "c++",
 }
