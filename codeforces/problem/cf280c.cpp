@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <bits/stdc++.h>
 using namespace std;
 
 const int MAXN = 1100000;
@@ -23,7 +23,6 @@ int main(){
 		edge[u].push_back(v);
 		edge[v].push_back(u);
 	}
-	dfs1(1);
 	printf("%.10lf\n",ans);
 	return 0;
 }

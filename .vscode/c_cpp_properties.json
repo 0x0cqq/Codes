@@ -13,7 +13,9 @@
                 "/System/Library/Frameworks",
                 "/Library/Frameworks",
                 "/usr/local/include",
-                "/usr/include"
+                "/usr/include",
+                "${workspaceRoot}",
+                "${workspaceRoot}/**/*.hpp"
             ],
             "macFrameworkPath": [
                 "/System/Library/Frameworks",
@@ -31,6 +33,7 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
+                "/usr/include/c++/7/tr1",
                 "/usr/include/c++/7",
                 "/usr/include/c++/6",
                 "/usr/local/include",
@@ -40,7 +43,8 @@
                 "${workspaceRoot}",
                 "${workspaceRoot}/**/*.hpp",
                 "/usr/lib/gcc/x86_64-linux-gnu/7/include",
-                "/usr/lib/gcc/x86_64-linux-gnu/6/include"
+                "/usr/lib/gcc/x86_64-linux-gnu/6/include",
+                "/usr/include/x86_64-linux-gnu"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
