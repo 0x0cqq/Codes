@@ -5,10 +5,6 @@
             "intelliSenseMode": "gcc-x64",
             "browse": {},
             "includePath": [
-                "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include",
-                "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include-fixed",
-                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0/i386",
-                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0",
                 "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0",
                 "/usr/local/Cellar/gcc@7/7.3.0/include",
                 "/System/Library/Frameworks",
@@ -16,7 +12,11 @@
                 "/usr/local/include",
                 "/usr/include",
                 "${workspaceRoot}",
-                "${workspaceRoot}/**/*.hpp"
+                "${workspaceRoot}/**/*.hpp",
+                "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include",
+                "/usr/local/Cellar/gcc@7/7.3.0/lib/gcc/7/gcc/x86_64-apple-darwin17.5.0/7.3.0/include-fixed",
+                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0/i386",
+                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0"
             ],
             "macFrameworkPath": [
                 "/System/Library/Frameworks",

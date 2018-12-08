@@ -27,7 +27,8 @@
         "*.tcc": "cpp",
         "cuchar": "cpp",
         "climits": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "shared_mutex": "cpp"
     },
     "files.defaultLanguage": "c++",
 }
