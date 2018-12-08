@@ -4,10 +4,14 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		
+		"ms-vscode.cpptools",
+		"MS-CEINTL.vscode-language-pack-zh-hans",
+		"formulahendry.code-runner",
+		"robertohuertasm.vscode-icons"
 	],
 	// List of extensions that will be skipped from the recommendations that VS Code makes for the users of this workspace. These are extensions that you may consider to be irrelevant, redundant, or otherwise unwanted.
 	"unwantedRecommendations": [
-		
+		"mitaki28.vscode-clang",
+		"austin.code-gnu-global"
 	]
 }
