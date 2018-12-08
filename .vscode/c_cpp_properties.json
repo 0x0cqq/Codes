@@ -15,7 +15,9 @@
                 "/usr/local/include",
                 "/usr/include",
                 "${workspaceRoot}",
-                "${workspaceRoot}/**/*.hpp"
+                "${workspaceRoot}/**/*.hpp",
+                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0",
+                "/usr/local/Cellar/gcc@7/7.3.0/include/c++/7.3.0/x86_64-apple-darwin17.5.0/i386"
             ],
             "macFrameworkPath": [
                 "/System/Library/Frameworks",
