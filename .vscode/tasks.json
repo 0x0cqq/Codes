@@ -2,15 +2,21 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
-    "command": "g++-7",
+    "tasks": [
+        {
+            "label": "g++-7",
+            "command": "g++-7",
+            "args": ["${file}", "-std=c++11", "-g","-o","${file}.out","-O2"],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false,
+            },
+        }
+    ]
 
-    "args": ["${file}", "-std=c++11", "-g","-o","${file}.out","-O2"],
-    "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true,
-        "clear": false,
-    },
+    
 }
