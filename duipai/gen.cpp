@@ -10,13 +10,13 @@ using namespace std;
 
 const ll MAXN = 1e9;
 
-int T = 20;
+int T = 10;
 
 int main(){
   srand(time(NULL));
   printf("%d\n",T);
   for(int i = 1;i<=T;i++){
-    printf("%lld %lld\n",rand()%MAXN+1,1LL*rand()*rand()%(MAXN*MAXN)+1);
+    printf("%lld\n",rand()%MAXN+MAXN);
   }
   return 0;
 }

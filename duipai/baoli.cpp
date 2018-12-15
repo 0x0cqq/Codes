@@ -2,57 +2,73 @@
 #define ll long long
 using namespace std;
 
-ll n,k,w;
-ll f[1000],g[1000],h[1000];
+const int MAXN = 2100000;
+
+int prime[MAXN],cnt,vis[MAXN];
+ll phi[MAXN],mu[MAXN];
+
+unordered_map<int,ll> sum_mu,sum_phi;
+
+ll getmu(ll n){
+  if(n < MAXN) return mu[n];
+  if(sum_mu.count(n)) return sum_mu[n];
+  ll ans = 0;
+  ans += 1;
+  for(ll l = 2,r;l <= n;l = r+1){
+    r = (n/(n/l));
+    ans -= (r-l+1) * getmu(n/l);
+  }
+  return sum_mu[n] = ans;
+}
+
+ll getphi(ll n){
+  if(n < MAXN) return phi[n];
+  if(sum_phi.count(n)) return sum_phi[n];
+  ll ans = 0;
+  ans += n*(n+1)/2;
+  for(ll l = 2,r;l <= n;l = r+1){
+    r = (n/(n/l));
+    ans -= (r-l+1) * getphi(n/l);
+  }
+  return sum_phi[n] = ans;
+}
+
+void sieve(){
+  mu[1] = phi[1] = 1;
+  for(int i = 2;i<MAXN;i++){
+    if(vis[i] == 0){
+      prime[++cnt] = i;
+      mu[i] = -1,phi[i] = i-1;
+    }
+    for(int j = 1;i * prime[j] < MAXN && j <= cnt;j++){
+      if(i % prime[j] != 0){
+        vis[i*prime[j]] = 1;
+        phi[i*prime[j]] = phi[i] * (prime[j]-1);
+        mu[i*prime[j]] = -mu[i];
+      }
+      else{
+        vis[i*prime[j]] = 1;
+        phi[i*prime[j]] = phi[i] * prime[j]; 
+        mu[i*prime[j]] = 0;
+      }
+    }
+    // if(i < 100)
+    //   printf("%d:%lld %lld\n",i,phi[i],mu[i]);
+  }
+  for(int i = 2;i<MAXN;i++){
+    mu[i] += mu[i-1];
+    phi[i] += phi[i-1];
+  }
+}
 
 int main(){
-	int t;
-	scanf("%d",&t);
-	for(int i = 1;i<=31;i++){
-		f[i] = f[i-1] * 4 + 1;
-	}
-	g[1] = 1;
-	for(int i = 2;i<=60;i++){
-		g[i] = g[i-1] * 2 + 3;
-	}
-	for(int i = 1;i<=60;i++){
-		h[i] = h[i-1] * 2 + 1;
-	}
-	for(int i = 1;i<=t;i++){
-		scanf("%lld %lld",&n,&k);
-		ll w = k;
-		ll sqr = 0;
-		for(int i = 1;i<=n;i++){
-			//printf("%d:%lld\n",i,h[i]);
-			if(w - h[i] >= 0){
-				sqr++;
-				w -= h[i];
-			}
-			else{
-				break;
-			}
-		}
-		
-		bool flag = 0;
-		//printf("w:%lld f:%lld\n",w,f[n]);
-		if(n >= 32 || f[n-1] >= w){
-			flag = 1;
-		}
-		else{
-			ll ans = 0;
-			for(int i = 1;i<=min(n,sqr);i++){
-				//printf("%lld %lld\n",g[i],f[n-i]);
-				ans += g[i] * f[n-i];
-				if(ans >= w){
-					flag = 1;
-					break;
-				}
-			}
-		}
-		if(flag)
-			printf("YES %lld\n",n-sqr);	
-		else
-			printf("NO\n");
-	}
-	return 0;
+  sieve();
+  int T;
+  scanf("%d",&T);
+  for(int i = 1;i<=T;i++){
+    ll x;
+    scanf("%lld",&x);
+    printf("%lld %lld\n",getphi(x),getmu(x));
+  }
+  return 0;
 }
