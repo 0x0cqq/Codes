@@ -1,93 +1,89 @@
 #include <cstdio>
 #include <algorithm>
-#include <vector>
 #include <cstring>
-#define inf 0x3f3f3f3f
 using namespace std;
 
-const int MAXN = 512;
-const int mod = 7;
+const int MAXN = 1110000;
 
-int n,a[MAXN],d[MAXN];
+namespace fast_io {
+    const int OUT_LEN=1000000;char obuf[OUT_LEN],*ooh=obuf;
+    inline void print(char c){if(ooh==obuf+OUT_LEN) fwrite(obuf,1,OUT_LEN,stdout),ooh=obuf;*ooh++ = c;}
+    inline void print(int x){static int buf[30],cnt;if(x==0)print('0');else{if(x<0)print('-'),x=-x;for(cnt=0;x;x/=10)buf[++cnt]=x%10+48;while (cnt) print((char)buf[cnt--]);}}
+    inline void flush(){fwrite(obuf,1,ooh-obuf,stdout);}
+}using namespace fast_io;
+
+namespace Suffix_Array{
+int s[MAXN],sa[MAXN],rk[MAXN],ht[MAXN],x[MAXN],y[MAXN];
 int cnt[MAXN];
-
-void init(){
-  scanf("%d",&n);
-  for(int i = 1;i<=n;i++){
-    scanf("%d",&a[i]);
-    d[i] = ((a[i] - a[i-1])+mod)%mod;
-    cnt[d[i]]++;
+void get_sa(int n,int m){
+  printf("%d %d\n",n,m);
+	for(int i = 0;i<m;i++) cnt[i] = 0;
+	for(int i = 0;i<n;i++) cnt[s[i]]++;
+	for(int i = 1;i<m;i++) cnt[i] += cnt[i-1];
+	for(int i = n-1;~i;--i) sa[--cnt[s[i]]] = i;
+	m = rk[sa[0]] = 0;
+	for(int i = 1;i<n;i++) rk[sa[i]] = s[sa[i]] != s[sa[i-1]] ? ++m: m;
+	for(int j=1;;j<<=1){
+		if(++m == n) break;
+		for(int i = 0;i<j;i++) y[i] = n-j+i;
+		for(int i = 0,k=j;i<n;i++) if(sa[i] >= j) y[k++] = sa[i]-j;
+		for(int i = 0;i<n;i++) x[i] = rk[y[i]];
+		for(int i = 0;i<m;i++) cnt[i] = 0;
+		for(int i = 0;i<n;i++) cnt[x[i]]++;
+		for(int i = 1;i<m;i++) cnt[i] += cnt[i-1];
+ 		for(int i = n-1;~i;--i) sa[--cnt[x[i]]] = y[i],y[i] = rk[i];
+ 		m = rk[sa[0]] = 0;
+ 		for(int i = 1;i<n;i++) rk[sa[i]] =(y[sa[i]]!=y[sa[i-1]]||y[sa[i]+j]!=y[sa[i-1]+j])?++m:m;
+	 }
+}
+template<typename T>
+int mapCharToInt(int n,const T *str){
+	// int m = *max_element(str,str+n);
+	// for(int i = 0;i<=m;i++) rk[i] = 0;
+	// for(int i = 0;i<n;i++) rk[int(str[i])] = 1;
+	// for(int i = 1;i<=m;i++) rk[i] += rk[i-1];
+	// for(int i = 0;i<n;i++) s[i] = rk[int(str[i])]-1;
+	// return rk[m];
+  return 0;
+}
+void getheight(int n){
+    for(int i = 0,h = ht[0] = 0;i<n;i++){
+        int j = sa[rk[i]-1];
+        while(i+h < n && j+h < n && s[i+h] == s[j+h]) ++h;
+        ht[rk[i]] = h;
+        if(h) --h;
+    }
+}
+void build(int n,const char *str){
+	int m = 127;
+  for(int i = 0;i<n;i++){
+    s[i] = str[i] - 'a' + 1;
   }
-  cnt[7-a[n]]++;
+  n++;
+  s[n] = 0;
+  for(int i = 0;i<n;i++){
+    printf("%d ",s[i]);
+  }
+  printf("\n");
+	get_sa(n,m);
+	getheight(n);
+}
 }
 
-
-int v[3];
-int dp[MAXN][MAXN][8];
-int solve_1(){
-  for(int i = 0;i<MAXN;i++){
-    for(int j = 0;j<MAXN;j++){
-      for(int w = 0;w<8;w++){
-        dp[i][j][w] = -inf;
-      }
-    }
-  }
-  dp[0][0][0] = 0;
-  for(int a = 0;a<=cnt[v[0]];a++){
-    for(int b = 0;b<=cnt[v[1]];b++){
-      for(int c = 0;c<=cnt[v[2]];c++){
-        if(a == 0 && b == 0 && c == 0) continue;
-        int tmp[7];
-        for(int w = 0;w<=6;w++){
-          int ans = -inf;
-          if(a > 0)
-            ans = max(ans,dp[b][c][(w+v[0])%7] + ((w+v[0])==7?1:0));
-          if(b > 0)
-            ans = max(ans,dp[b-1][c][(w+v[1])%7] + ((w+v[1])==7?1:0));
-          if(c > 0)
-            ans = max(ans,dp[b][c-1][(w+v[2])%7] + ((w+v[2])==7?1:0));
-          tmp[w] = ans;
-        }
-        for(int w = 0;w<=6;w++){
-          dp[b][c][w] = tmp[w];
-        }
-      }
-    }
-  }
-  return dp[cnt[v[1]]][cnt[v[2]]][0];
-}
-
-int solve(){
-  int ans = 0;
-  for(int i = 1;i<=6;i++){
-    if(i >= 7 - i) break;
-    int t = min(cnt[i],cnt[7-i]);
-    ans += t;
-    cnt[i] -= t,cnt[7-i] -= t;
-  }
-  int sum = 0;
-  vector<int> V;
-  for(int i = 1;i<=6;i++){
-    if(cnt[i] > 0){
-      V.push_back(i);
-    }
-    sum += cnt[i];
-  }
-  
-  if(V.size() == 0)
-    return ans;
-  else if(V.size() == 1)
-    return ans + 6 * cnt[V[0]]/7;
-  else{
-    V.push_back(7);
-    v[0] = V[0],v[1] = V[1],v[2] = V[2];
-    return ans + sum - solve_1();
-    return 0;
-  }
-}
 
 int main(){
-  init();
-  printf("%d\n",solve());
-  return 0;
+	static char s[MAXN];
+	scanf("%s",s);
+	int n = strlen(s);
+	s[n] = 0;
+	Suffix_Array::build(n,s);
+	for(int i = 1;i<=n;i++){
+		print(Suffix_Array::sa[i]),print(' ');
+	}
+	print('\n');
+	for(int i = 1;i<=n;i++){
+		print(Suffix_Array::ht[i]),print(' ');
+	}
+	flush();
+	return 0;
 }
