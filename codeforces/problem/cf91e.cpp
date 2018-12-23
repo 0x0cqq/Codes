@@ -55,7 +55,7 @@ void init(){
   sort(q+1,q+m+1);
 }
 
-vector<P> V[MAXQ];
+vector<P> V[MAXN];
 vector<P> tmp;
 
 void build(){
@@ -82,16 +82,16 @@ void build(){
     }
     V[x].clear();
     V[x].push_back(tmp[0]);
-    for(int i = 0;i < int(tmp.size())-1;){
+    for(int i = 0;i < int(tmp.size());){
       int t = i;
-      for(int j = i+1;j<int(tmp.size());j++){
-        if(calj(tmp[i],tmp[j]) < calj(tmp[i],tmp[t]))
-          t = j;
-      }
+      while((t <= int(tmp.size())-3 && 
+        calj(tmp[i],tmp[t+1]) > calj(tmp[t+1],tmp[t+2]))){
+        t++;
+      }//t+1要不要
       // printf("i,t:%d %d\n",i,t);
-      V[x].push_back(tmp[i = t]);
+      i = t+1;
+      if(i < int(tmp.size())) V[x].push_back(tmp[i]);
     }
-    V[x].push_back(tmp.back());
     // for(int i = 0;i< int(V[x].size());i++){
     //   printf("%d: a:%d b:%d id:%d\n",i,V[x][i].a,V[x][i].b,V[x][i].id);
     // }

@@ -1,77 +1,135 @@
-#pragma GCC diagnostic error "-std=c++11"
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-#include <unordered_map>
-#define ll long long
+#include<bits/stdc++.h>
+
 using namespace std;
 
-const int MAXN = 2000000;
+#define endl '\n'
 
-int prime[MAXN],cnt,phi[MAXN],mu[MAXN];
-bool vis[MAXN];
-ll s1[MAXN],s2[MAXN];
+typedef long long ll;
+typedef pair<ll, ll> pii;
+typedef complex<ll> point;
 
-unordered_map<int,ll> sum_mu,sum_phi;
+ll cross(point a, point b) { return imag(conj(a) * b); }
 
-int getmu(int n){
-  if(n == 0) return 0;
-  if(n < MAXN) return s1[n];
-  if(sum_mu.count(n)) return sum_mu[n];
-  int ans = 1;
-  for(int l = 2,r;l <= n;l = r+1){
-    r = (n/(n/l));
-    ans -= (r-l+1) * getmu(n/l);
-  }
-  return sum_mu[n] = ans;
+ll dot(point a, point b) { return real(conj(a) * b); }
+
+ll area2(point a, point b, point c) { return cross(b - a, c - a); }
+
+struct adata{
+	point p;
+	int idx;
+};
+
+namespace std
+{
+	bool operator<(const point &a, const point &b)
+	{
+		return real(a) < real(b) || (real(a) == real(b) && imag(a) < imag(b));
+	}
 }
 
-ll getphi(ll n){
-  if(n == 0) return 0;
-  if(n < MAXN) return s2[n];
-  if(sum_phi.count(n)) return sum_phi[n];
-  ll ans = n*(n+1)/2;
-  for(ll l = 2,r;l <= n;l = r+1){
-    r = (n/(n/l));
-    ans -= (r-l+1) * getphi(n/l);
-  }
-  return sum_phi[n] = ans;
+const ll oo = 0x3f3f3f3f3f3f3f3f;
+
+struct hull : vector<adata>
+{
+	void add_point(adata d)
+	{
+		for (int s = size(); s > 1; --s)
+			if (area2(at(s - 2).p, at(s - 1).p, d.p) < 0) break;
+			else pop_back();
+		push_back(d);
+	}
+
+	pair<int, ll> max_dot(point p)
+	{
+		int lo = 0, hi = (int) size() - 1, mid;
+
+		while (lo < hi)
+		{
+			mid = (lo + hi) / 2;
+
+			if (dot(at(mid).p, p) <= dot(at(mid + 1).p, p))
+				lo = mid + 1;
+			else hi = mid;
+		}
+
+		return {at(lo).idx, dot(at(lo).p, p)};
+	}
+};
+
+hull merge(const hull &a, const hull &b)
+{
+	hull h;
+	size_t i = 0, j = 0;
+
+	while (i < a.size() && j < b.size())
+		if (a[i].p < b[j].p) h.add_point(a[i++]);
+		else h.add_point(b[j++]);
+
+	while (i < a.size()) h.add_point(a[i++]);
+
+	while (j < b.size()) h.add_point(b[j++]);
+
+	return h;
 }
 
-void sieve(){
-  mu[1] = phi[1] = s1[1] = s2[1] = 1;
-  for(register int i = 2;i<MAXN;i++){
-    if(vis[i] == 0){
-      prime[++cnt] = i;
-      mu[i] = -1,phi[i] = i-1;
-    }
-    for(register int j = 1;i * prime[j] < MAXN && j <= cnt;j++){
-      vis[i*prime[j]] = 1;
-      if(i % prime[j] != 0){
-        phi[i*prime[j]] = phi[i] * (prime[j]-1);
-        mu[i*prime[j]] = -mu[i];
-      }
-      else{
-        phi[i*prime[j]] = phi[i] * prime[j]; 
-        mu[i*prime[j]] = 0;
-        break;
-      }
-    }
-    // if(i < 100)
-    //   printf("%d:%lld %lld\n",i,phi[i],mu[i]);
-    s1[i] = mu[i] + s1[i-1];
-    s2[i] = phi[i] + s2[i-1];
-  }
-}
+const int maxn = 1e5 + 5;
+
+ll A[maxn], B[maxn];
+
+struct segment_tree{
+	
+	vector<hull> st;
+	
+	segment_tree(int n) : st(4 * n) {
+		build(1, 1, n);
+	}
+	
+	void build(int node, int b, int e){
+		if(b == e)
+			st[node].add_point({point(B[b], A[b]), b});
+		else{
+			int m = (b + e) >> 1;
+			int l = node << 1;
+			int r = l | 1;
+			build(l, b, m);
+			build(r, m + 1, e);
+			st[node] = merge(st[l], st[r]);
+		}
+	}
+	
+	pair<int, ll> query(int node, int b, int e, int i, int j, ll x){
+		if(b >= i && e <= j)
+			return st[node].max_dot(point(x, 1));
+		if(b > j || e < i)
+			return {0, -oo};
+		int m = (b + e) >> 1;
+		int l = node << 1;
+		int r = l | 1;
+		pair<int, ll> L = query(l, b, m, i, j, x);
+		pair<int, ll> R = query(r, m + 1, e, i, j, x);
+		if(L.second > R.second)
+			return L;
+		return R;
+	}
+};
 
 int main(){
-  sieve();
-  int T;
-  scanf("%d",&T);
-  for(int i = 1;i<=T;i++){
-    ll x;
-    scanf("%lld",&x);
-    printf("%lld %d\n",getphi(x),getmu(x));
-  }
-  return 0;
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	
+	int n, q;
+	cin >> n >> q;
+	for(int i = 1; i <= n; i++)
+		cin >> A[i] >> B[i];
+
+	segment_tree st(n);
+	
+	while(q--){
+		int l, r;
+		ll t;
+		cin >> l >> r >> t;
+		cout << st.query(1, 1, n, l, r, t).first << endl;
+	}
+		
+	return 0;
 }
