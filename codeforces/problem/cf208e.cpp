@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 110000,logn = 20;
+const int MAXN = 210000,logn = 20;
 
 struct Edge{
   int v,nex;
@@ -72,10 +72,9 @@ void dfs0(int nown,int depth){
 }
 
 int find_kth(int x,int k){
-  int t = dep[x] - k;
   // printf("kth:  %d %d dep:%d\n",x,k,dep[x]);
   for(int i = logn-1;i>=0;i--){
-    if(dep[fa[x][i]] >= t)
+    if(dep[fa[x][i]] >= dep[x] - k)
       x = fa[x][i];
   }
   // printf("ans:%d\n",x);

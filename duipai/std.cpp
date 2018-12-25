@@ -1,135 +1,143 @@
-#include<bits/stdc++.h>
-
+/**Bismillahir Rahmanir Rahim//{  */
+#include <bits/stdc++.h>
 using namespace std;
+#define inf 1000000007
+#define llinf 1000000000000000000LL
+#define eps 0.000000001
+#define im(_x, _mod) if (_x>=_mod) _x -= _mod; else if (_x<0) _x += _mod;
+#define bug(args ...) cout << __LINE__ << ": ", err(new istringstream(string(#args)), args), cout << '\n'
+inline void err(istringstream *iss) {}
+template<typename T, typename ... Args> void err(istringstream *iss, const T &$val, const Args & ... args) {
+    string $name; *iss >> $name; if ($name.back()==',') $name.pop_back();
+    cout << $name << " = " << $val << "; ", err(iss, args ...);
+}
+typedef long long ll; typedef unsigned long long ull; typedef long double ld;
+int n, m, K, T, Q, cn;//}
+#define mxn 100005
 
-#define endl '\n'
+list<int> adj[mxn];
+int r[mxn];
+vector<int> nwl /*nodesWithLevel*/[mxn];
 
-typedef long long ll;
-typedef pair<ll, ll> pii;
-typedef complex<ll> point;
-
-ll cross(point a, point b) { return imag(conj(a) * b); }
-
-ll dot(point a, point b) { return real(conj(a) * b); }
-
-ll area2(point a, point b, point c) { return cross(b - a, c - a); }
-
-struct adata{
-	point p;
-	int idx;
-};
-
-namespace std
+struct query
 {
-	bool operator<(const point &a, const point &b)
-	{
-		return real(a) < real(b) || (real(a) == real(b) && imag(a) < imag(b));
-	}
+    int p, lvl, idx;
+} q[mxn];
+int ans[mxn];
+
+struct cmp { bool operator() (const query &ls, const query &rs) {
+    return ls.lvl<rs.lvl;
+}};
+
+#define log2Height 26
+
+int lvl[mxn], parent[mxn][log2Height], tiks, disc[mxn], finish[mxn];
+void dfs(const int &u, const int &par, int dist) {
+    lvl[u] = dist, disc[u] = ++tiks, parent[u][0] = par;
+    for (auto &v : adj[u]) if (v!=par) {
+        dfs(v, u, dist+1);
+    }
+    finish[u] = ++tiks;
 }
 
-const ll oo = 0x3f3f3f3f3f3f3f3f;
-
-struct hull : vector<adata>
-{
-	void add_point(adata d)
-	{
-		for (int s = size(); s > 1; --s)
-			if (area2(at(s - 2).p, at(s - 1).p, d.p) < 0) break;
-			else pop_back();
-		push_back(d);
-	}
-
-	pair<int, ll> max_dot(point p)
-	{
-		int lo = 0, hi = (int) size() - 1, mid;
-
-		while (lo < hi)
-		{
-			mid = (lo + hi) / 2;
-
-			if (dot(at(mid).p, p) <= dot(at(mid + 1).p, p))
-				lo = mid + 1;
-			else hi = mid;
-		}
-
-		return {at(lo).idx, dot(at(lo).p, p)};
-	}
-};
-
-hull merge(const hull &a, const hull &b)
-{
-	hull h;
-	size_t i = 0, j = 0;
-
-	while (i < a.size() && j < b.size())
-		if (a[i].p < b[j].p) h.add_point(a[i++]);
-		else h.add_point(b[j++]);
-
-	while (i < a.size()) h.add_point(a[i++]);
-
-	while (j < b.size()) h.add_point(b[j++]);
-
-	return h;
+void precalcSparseMatrix(int mnNode, int mxNode) {
+    for (int i = 1; i<log2Height; i++) {
+        for (int node = mnNode; node<=mxNode; node++) {
+            if (parent[node][i-1]!=-1) parent[node][i] = parent[parent[node][i-1]][i-1];
+        }
+    }
 }
 
-const int maxn = 1e5 + 5;
-
-ll A[maxn], B[maxn];
-
-struct segment_tree{
-	
-	vector<hull> st;
-	
-	segment_tree(int n) : st(4 * n) {
-		build(1, 1, n);
-	}
-	
-	void build(int node, int b, int e){
-		if(b == e)
-			st[node].add_point({point(B[b], A[b]), b});
-		else{
-			int m = (b + e) >> 1;
-			int l = node << 1;
-			int r = l | 1;
-			build(l, b, m);
-			build(r, m + 1, e);
-			st[node] = merge(st[l], st[r]);
-		}
-	}
-	
-	pair<int, ll> query(int node, int b, int e, int i, int j, ll x){
-		if(b >= i && e <= j)
-			return st[node].max_dot(point(x, 1));
-		if(b > j || e < i)
-			return {0, -oo};
-		int m = (b + e) >> 1;
-		int l = node << 1;
-		int r = l | 1;
-		pair<int, ll> L = query(l, b, m, i, j, x);
-		pair<int, ll> R = query(r, m + 1, e, i, j, x);
-		if(L.second > R.second)
-			return L;
-		return R;
-	}
-};
-
-int main(){
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
-	
-	int n, q;
-	cin >> n >> q;
-	for(int i = 1; i <= n; i++)
-		cin >> A[i] >> B[i];
-
-	segment_tree st(n);
-	
-	while(q--){
-		int l, r;
-		ll t;
-		cin >> l >> r >> t;
-		cout << st.query(1, 1, n, l, r, t).first << endl;
-	}
-		
-	return 0;
+int pthPar(int v, int p) {
+    if (lvl[v]<p) return -1;
+    for (int i = 0; i < log2Height; i++) {
+        if ((p>>i)&1) v = parent[v][i];
+    }
+    return v;
 }
+
+template <class T> class BIT//{
+{
+    vector<T> tree;
+public:
+    int N, mnIdx;
+    BIT(int _n, int _mnIdx) : N(_n), mnIdx(_mnIdx) {   // mnIdx<actual & N>actual hole no problem
+        tree.resize(N+2);
+    }
+
+    void reset() {fill_n(tree.begin(), N+2, 0);}
+
+    void addAtIdx(int idx, T val) {idx+=1-mnIdx;
+        while (idx<=N) tree[idx] += val, idx += (idx & -idx);
+    }
+
+    T getPrefixSum(int idx) {idx+=1-mnIdx;
+        T sum = 0;
+        while (idx>0) sum += tree[idx], idx -= (idx & -idx);
+        return sum;
+    }
+
+    // upper_bound(x)==lower_bound(x+1) in non-fraction.
+    int lower_bound(T x) { // returns mnIdx+N if no >= found
+        int idx = 0, mask = 1<<(31^__builtin_clz(N)), ret = N+1, tIdx;
+        while (mask) {
+            tIdx = idx+mask, mask >>= 1;
+            if (tIdx>=N || tIdx<=0) continue;
+            if (tree[tIdx]>=x) ret = min(ret, tIdx); else idx = tIdx, x -= tree[tIdx];
+        }ret-=1-mnIdx;
+        return ret;
+    }
+
+    void multiplyAll(T c) {   // to divide all replace * by /
+        for (int i = 1; i <= N; i++) tree[i] *= c;
+    }
+};//}
+
+BIT<int> ft(mxn*3, 0);
+
+int main() { cin.tie(NULL);
+
+// find pth ancestor, then find how many descendants of that has same level as v. ==> where can I get all the
+// descendants? one way can be euler tree. But how to count how many in that range has certain level? One way can be to
+// sweep in sorted order of levels.
+    scanf("%d", &n);
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &r[i]);
+        if (r[i]) adj[r[i]].push_back(i);
+    }
+
+    tiks = 0;
+    for (int i = 1; i <= n; i++) {
+        if (!r[i]) dfs(i, 0, 0);
+    }
+    precalcSparseMatrix(1, n);
+    for (int i = 1; i <= n; i++) {
+        nwl[lvl[i]].push_back(i);
+    }
+
+    scanf("%d", &m);
+    for (int i = 0; i < m; i++) {
+        int v, p;
+        scanf("%d%d", &v, &p);
+        int os = pthPar(v, p);
+        q[i] = {os, lvl[v], i};//bug(i, os, lvl[v]);
+    }
+    sort(q, q+m, cmp());
+    int plvl = mxn-1;
+    for (int i = 0; i < m; i++) {
+        if (q[i].lvl!=plvl) {
+            for (auto &j : nwl[plvl]) {
+                ft.addAtIdx(disc[j], -1);
+            }
+            for (auto &j : nwl[q[i].lvl]) {
+                ft.addAtIdx(disc[j], 1);
+            }
+        }
+        ans[q[i].idx] = q[i].p==-1 ? 0 : ft.getPrefixSum(finish[q[i].p])-ft.getPrefixSum(disc[q[i].p])-1;
+        plvl = q[i].lvl;
+    }
+    for (int i = 0; i < m; i++) {
+        printf("%d", ans[i]), printf("%c", " \n"[i==m-1]);
+    }
+
+return 0; }

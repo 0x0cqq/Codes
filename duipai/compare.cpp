@@ -72,10 +72,11 @@ int check(){
 }
 
 int main(){
-  file_open();
-  init();
-  int t = check();
-  fprintf(a1,"RESULT:%d\n",t);
-  file_close();
-  return t;
+  // file_open();
+  // init();
+  // int t = check();
+  // fprintf(a1,"RESULT:%d\n",t);
+  // file_close();
+  // return t;
+  return diff();
 }
