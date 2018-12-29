@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 210000;
+const int MAXN = 310000;
 
-int n,m;
+int n,m,cnt = 0;
 struct Line{
   int l,r;
   bool operator < (const Line x)const{
@@ -19,15 +19,15 @@ void init(){
   scanf("%d %d",&n,&m);
   for(int i = 1;i<=n;i++){
     scanf("%d %d",&a[i].l,&a[i].r);
-    S[a[i].l] = 0;;
+    S[a[i].l] = 0;
   }
   sort(a+1,a+n+1);
-  int tcnt = 0;
   for(auto it = S.begin();it!=S.end();it++){
-    it->second = ++tcnt;
-    t[tcnt] = it->first;
+    it->second = ++cnt;
+    t[cnt] = it->first;
   }
-  for(int i = 1;i<=n;i++) a[i].l = S[a[i].l];
+  for(int i = 1;i<=n;i++) 
+    a[i].l = S[a[i].l];
 }
 
 namespace SegTree{
@@ -46,7 +46,7 @@ namespace SegTree{
   int a,b;
   void query(int nown,int l,int r,int ql,int qr,int &ans){
     if(ql <= l && r <= qr){
-      ans += lower_bound(v[nown].begin(),v[nown].end(),b) - lower_bound(v[nown].begin(),v[nown].end(),a-1);
+      ans += lower_bound(v[nown].begin(),v[nown].end(),b) - lower_bound(v[nown].begin(),v[nown].end(),a);
     }
     else{
       if(ql <= mid)
@@ -56,23 +56,37 @@ namespace SegTree{
     }
   }
   int query(int n,int x1,int x2,int y1,int y2){
-    y1 = a,y2 = b;
+    // printf("query:%d %d %d %d\n",x1,x2,y1,y2);
+    if(x1 > x2) return 0;
+    a = y1,b = y2;
     int ans = 0;
     query(1,1,n,x1,x2,ans);
     return ans;
   }
 }
 
-
 void build(){
   static int tmp[MAXN];
+  // printf("tmp:\n");
   for(int i = 1;i<=n;i++){
     tmp[i] = a[i].r;
+    // printf("%d ",tmp[i]);
   }
+  // printf("\n");
+  // printf("t:\n");
+  // for(int i = 1;i<=cnt;i++){
+  //   printf("%d ", t[i]);
+  // }
+  // printf("\n");
   SegTree::build(1,1,n,tmp);
 }
 
 int s[MAXN];
+
+
+int getval(int x){
+  return lower_bound(t+1,t+cnt+1,x) - t;
+}
 
 void solve_case(){
   int p;
@@ -81,9 +95,14 @@ void solve_case(){
     scanf("%d",&s[i]);
   }
   sort(s+1,s+p+1);
+  s[0] = -1e9;
+  int ans = 0;
   for(int i = 1;i<=p;i++){
-
+    // printf("%d getval:%d(%d) %d(%d) ",i,getval(s[i-1]+1),s[i-1]+1,getval(s[i]+1)-1,s[i]);
+    ans += SegTree::query(n,getval(s[i-1]+1),getval(s[i]+1)-1,s[i],1e9);
+    // printf("ans:%d\n",ans);
   }
+  printf("%d\n",ans);
 }
 
 void solve(){
@@ -93,5 +112,8 @@ void solve(){
 }
 
 int main(){
-
+  init();
+  build();
+  solve();
+  return 0;
 }
