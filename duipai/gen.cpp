@@ -8,21 +8,17 @@
 #define ll long long
 using namespace std;
 
-const int MAXN = 1e4;
+const int MAXN = 1e2;
 
-int n = 10, m = 10;
+int n = 5, m = 8;
 
 int main(){
   srand(time(NULL));
-  printf("%d\n",m);
-  for(int i = 1;i<=n;i++){
-    printf("%d ",rand()%i);
-  }
-  printf("\n");
-  printf("%d\n",m);
+  printf("%d %d\n",n,m);
   for(int i = 1;i<=m;i++){
-    int l = rand()%n+1,r = rand()%(n/2)+1;
-    printf("%d %d\n",l,r);
+    int l = rand()%MAXN+1,r = rand()%MAXN+1;
+    if(l > r) swap(l,r);
+    printf("%d %d %d %d\n",rand()%n+1,rand()%n+1,l,r);
   }
   return 0;
 }

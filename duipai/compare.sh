@@ -11,7 +11,7 @@ output_file2="out2.txt"
 
 cd 
 cd $path
-# g++-8 $name1.cpp -o $name1     -std=c++11 -O2
+g++-8 $name1.cpp -o $name1     -std=c++11 -O2
 g++-8 $name2.cpp -o $name2     -std=c++11 -O2
 g++-8 $gen.cpp -o $gen         -std=c++11 -O2
 # g++-8 $compare.cpp -o $compare -std=c++11 -O2
