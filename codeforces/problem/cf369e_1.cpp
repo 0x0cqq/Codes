@@ -26,8 +26,6 @@ void init(){
     it->second = ++cnt;
     t[cnt] = it->first;
   }
-  for(int i = 1;i<=n;i++) 
-    a[i].l = S[a[i].l];
 }
 
 namespace SegTree{
@@ -39,14 +37,15 @@ namespace SegTree{
     for(int i = l;i<=r;i++)
       v[nown].push_back(a[i]);
     sort(v[nown].begin(),v[nown].end());
-    if(l == r) return;
+    if(l == r) 
+      return;
     else
       build(lson,l,mid,a),build(rson,mid+1,r,a);
   }
   int a,b;
   void query(int nown,int l,int r,int ql,int qr,int &ans){
     if(ql <= l && r <= qr){
-      ans += lower_bound(v[nown].begin(),v[nown].end(),b) - lower_bound(v[nown].begin(),v[nown].end(),a);
+      ans += upper_bound(v[nown].begin(),v[nown].end(),b) - lower_bound(v[nown].begin(),v[nown].end(),a);
     }
     else{
       if(ql <= mid)
@@ -82,24 +81,20 @@ void build(){
 }
 
 int s[MAXN];
-
-
 int getval(int x){
-  return lower_bound(t+1,t+cnt+1,x) - t;
+  return upper_bound(t+1,t+cnt+1,x) - t;
 }
 
 void solve_case(){
   int p;
   scanf("%d",&p);
-  for(int i = 1;i<=p;i++){
-    scanf("%d",&s[i]);
-  }
+  for(int i = 1;i<=p;i++) scanf("%d",&s[i]);
   sort(s+1,s+p+1);
   s[0] = -1e9;
   int ans = 0;
   for(int i = 1;i<=p;i++){
-    // printf("%d getval:%d(%d) %d(%d) ",i,getval(s[i-1]+1),s[i-1]+1,getval(s[i]+1)-1,s[i]);
-    ans += SegTree::query(n,getval(s[i-1]+1),getval(s[i]+1)-1,s[i],1e9);
+    // printf("%d getval:%d(%d) %d(%d) ",i,getval(s[i-1]),s[i-1],getval(s[i])-1,s[i]);
+    ans += SegTree::query(n,getval(s[i-1]),getval(s[i])-1,s[i],1e9);
     // printf("ans:%d\n",ans);
   }
   printf("%d\n",ans);

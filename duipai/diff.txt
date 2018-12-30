@@ -1,5 +1,0 @@
-1c1
-< 75
-\ No newline at end of file
----
-> 80

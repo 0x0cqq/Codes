@@ -1,57 +1,88 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#define rep(i,a,n) for(int i=a;i<=n;i++)
+#define per(i,a,n) for(int i=n;i>=a;i--)
+#define pb push_back
+#define mp make_pair
+#define FI first
+#define SE second
+#define maxn 300000
+#define mod 1000000007
+#define inf 0x3f3f3f3f
 using namespace std;
-// #define int long long
-#define ii pair<int, int>
-#define vi vector<int>
-#define pb emplace_back
-#define sz(x) (int)x.size()
-#define all(v) v.begin(), v.end()
-#define x first
-#define y second
-#define rep(i, j, k) for(i=j; i<k; i++)
-#define sep(i, j, k) for(i=j; i>k; i--)
-const int N = 3e3+5, inf = 1e9+7;
-int n, k;
-int par[N];
-struct eg{
-	int a, b, c, d; eg(){}
-	eg(int a, int b, int c, int d) : a(a), b(b), c(c), d(d){}	
-};
-std::vector<eg> ed;
-vi lf, rt;
-int root(int a){ return (par[a]<0) ? a: par[a]=root(par[a]); }
-void merge(int a, int b){
-	if((a=root(a))==(b=root(b))) return;
-	if(par[a]>par[b]) swap(a, b);
-	par[a]+= par[b];
-	par[b]=a;
+typedef long long ll;
+typedef pair<int,int> pii;
+typedef vector<int> vi;
+typedef double db;
+
+struct node
+{
+    int sum,ls,rs;
+}t[1000000*40+5];
+int cnt,root[maxn+5];
+void init()
+{
+    cnt=0;
+    t[0].sum=0;
 }
-bool check(int l, int r){
-	memset(par, -1, sizeof par);
-	for(auto i:ed) if(i.c<=l && i.d>=r) merge(i.a, i.b);
-	if(root(1)==root(n)) return 1;
-	return 0;
+void upd(int l,int r,int &x,int y,int pos)
+{
+    t[x=++cnt]=t[y];t[x].sum++;
+    if(l==r) return;
+    int mid=(l+r)>>1;
+    if(pos<=mid) upd(l,mid,t[x].ls,t[y].ls,pos);
+    else upd(mid+1,r,t[x].rs,t[y].rs,pos);
+}
+int query(int l,int r,int x,int y,int pos)
+{
+    if(l>=pos) return t[y].sum-t[x].sum;
+    if(r<pos) return 0;
+    int mid=(l+r)>>1;
+    return query(l,mid,t[x].ls,t[y].ls,pos)+query(mid+1,r,t[x].rs,t[y].rs,pos);
 }
 
-signed main()
+struct P
 {
-	ios_base::sync_with_stdio(false); cin.tie(0);
-	int i, j, x, y, a, b, c, d, ans=0;
-	cin>>n>>k;
-	rep(i, 0, k){
-		cin>>a>>b>>c>>d;
-		ed.pb(eg(a, b, c, d));
-		lf.pb(c); rt.pb(d);
-	}
-	int l=0, r=0;
-	sort(all(lf));
-	sort(all(rt));
-	while(l<k){
-		if(r<k && check(lf[l],rt[r])) {
-			ans = max(ans, rt[r]-lf[l]+1);
-			r++;
-		}
-		else l++;
-	}
-	cout<<(ans ? to_string(ans) : "Nice work, Dima!");
+    int x,y;
+}p[maxn+5];
+bool cmp(P a,P b) {return a.x<b.x;}
+
+int getid(int l,int r,int x)
+{
+    r++;
+    while(l<r)
+    {
+        int mid=(l+r)>>1;
+        if(p[mid].x>x) r=mid;
+        else l=mid+1;
+    }
+    return l-1;
+}
+
+int main()
+{
+    int n,m; scanf("%d%d",&n,&m);
+    rep(i,1,n) scanf("%d%d",&p[i].x,&p[i].y);
+    sort(p+1,p+n+1,cmp);
+    rep(i,1,n) upd(1,1000000,root[i],root[i-1],p[i].y);
+
+    while(m--)
+    {
+        int N; scanf("%d",&N);
+        vi pp; pp.pb(0);
+        rep(i,1,N)
+        {
+            int x; scanf("%d",&x);
+            pp.pb(x);
+        }
+        sort(pp.begin(),pp.end());
+        int ans=0;
+        rep(i,1,N)
+        {
+            int L=getid(1,n,pp[i-1]);
+            int R=getid(1,n,pp[i]);
+            ans+=query(1,1000000,root[L],root[R],pp[i]);
+        }
+        printf("%d\n",ans);
+    }
+    return 0;
 }
