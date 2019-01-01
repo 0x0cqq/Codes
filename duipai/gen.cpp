@@ -8,20 +8,16 @@
 #define ll long long
 using namespace std;
 
-const int MAXN = 1e2;
+const int MAXN = 1e5;
 
-int n = 10, m = 200;
+int n = 1e5, m = 200;
 
 int main(){
   srand(time(NULL));
-  printf("%d %d\n",n,m);
+  printf("%d\n",n);
   for(int i = 1;i<=n;i++){
-    int l = rand()%MAXN+1,r = rand()%MAXN+1;
-    if(l > r) swap(l,r);
-    printf("%d %d\n",l,r);
+    printf("%d ",rand()%MAXN+1+i);
   }
-  for(int i = 1;i<=m;i++){
-    printf("1 %d\n",rand()%MAXN+1);
-  }
+  printf("\n");
   return 0;
 }

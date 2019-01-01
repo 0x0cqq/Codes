@@ -104,6 +104,5 @@ void solve(){
 int main(){
   init();
   solve();
-  
   return 0;
 }
