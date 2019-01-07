@@ -84,7 +84,8 @@
         "__mutex_base": "cpp",
         "ios": "cpp",
         "regex": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "random": "cpp"
     },
     "files.defaultLanguage": "c++",
 }
