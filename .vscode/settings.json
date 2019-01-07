@@ -85,7 +85,11 @@
         "ios": "cpp",
         "regex": "cpp",
         "iterator": "cpp",
+<<<<<<< HEAD
         "random": "cpp"
+=======
+        "charconv": "cpp"
+>>>>>>> 44b30467a673783144fc53ee9df6b78d85501dbd
     },
     "files.defaultLanguage": "c++",
 }
