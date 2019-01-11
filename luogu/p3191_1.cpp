@@ -6,7 +6,7 @@ using namespace std;
 
 const int inf = 1e8;
 
-const int MAXN = 40,MAXM = 4000000;
+const int MAXN = 100,MAXM = 4000000;
 
 namespace MaxFlow{
   int S,T;
@@ -30,50 +30,48 @@ namespace MaxFlow{
   int dis[MAXN*MAXN];
   queue<int> q;
   bool bfs(){
-    while(!q.empty()) q.pop();
     memset(dis,0,sizeof(dis));
     memcpy(cur,fir,sizeof(fir));
-    dis[S] = 1;q.push(S);
+    while(!q.empty()) q.pop();
+    q.push(S);dis[S] = 1;
     while(!q.empty()){
       int nown = q.front();q.pop();
-      for(int nowe = fir[nown];nowe;nowe = edge[nowe].nex){
-        int v = edge[nowe].to;
-        if(dis[v] == 0 && edge[nowe].cap > edge[nowe].flow){
-          dis[v] = dis[nown] + 1;
+      for(int e = fir[nown];e!=0;e = edge[e].nex){
+        int v = edge[e].to;
+        if(dis[v] == 0 && edge[e].cap > edge[e].flow){
+          dis[v] = dis[nown]+1;
           q.push(v);
-          if(v == T) return 1;
         }
       }
     }
-    return 0;
+    return dis[T];
   }
-  int dfs(int nown,int limit = 0x3f3f3f3f){
-    if(nown == T || limit == 0){
-      return limit;
-    }
-    for(int &nowe = cur[nown];nowe;nowe = edge[nowe].nex){
-      int v = edge[nowe].to;
-      if(dis[v] == dis[nown] + 1 && edge[nowe].cap > edge[nowe].flow){
-        int f = dfs(v,min(limit,edge[nowe].cap - edge[nowe].flow));
-        if(f > 0){
-          edge[nowe].flow += f;
-          edge[nowe^1].flow -= f;
-          return f;
-        }
+
+  int dfs(int nown,int limit = 2147483647){
+    if(nown == T) return limit;
+    if(limit == 0) return 0;
+    int fff = 0;
+    for(int &e = cur[nown];e!=0;e = edge[e].nex){
+      int f,v = edge[e].to;
+      if(dis[v] == dis[nown]+1 && (f = dfs(v,min(limit,edge[e].cap-edge[e].flow)))>0){
+        edge[e].flow+=f;
+        edge[e^1].flow-=f;
+        limit-=f,fff+=f;
+        if(limit == 0) break;
       }
     }
-    return 0;
+    return fff;
   }
+
   int dinic(){
-    int ans = 0,f;
-    // printf("dinic begin\n");
+    int ans = 0;
     while(bfs()){
-      while((f = dfs(S))>0)
-        ans += f;
+      ans += dfs(S);
+      //printf("ANS:%d\n",ans);print();sleep(2);
     }
-    // printf("dinic:%d\n",ans);
     return ans;
   }
+
 }
 int n,m,CNT;
 
@@ -116,6 +114,7 @@ void bfs0(int x,int y,int lim){
     if(s[nown.first][nown.second] == 'D'){
       e[_hash(nown)].push_back(make_pair(_hash(x,y),dis[_hash(nown)]));
       // printf("add:%d %d\n",_hash(x,y),dis[_hash(nown)]);
+      continue;
     }
     for(int i = 0;i<4;i++){
       pair<int,int> nex = move(nown,i);
@@ -148,9 +147,11 @@ bool check(int t){
         MaxFlow::addedge(MaxFlow::S,_hash(i,j),1);
       }
       if(s[i][j] == 'D'){
+        // printf("--D:%d %d:\n",i,j);
         sort(e[_hash(i,j)].begin(),e[_hash(i,j)].end(),cmp);
         int last = -1,tmp = 0;
         for(int x = 1;x<=t;x++){
+          // printf("----t %d:\n",x);
           int now = tcnt++;
           while(tmp < int(e[_hash(i,j)].size()) && e[_hash(i,j)][tmp].second <= x){
             int from = e[_hash(i,j)][tmp].first;
@@ -169,7 +170,7 @@ bool check(int t){
 }
 
 void solve(){
-  int L = 1,R = 1001;
+  int L = 1,R = 500;
   while(L!=R){
     int mid = (L+R-1)/2;
     // printf("L:%d R:%d mid:%d\n",L,R,mid);
@@ -180,7 +181,7 @@ void solve(){
       L = mid+1;
     // usleep(10000);
   } 
-  if(L >= 1000)
+  if(L >= 500)
     printf("impossible");
   else
     printf("%d\n",L);

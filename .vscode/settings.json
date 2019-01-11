@@ -12,6 +12,7 @@
     "editor.tabSize": 2,
     "files.defaultLanguage": "c++",
     "files.associations": {
-        "cstdio": "cpp"
+        "cstdio": "cpp",
+        "list": "cpp"
     },
 }
