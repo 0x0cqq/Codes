@@ -4,8 +4,8 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "g++-7",
-            "command": "g++-7",
+            "label": "g++-8",
+            "command": "g++-8",
             "args": ["${file}", "-std=c++11", "-g","-o","${file}.out","-O2"],
             "presentation": {
                 "echo": true,
