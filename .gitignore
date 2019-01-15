@@ -7,3 +7,5 @@
 **/*.in
 **/tempCodeRunnerFile.cpp
 openjudge/.DS_Store
+**/*.o
+**/*.exe

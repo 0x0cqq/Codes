@@ -10,11 +10,10 @@
             "request": "launch",
             "program": "${file}.out",
             "args": [],
-            "preLaunchTask": "g++-8",
+            "preLaunchTask": "Build",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,
             "MIMode": "lldb"
         }
     ]
