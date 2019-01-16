@@ -34,7 +34,6 @@
             "includePath": [
                 "/usr/include/c++/7/tr1",
                 "/usr/include/c++/7",
-                "/usr/include/c++/6",
                 "/usr/local/include",
                 "/usr/include/",
                 "/usr/include/machine/",
@@ -43,7 +42,9 @@
                 "${workspaceRoot}/**/*.hpp",
                 "/usr/lib/gcc/x86_64-linux-gnu/7/include",
                 "/usr/lib/gcc/x86_64-linux-gnu/6/include",
-                "/usr/include/x86_64-linux-gnu"
+                "/usr/include/x86_64-linux-gnu",
+                "/usr/include/c++/8/tr1",
+                "/usr/include/x86_64-linux-gnu/c++/8"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
