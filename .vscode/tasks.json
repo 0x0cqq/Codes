@@ -11,12 +11,8 @@
             "windows": {
                 "command": "g++",
                 "args": [
-                    "-g",
-                    "-Werror",
-                    "-std=c++11",
-                    "${file}",
-                    "-o",
-                    "${fileDirname}/${fileBasenameNoExtension}.exe"
+                    "-g","-Wall","-std=c++11","${file}",
+                    "-o","${fileDirname}/${fileBasenameNoExtension}.exe"
                 ] 
             },
             "group": {
@@ -32,13 +28,8 @@
                 "clear": false
             },
             "args": [
-                "-O2",
-                "-g",
-                "-Werror",
-                "-std=c++11",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.o"
+                "-O2","-g","-Wall","-std=c++11","${file}",
+                "-o","${fileDirname}/${fileBasenameNoExtension}.o"
             ],
             "problemMatcher": []
         },

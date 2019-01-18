@@ -44,7 +44,8 @@
                 "/usr/lib/gcc/x86_64-linux-gnu/6/include",
                 "/usr/include/x86_64-linux-gnu",
                 "/usr/include/c++/8/tr1",
-                "/usr/include/x86_64-linux-gnu/c++/8"
+                "/usr/include/x86_64-linux-gnu/c++/8",
+                "/usr/include/x86_64-linux-gnu/c++/7"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
