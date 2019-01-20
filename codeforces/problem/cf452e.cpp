@@ -18,12 +18,12 @@ namespace SA{
     for(int j = 1;;j<<=1){
       if(++m == n) break;
       for(int i = 0;i<j;i++) y[i] = n-j+i;
-      for(int i=0,k=j;i<n;i++) if(sa[i] >= j) y[k++] = sa[i]-j; 
+      for(int i = 0,k = j;i<n;i++) if(sa[i] >= j) y[k++] = sa[i]-j; 
       for(int i = 0;i<n;i++) x[i] = rk[y[i]];
       for(int i = 0;i<m;i++) cnt[i] = 0;
       for(int i = 0;i<n;i++) cnt[x[i]]++;
       for(int i = 1;i<m;i++) cnt[i] += cnt[i-1];
-      for(int i =n-1;~i;--i) sa[--cnt[x[i]]] = y[i],y[i] = rk[i];
+      for(int i = n-1;~i;--i) sa[--cnt[x[i]]] = y[i],y[i] = rk[i];
       m = rk[sa[0]] = 0;
       for(int i = 1;i<n;i++) rk[sa[i]] = 
         (y[sa[i]] == y[sa[i-1]] && y[sa[i]+j] == y[sa[i-1]+j])?m:++m;
