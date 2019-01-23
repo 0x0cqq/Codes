@@ -26,25 +26,26 @@ int main(){
     printf("%d\n",-1);
     return 0;
   }
+  int x = L,y = R;
   for(int i = L;i<=R;i++){
     if(s[i] == ':'){
-      L = i;
+      x = i;
       break;
     }
   }
   for(int i = R;i>=L;i--){
     if(s[i] == ':'){
-      R = i;
+      y = i;
       break;
     }
   }
-  if(L == R){
+  if(x >= y || L == x || y == R){
     printf("-1\n");
     return 0;
   }
   int ans = 0;
   // printf("%d %d\n",L,R);
-  for(int i = L;i<=R;i++){
+  for(int i = x;i<=y;i++){
     if(s[i] =='|'){
       ans++;
     }
