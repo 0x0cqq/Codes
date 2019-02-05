@@ -2,7 +2,7 @@
 #define inf 0x3f3f3f3f
 using namespace std;
 
-const int MAXN = 310000,LOGN = 20;
+const int MAXN = 210000,LOGN = 20;
 
 namespace SA{
   int s[MAXN],sa[MAXN],ht[MAXN],x[MAXN],y[MAXN],rk[MAXN],cnt[MAXN];
@@ -38,21 +38,6 @@ namespace SA{
     for(int i = 0;i<n;i++) s[i] = a[i];
     s[n++] = 0;
     get_sa(n,m),get_height(n);
-    printf("X:\n");
-    for(int i = 0;i<n;i++) printf("%2d ",i);
-    printf("\n");    
-    printf("s:\n");
-    for(int i = 0;i<n;i++) printf("%2d ",s[i]);
-    printf("\n");
-    printf("sa:\n");
-    for(int i = 0;i<n;i++) printf("%2d ",sa[i]);
-    printf("\n");
-    printf("rk:\n");
-    for(int i = 0;i<n;i++) printf("%2d ",rk[i]);
-    printf("\n");
-    printf("ht:\n");
-    for(int i = 0;i<n;i++) printf("%2d ",ht[i]);
-    printf("\n");
   }
 }
 
@@ -71,8 +56,7 @@ namespace ST{
 }
 
 int _q(int l,int r){
-  if(l == r) return inf;
-  return ST::query(l+1,r);
+  return l == r ? inf : ST::query(l+1,r);
 }
 
 int rt[MAXN];
@@ -82,9 +66,7 @@ namespace CMT{
   #define mid ((l+r)/2)
   void insert(int &nown,int pre,int l,int r,int pos,int v){
     nown = ++cnt;ls[nown] = ls[pre],rs[nown] = rs[pre],sumn[nown] = sumn[pre];
-    if(l == r){
-      sumn[nown] += v;
-    }
+    if(l == r) sumn[nown] += v;
     else{
       if(pos <= mid) insert(ls[nown],ls[pre],l,mid,pos,v);
       if(pos >= mid+1) insert(rs[nown],rs[pre],mid+1,r,pos,v);
@@ -116,17 +98,11 @@ void init(){
   g[n-1] = h[n]-h[n-1],g[n] = 2e9+1;
   len = 2*n+1;
   for(int i = 1;i<=n;i++) g[n+i] = -g[i-1];
-  // for(int i = 0;i<len;i++) printf("%d ",g[i]);
-  // printf("\n");
 
   for(int i = 0;i<len;i++) S[g[i]] = 0;
-  for(auto it = S.begin();it != S.end();it++){
-    it->second = ++m; 
-  }
+  for(auto it = S.begin();it != S.end();it++) it->second = ++m; 
   m++;
   for(int i = 0;i<len;i++) g[i] = S[g[i]];
-  // for(int i = 0;i<len;i++) printf("%d ",g[i]);
-  // printf("\n"); 
 }
 
 int query_cmt(int lb,int rb,int l,int r){
@@ -136,51 +112,37 @@ int query_cmt(int lb,int rb,int l,int r){
 int query(int L,int R){
   if(L == R) return n-1;
   int pos = SA::rk[L],l = R-L,lb,rb;
-  printf("L,R:%d %d pos:%d\n",L,R,pos);
   int LL = 0,RR = pos;
   while(LL != RR){
     int mid = (LL+RR)/2;
-    if(_q(mid,pos) >= l)
-      RR = mid;
-    else
-      LL = mid+1;
+    if(_q(mid,pos) >= l) RR = mid;
+    else                 LL = mid+1;
   }
-
   lb = LL;
   LL = pos,RR = len;
   while(LL != RR){
     int mid = (LL+RR+1)/2;
-    printf("LL:%d RR:%d mid:%d\n",LL,RR,mid);
-    if(_q(pos,mid) >= l)
-      LL = mid;
-    else
-      RR = mid-1;
+    if(_q(pos,mid) >= l) LL = mid;
+    else                 RR = mid-1;
   }
   rb = LL;
-  printf("%d %d\n",lb,rb);
   return query_cmt(lb,rb,n+1,len) - query_cmt(lb,rb,max(n+1,n+L-l+1),n+R+1);
   return 0;
 }
 
 void solve(){
-  SA::solve(len,m,g);
-  ST::init(len,SA::ht);
-  for(int i = 1;i<len;i++)
-    CMT::insert(rt[i],rt[i-1],0,len,SA::sa[i],1);
-}
-
-void answer(){
+  SA::solve(len,m,g),ST::init(len,SA::ht);
+  for(int i = 1;i<len;i++) CMT::insert(rt[i],rt[i-1],0,len,SA::sa[i],1);
   scanf("%d",&q);
   for(int i = 1;i<=q;i++){
     int l,r;
     scanf("%d %d",&l,&r);
-    printf("ans:%d\n",query(l-1,r-1));
+    printf("%d\n",query(l-1,r-1));
   }
 }
 
 int main(){
   init();
   solve();
-  answer();
   return 0;
 }

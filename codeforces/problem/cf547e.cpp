@@ -25,8 +25,7 @@ namespace SA{
       for(int i = 1;i<m;i++) cnt[i] += cnt[i-1];
       for(int i = n-1;~i;--i) sa[--cnt[x[i]]] = y[i],y[i] = rk[i];
       m = rk[sa[0]] = 0;
-      for(int i = 1;i<n;i++)
-        rk[sa[i]] = (y[sa[i]] == y[sa[i-1]] && y[sa[i]+j] == y[sa[i-1]+j]) ? m : ++m;
+      for(int i = 1;i<n;i++) rk[sa[i]] = (y[sa[i]] == y[sa[i-1]] && y[sa[i]+j] == y[sa[i-1]+j]) ? m : ++m;
     }
   }
   void getheight(int n){
