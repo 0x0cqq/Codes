@@ -18,9 +18,7 @@ struct SAM{
     if(!p) fa[np] = rt;
     else{
       int q = c[p][x];
-      if(l[q] == l[p] + 1){
-        fa[np] = q;
-      }
+      if(l[q] == l[p] + 1) fa[np] = q;
       else{
         int nq = newnode(l[p]+1);
         memcpy(c[nq],c[q],sizeof(c[q]));
