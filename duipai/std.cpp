@@ -1,50 +1,80 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-const int MAXN = 5100,MAXC = 110000;
+#define pb push_back
+#define ff first
+#define ss second
 
-int n,a[MAXN];
-int dp[MAXN][MAXN];// dp[x][y]
-int maxnum[MAXC],maxmod[7];
+typedef long long ll;
+const ll MAXN = 4e3 + 10, inf = 1e18, mod = 1e9 + 7;
 
-void init(){
-  scanf("%d",&n);
-  for(int i = 1;i<=n;i++){
-    scanf("%d",&a[i]);
-  }
+struct pair_hash {
+	template <class T1, class T2>
+	std::size_t operator () (const std::pair<T1,T2> &p) const {
+		auto h1 = std::hash<T1>{}(p.first);
+		auto h2 = std::hash<T2>{}(p.second);
+
+		return h1 ^ h2;  
+	}
+};
+
+ll pw(ll te, ll tee) {
+	if (tee == 0)	return 1;
+	ll res = pw(te, tee / 2);
+	return (tee % 2 ? te * res * res : res * res);
 }
 
-void solve(){
-  int ans = -1e9;
-  for(int i = 0;i<MAXC;i++) maxnum[i] = -1e9;
-  for(int y = 0;y<=n;y++){
-    for(int x = 1;x<=n;x++) maxnum[a[x]] = -1e9;
-    for(int i = 0;i<7;i++) maxmod[i] = -1e9;
-    dp[0][y] = dp[y][0];
-    for(int x = 1;x <= y-1;x++){
-      dp[x][y] = dp[y][x];
-      maxnum[a[x]] = max(maxnum[a[x]],dp[x][y]);
-      maxmod[a[x] % 7] = max(maxmod[a[x] % 7],dp[x][y]);
-    }
-    for(int x = y+1;x<=n;x++){
-      dp[x][y] = -1e9;
-      dp[x][y] = max(dp[x][y],maxnum[a[x]-1] + 1);
-      dp[x][y] = max(dp[x][y],maxnum[a[x]+1] + 1);
-      dp[x][y] = max(dp[x][y],maxmod[a[x]%7] + 1);
-      dp[x][y] = max(dp[x][y],dp[0][y] + 1);
-      maxnum[a[x]] = max(maxnum[a[x]],dp[x][y]);
-      maxmod[a[x] % 7] = max(maxmod[a[x] % 7],dp[x][y]);   
-    }
-    for(int x = 1;x<=n;x++){
-      // printf("%d %d:%d\n",x,y,dp[x][y]);
-      ans = max(ans,dp[x][y]);
-    }
-  }
-  printf("%d\n",ans);
+string s, p;
+ll dp[MAXN][MAXN], a[MAXN], n, m;
+
+void Read_input() {
+	cin >> s >> p;
 }
 
-int main(){
-  init();
-  solve();
-  return 0;
+void fill_a() {
+	for (ll i = 0; i < n; i++) {
+		ll k = i, j = 0;
+		while (j < m) {
+			while (k < n and s[k] != p[j])	k++;
+			if (k == n)	break;
+			k++;
+			j++;
+		}
+		if (j != m)	a[i] = inf;
+		else	a[i] = k - i;
+	}
+
+}
+
+void fill_dp() {
+	for (ll i = 0; i < n; i++) {
+		for (ll j = 0; j <= i; j++) {
+			dp[i + 1][j] = max(dp[i + 1][j], dp[i][j]);
+			dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j]);
+			if (a[i] != inf)
+				dp[i + a[i]][j + a[i] - m] = max (dp[i + a[i]][j + a[i] - m],	dp[i][j] + 1);
+		}
+	}
+}
+
+void Solve() {
+	n = s.size(), m = p.size();
+	fill_a();
+	fill_dp();
+}
+
+void WriteOut() {
+	for (ll i = 0; i <= n; i++)
+		cout << dp[n][i] << " ";
+}
+
+
+int main() {
+
+	ios_base::sync_with_stdio(false);	cin.tie(0);	cout.tie(0);
+	//freopen("input.txt", "r", stdin),	freopen("output.txt", "w", stdout);
+
+	Read_input(),	Solve(),	WriteOut();
+	return 0;
 }

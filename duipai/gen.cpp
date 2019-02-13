@@ -8,15 +8,14 @@
 #define ll long long
 using namespace std;
 
-const int MAXN = 10000;
+const int MAXN = 3;
 
-int n = 5000;
+int n = 15,m = 3;
 
 int main(){
   srand(time(NULL));
-  printf("%d\n",n);
-  for(int i = 1;i<=n;i++){
-    printf("%d ",rand()%MAXN+1);
-  }
-  return 0;
+  for(int i = 0;i<n;i++) putchar(rand()%MAXN+'a');
+  putchar('\n');
+  for(int i = 0;i<m;i++) putchar(rand()%MAXN+'a');
+  putchar('\n');
 }
