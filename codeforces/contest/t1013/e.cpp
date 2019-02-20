@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <algorithm>
-#include <cstring>
+#include <string.h>
 #define int long long
 using namespace std;
 

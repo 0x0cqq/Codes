@@ -62,11 +62,11 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "C:\\Program Files (x86)\\Dev-Cpp\\MinGW64\\x86_64-w64-mingw32\\include",
-                "C:\\Program Files (x86)\\Dev-Cpp\\MinGW64\\lib\\gcc\\x86_64-w64-mingw32\\4.9.2\\include\\c++\\x86_64-w64-mingw32"
+                "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-win32-seh-rt_v6-rev0\\mingw64\\include"
+                
             ],
             "defines": [],
-            "compilerPath": "C:\\Program Files (x86)\\Dev-Cpp\\MinGW64\\bin",
+            "compilerPath": "C:\\Program Files\\mingw-w64\\x86_64-8.1.0-win32-seh-rt_v6-rev0\\mingw64\\bin",
             "cStandard": "c11",
             "cppStandard": "c++11"
         }
