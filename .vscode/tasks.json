@@ -13,6 +13,9 @@
             "label": "g++",
             "type": "shell",
             "command": "g++-8",
+            "windows": {
+                "command": "g++"
+            },
             "args": [
                 "-std=c++11","${file}",
                 "-o","${file}.out","-g"
