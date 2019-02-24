@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MAXN = 4100;
+const int MAXN = 2100;
 
 int n,m;
 char s[MAXN][MAXN];
@@ -72,6 +72,7 @@ void topo(){
         dp[x] = max(dp[x],dp[v]);
       }
       dp[x]+=1;
+      // if(i == 0) break;
     }
     for(int i = 1;i<=n;i++){
       printf("%d ",dp[col[i]]);
