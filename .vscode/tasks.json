@@ -5,6 +5,14 @@
     "runner": "terminal",
     "tasks": [
         {
+            "label": "cd",
+            "type": "shell",
+            "command": "cd",
+            "args": [
+                "${fileDirname}"
+            ],
+        },
+        {
             "label": "g++",
             "type": "shell",
             "command": "g++-8",
