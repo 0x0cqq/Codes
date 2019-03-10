@@ -7,11 +7,11 @@ const int MAXN = 310000;
 namespace PAM{
   int s[MAXN],c[MAXN][26],fa[MAXN],len[MAXN],siz[MAXN],last,tcnt;
   void init(){
+    s[0] = -1;
     len[last=0] = 0,len[tcnt=1] = -1;
     fa[0] = fa[1] = 1;
   }
   int getfail(int n,int x){
-    // printf("n:%d x:%d\n",n,x);
     while(s[n-len[x]-1] != s[n]) x = fa[x];
     return x;
   }
