@@ -2,7 +2,7 @@
     "search.smartCase": true,
     "code-runner.executorMap": {
         // use in MacOS and Linux, not available in Windows
-        // "cpp": "cd $dir && g++-8 $fileName -o $fileNameWithoutExt -Wall -Werror -std=c++11  && (echo -e \"\\033[1;31mFinish building.\\033[0m\") && time $dir$fileNameWithoutExt",
+        "cpp": "cd $dir && g++-8 $fileName -o $fileNameWithoutExt -Wall -std=c++11  && (echo -e \"\\033[1;31mFinish building.\\033[0m\") && time $dir$fileNameWithoutExt",
         "cpp_withfile": "cd $dir && g++-8 $fileName -o $fileNameWithoutExt -Wall -std=c++11 && (echo -e \"\\033[1;31m Finish building.\\033[0m \") && time ( $dir$fileNameWithoutExt < in.txt)",
         "python": "python3",
     },

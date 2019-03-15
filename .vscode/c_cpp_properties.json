@@ -27,27 +27,15 @@
         {
             "name": "Linux",
             "browse": {
-                "path": [
-                    "/usr/include",
-                    "/usr/include/c++/8",
-                    "/usr/include/c++/8/tr1",
-                    "/usr/include/x86_64-linux-gnu/c++/8",
-                    "${workspaceFolder}"
-                ],
-                "limitSymbolsToIncludedHeaders": true
+                
             },
             "includePath": [
-                "/usr/include",
-                "/usr/local/include",
-                "/usr/include/c++/8",
-                "/usr/include/linux",
-                "/usr/include/c++/8/tr1",
-                "/usr/include/x86_64-linux-gnu/c++/8",
+                "/usr/include/x86_64-linux-gnu/c++/8/",
                 "${workspaceRoot}",
                 "${workspaceRoot}/**/*.hpp"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/gcc-8",
+            "compilerPath": "/usr/bin/g++-8",
             "cStandard": "c11",
             "cppStandard": "c++11"
         },

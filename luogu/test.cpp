@@ -20,11 +20,9 @@ namespace LCT{// orz lzy
   #define rc (c[x][1]) 
   void init(){sa[0][1] = sa[0][2] = 1;}
   bool noroot(int x){return c[f[x]][0] == x || c[f[x]][1] == x;}
-  void push_down(int x);void modify(int x,int val);
   void modify(int x,int val){
     if(!x) return;
     v[x] = val,lzy[x] = val,sa[x][val] = 1,sa[x][3-val] = 0;
-    // push_down(x);// maybe not need
   }
   void push_down(int x){
     if(!x) return;
@@ -37,7 +35,6 @@ namespace LCT{// orz lzy
     static int S[MAXN];S[0] = 0;
     int t = x;S[++S[0]] = t;
     while(noroot(t)){
-      // printf("!!!!!\n");
       t = f[t],S[++S[0]] = t;
     }
     for(int i = S[0];i>=1;--i) push_down(S[i]);
