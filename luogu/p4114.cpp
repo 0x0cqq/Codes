@@ -39,33 +39,12 @@ struct LCT{
       splay(x),c[x][1] = y,push_up(x);
     }
   }
-  void makeroot(int x){
-    access(x),splay(x),rev(x);
-  }
-  void update(int x,int val){
-    v[x] = val,push_up(x);
-  }
-  void modify(int x,int val){
-    access(x),splay(x),update(x,val);
-  }
-  void split(int x,int y){
-    makeroot(x),access(y),splay(y);
-  }
-  int query(int x,int y){
-    if(x == y) return 0;
-    split(x,y);return mx[y];
-  }
-  void addedge(int x,int fa){
-    // f[a] = f[b] = t;v[t] = mx[t] = c;
-    f[x] = fa;
-  }
-  void print(int x){
-    printf("------------------------------\n");
-    for(int i = 0;i<=x;i++){
-      printf("%d: c:%d %d f:%d | v:%d mx:%d | r:%d\n",i,c[i][0],c[i][1],f[i],v[i],mx[i],r[i]);
-    }
-    printf("------------------------------\n");
-  }
+  void makeroot(int x){access(x),splay(x),rev(x);}
+  void update(int x,int val){v[x] = val,push_up(x);}
+  void modify(int x,int val){access(x),splay(x),update(x,val);}
+  void split(int x,int y){makeroot(x),access(y),splay(y);}
+  int query(int x,int y){return x == y ? 0 : (split(x,y),mx[y]);}
+  void addedge(int x,int fa){f[x] = fa;}
 }T;
 
 struct Edge{
@@ -76,6 +55,7 @@ void addedge(int id,int a,int b,int c){
   edge[ecnt] = (Edge){id,b,c,fir[a]};
   fir[a] = ecnt++;
 }
+void _clear(int n){ecnt = 2;for(int i = 1;i<=n;i++) fir[i] = 0;}
 
 int n,q;
 
@@ -88,10 +68,6 @@ void dfs(int x,int fa){
   }
 }
 
-
-void _clear(int n){
-  ecnt = 2;for(int i = 1;i<=n;i++) fir[i] = 0;
-}
 
 void init(){
   scanf("%d",&n);
@@ -113,8 +89,6 @@ void solve(){
     scanf("%d %d",&x,&y);
     if(op[0] == 'C') T.modify(n+x,y);
     else if(op[0] == 'Q') printf("%d\n",T.query(x,y));
-    // printf("!!!!!!!\n");
-    // T.print(2*n-1);
   }
 }
 
