@@ -10,8 +10,6 @@
                 "/usr/local/Cellar/gcc@7/7.4.0/lib/gcc/7/gcc/x86_64-apple-darwin18.2.0/7.4.0/include-fixed",
                 "/System/Library/Frameworks",
                 "/Library/Frameworks",
-                "/usr/local/include",
-                "/usr/include",
                 "${workspaceRoot}",
                 "/usr/local/Cellar/gcc@7/7.4.0/include/c++/7.4.0/x86_64-apple-darwin18.2.0",
                 "/usr/local/Cellar/gcc@7/7.4.0/include/c++/7.4.0",
