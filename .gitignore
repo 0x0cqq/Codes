@@ -9,3 +9,4 @@
 openjudge/.DS_Store
 **/*.o
 **/*.exe
+.vscode/ipch/
