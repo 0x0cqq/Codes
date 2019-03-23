@@ -11,9 +11,9 @@ namespace MCMF{
     int cap,flow;
     int cost,nex;
   }edge[MAXM*2];
-  int fir[MAXN],ecnt = 2;
+  int fir[MAXN],ecnt = 2; 
   void addedge(int a,int b,int c,int d){
-    edge[ecnt] = (Edge){a,b,c,0,d,fir[a]},fir[a] = ecnt++;
+    edge[ecnt] = (Edge){a,b,c,0, d,fir[a]},fir[a] = ecnt++;
     edge[ecnt] = (Edge){b,a,0,0,-d,fir[b]},fir[b] = ecnt++;
   }
   int dis[MAXN],inq[MAXN];
@@ -31,7 +31,7 @@ namespace MCMF{
         }
       }
     }
-    return dis[T] != inf;
+    return dis[T] < dis[0];
   }
   int dfs(int x,int limit = inf){
     if(x == T || limit == 0) return limit;
@@ -45,7 +45,6 @@ namespace MCMF{
         if(limit == 0) break;
       }
     }
-    inq[x] = 0;
     return sumf;
   }
   pair<int,int> solve(int s,int t){
@@ -53,6 +52,7 @@ namespace MCMF{
     int ansf = 0,ansc = 0;
     while(spfa()){
       int f = dfs(s);
+      memset(inq,0,sizeof(inq));
       ansf += f,ansc += f * dis[t];
     }
     return make_pair(ansf,ansc);
@@ -62,7 +62,9 @@ namespace MCMF{
 int n,m,s,t;
 
 int main(){
-  scanf("%d %d %d %d",&n,&m,&s,&t);
+  // scanf("%d %d %d %d",&n,&m,&s,&t);
+  scanf("%d %d",&n,&m);s = 1,t = n;
+
   for(int i = 1;i<=m;i++){
     int a,b,c,d;
     scanf("%d %d %d %d",&a,&b,&c,&d);
