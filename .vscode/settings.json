@@ -1,4 +1,5 @@
 {
+    
     "search.smartCase": true,
     "code-runner.executorMap": {
         // use in MacOS and Linux, not available in Windows
@@ -109,4 +110,8 @@
         "rope": "cpp",
         "slist": "cpp"
     },
+    // for noip
+    "C_Cpp.intelliSenseEngine": "Disabled",
+    "editor.autoClosingBrackets": "never",
+    "C_Cpp.autocomplete": "Disabled",
 }
