@@ -8,7 +8,6 @@ using namespace std;
 
 const int MAXN = 410,MAXM = 15010;
 
-
 struct Edge{
   int from,to,cap,flow,cost,nex;
 }edge[MAXM*2];
