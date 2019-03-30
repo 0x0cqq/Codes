@@ -84,26 +84,22 @@ void update_tree(int x,int v){
   if(!x) return;
   SegTree::update(1,1,n,dfn[x],dfn[x]+siz[x]-1,v);
 }
-int query_tree(int x){
-  return SegTree::query(1,1,n,dfn[x],dfn[x]+siz[x]-1);
-}
-int query(int x){
-  return SegTree::query(1,1,n,dfn[x],dfn[x]);
-}
-int query(int x,int y){
-  return query(x) + query(y) - 2*query(lca(x,y)) + 1;
-}
+int query_tree(int x){return SegTree::query(1,1,n,dfn[x],dfn[x]+siz[x]-1);}
+int query(int x){return SegTree::query(1,1,n,dfn[x],dfn[x]);}
+int query(int x,int y){return query(x)+query(y)-2*query(lca(x,y))+1;}
 
 namespace LCT{
-  int c[MAXN][2],f[MAXN];
-  void init(int n,int *fa){for(int i = 1;i<=n;i++) f[i] = fa[i];}
+  int c[MAXN][2],f[MAXN],mn[MAXN];
+  void init(int n,int *fa){for(int i = 1;i<=n;i++) f[i] = fa[i],mn[i] = i;}
   bool noroot(int x){return c[f[x]][0] == x || c[f[x]][1] == x;}
+  void push_up(int x){mn[x] = c[x][0]?mn[c[x][0]]:x;}
   void rotate(int x){
     int y = f[x],z = f[y],t = (c[y][1] == x),w = c[x][1-t];
     if(noroot(y)) c[z][c[z][1]==y] = x;
     c[x][1-t] = y,c[y][t] = w;
     if(w) f[w] = y;
     f[y] = x,f[x] = z; 
+    push_up(y);
   }
   void splay(int x){
     while(noroot(x)){
@@ -111,17 +107,17 @@ namespace LCT{
       if(noroot(y)){
         (c[y][1]==x)^(c[z][1]==y)?rotate(x):rotate(y);
       }rotate(x);
+      push_up(x);
     }
   }
   void access(int x){
     for(int y = 0;x;x = f[y=x]){
       splay(x);
-      update_tree(c[x][1],1),update_tree(y,-1);
-      c[x][1] = y;
+      update_tree(mn[c[x][1]],1),update_tree(mn[y],-1);
+      c[x][1] = y,push_up(x);
     }
   }
 }
-
 void modify(int x){LCT::access(x);}
 
 void init(){
