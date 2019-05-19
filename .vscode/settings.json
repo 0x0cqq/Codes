@@ -111,7 +111,7 @@
         "slist": "cpp"
     },
     // for noip
-    "C_Cpp.intelliSenseEngine": "Disabled",
-    "editor.autoClosingBrackets": "never",
-    "C_Cpp.autocomplete": "Disabled",
+    // "C_Cpp.intelliSenseEngine": "Disabled",
+    // "editor.autoClosingBrackets": "never",
+    // "C_Cpp.autocomplete": "Disabled",
 }
